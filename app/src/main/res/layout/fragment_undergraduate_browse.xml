@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.categories.UndergraduateBrowseFragment">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/undergraduate_medical_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/medical"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/undergraduate_medical_recycler_view"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/undergraduate_medical_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/undergraduate_medical_text_view" />
+
+        <TextView
+            android:id="@+id/undergraduate_engineering_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/engineering"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@+id/undergraduate_medical_recycler_view"
+            app:layout_constraintTop_toBottomOf="@+id/undergraduate_medical_recycler_view" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/undergraduate_engineering_recycler_view"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/undergraduate_engineering_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/undergraduate_engineering_text_view"/>
+
+        <TextView
+            android:id="@+id/undergraduate_bba_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/bba"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@+id/undergraduate_engineering_recycler_view"
+            app:layout_constraintTop_toBottomOf="@+id/undergraduate_engineering_recycler_view" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/undergraduate_bba_recycler_view"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/undergraduate_bba_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/undergraduate_bba_text_view"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>

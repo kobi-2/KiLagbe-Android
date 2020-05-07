@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">Ki Lagbe</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="title_activity_bottom_navigation">BottomNavigationActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_cart">Cart</string>
+    <string name="category">Category</string>
+    <string name="top_chart">Top Chart</string>
+    <string name="undergraduate">Undergraduate</string>
+    <string name="medical">Medical</string>
+    <string name="engineering">Engineering</string>
+    <string name="bba">BBA</string>
+    <string name="mba">MBA</string>
+
+    <string-array name="category_names">
+        <item>Undergraduate</item>
+        <item>Post Graduate</item>
+        <item>English Medium</item>
+        <item>NCTB</item>
+        <item>Abroad</item>
+    </string-array>
+
+
+    <string-array name="demo_book_names">
+        <item>Book 1</item>
+        <item>Book 2</item>
+        <item>Book 3</item>
+        <item>Book 4</item>
+        <item>Book 5</item>
+        <item>Book 6</item>
+        <item>Book 7</item>
+        <item>Book 8</item>
+        <item>Book 9</item>
+        <item>Book 10</item>
+    </string-array>
+
+
+    <string-array name="sub_category_names">
+        <item>Medical</item>
+        <item>Engineering</item>
+        <item>BBA</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_bottom_navigation2">BottomNavigationActivity2</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+
+</resources>
