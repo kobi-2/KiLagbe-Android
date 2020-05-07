@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.kilagbe.kilagbe.ui.profile.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.kilagbe.kilagbe.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_undergraduateBrowseFragment"
+            app:destination="@id/undergraduateBrowseFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_postGraduateBrowseFragment"
+            app:destination="@id/postGraduateBrowseFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_englishMediumBrowseFragment"
+            app:destination="@id/englishMediumBrowseFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_nctbBrowseFragment"
+            app:destination="@id/nctbBrowseFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_abroadBrowseFragment"
+            app:destination="@id/abroadBrowseFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_cart"
+        android:name="com.kilagbe.kilagbe.ui.cart.CartFragment"
+        android:label="@string/title_cart"
+        tools:layout="@layout/fragment_cart" />
+    <fragment
+        android:id="@+id/undergraduateBrowseFragment"
+        android:name="com.kilagbe.kilagbe.ui.categories.UndergraduateBrowseFragment"
+        android:label="fragment_undergraduate_browse"
+        tools:layout="@layout/fragment_undergraduate_browse" />
+    <fragment
+        android:id="@+id/postGraduateBrowseFragment"
+        android:name="com.kilagbe.kilagbe.ui.categories.PostGraduateBrowseFragment"
+        android:label="fragment_post_graduate_browse"
+        tools:layout="@layout/fragment_post_graduate_browse" />
+    <fragment
+        android:id="@+id/englishMediumBrowseFragment"
+        android:name="com.kilagbe.kilagbe.ui.categories.EnglishMediumBrowseFragment"
+        android:label="fragment_english_medium_browse"
+        tools:layout="@layout/fragment_english_medium_browse" />
+    <fragment
+        android:id="@+id/nctbBrowseFragment"
+        android:name="com.kilagbe.kilagbe.ui.categories.NctbBrowseFragment"
+        android:label="fragment_nctb_browse"
+        tools:layout="@layout/fragment_nctb_browse" />
+    <fragment
+        android:id="@+id/abroadBrowseFragment"
+        android:name="com.kilagbe.kilagbe.ui.categories.AbroadBrowseFragment"
+        android:label="fragment_abroad_browse"
+        tools:layout="@layout/fragment_abroad_browse" />
+</navigation>
