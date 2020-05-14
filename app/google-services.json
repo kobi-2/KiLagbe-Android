@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "339483839124",
+    "firebase_url": "https://ki-lagbe-fc200.firebaseio.com",
+    "project_id": "ki-lagbe-fc200",
+    "storage_bucket": "ki-lagbe-fc200.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:339483839124:android:fd2a0320162c7a52f1c281",
+        "android_client_info": {
+          "package_name": "com.kilagbe.kilagbe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "339483839124-932gl7bcnq8l683fr4jqb55rn00c0qjq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kilagbe.kilagbe",
+            "certificate_hash": "5ea22cba5d2d8e807ceafd618a27aff5b393867f"
+          }
+        },
+        {
+          "client_id": "339483839124-n1tn6scbqtp7t11p52jn3rk3jm2kcftg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmplDF187A-4qNQQa5hZPxz74TU21tw30"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "339483839124-n1tn6scbqtp7t11p52jn3rk3jm2kcftg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
