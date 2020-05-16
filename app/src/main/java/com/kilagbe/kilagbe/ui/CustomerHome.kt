@@ -1,4 +1,4 @@
-package com.kilagbe.kilagbe
+package com.kilagbe.kilagbe.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,13 +10,14 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.kilagbe.kilagbe.R
 import com.kilagbe.kilagbe.ui.auth.RegisterActivity
 
-class BottomNavigationActivity : AppCompatActivity() {
+class CustomerHome : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_bottom_navigation)
+        setContentView(R.layout.activity_customer_home)
 
         if ( FirebaseAuth.getInstance().currentUser == null )
         {
@@ -34,7 +35,9 @@ class BottomNavigationActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_profile, R.id.navigation_home, R.id.navigation_cart
+                R.id.navigation_profile,
+                R.id.navigation_home,
+                R.id.navigation_cart
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
