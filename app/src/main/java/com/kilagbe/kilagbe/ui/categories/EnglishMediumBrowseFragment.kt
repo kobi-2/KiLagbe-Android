@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.kilagbe.kilagbe.R
-import com.kilagbe.kilagbe.RecycleViewAdapter
+import com.kilagbe.kilagbe.tools.RecycleViewAdapter
 
 
 class EnglishMediumBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
@@ -48,7 +48,12 @@ class EnglishMediumBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener
 
     private fun initRecyclerView(){
 
-        englishMediumTopChartAdapter = RecycleViewAdapter(this.context, demoBookNames, this)
+        englishMediumTopChartAdapter =
+            RecycleViewAdapter(
+                this.context,
+                demoBookNames,
+                this
+            )
 
         englishMediumTopChartRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
         englishMediumTopChartRecyclerView.adapter = englishMediumTopChartAdapter

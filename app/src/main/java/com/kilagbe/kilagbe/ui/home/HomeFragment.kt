@@ -11,8 +11,8 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kilagbe.kilagbe.R
-import com.kilagbe.kilagbe.RecycleViewAdapter
-import com.kilagbe.kilagbe.RecycleViewAdapter.OnCatListener
+import com.kilagbe.kilagbe.tools.RecycleViewAdapter
+import com.kilagbe.kilagbe.tools.RecycleViewAdapter.OnCatListener
 
 
 class HomeFragment : Fragment(), OnCatListener {
@@ -77,8 +77,16 @@ class HomeFragment : Fragment(), OnCatListener {
 
     private fun initRecyclerView(){
 
-        categoryAdapter = RecycleViewAdapter(this.context, categoryNames, this)
-        booksAdapter = RecycleViewAdapter(this.context, demoBookNames, this)
+        categoryAdapter = RecycleViewAdapter(
+            this.context,
+            categoryNames,
+            this
+        )
+        booksAdapter = RecycleViewAdapter(
+            this.context,
+            demoBookNames,
+            this
+        )
 
         categoryRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
         categoryRecyclerView.adapter = categoryAdapter

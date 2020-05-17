@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.kilagbe.kilagbe.R
-import com.kilagbe.kilagbe.RecycleViewAdapter
+import com.kilagbe.kilagbe.tools.RecycleViewAdapter
 
 
 class UndergraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
@@ -53,9 +53,22 @@ class UndergraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener
 
     private fun initRecyclerView(){
 
-        undergradMedicalAdapter = RecycleViewAdapter(this.context, demoBookNames, this)
-        undergradEngineeringAdapter = RecycleViewAdapter(this.context, demoBookNames, this)
-        undergradBbaAdapter = RecycleViewAdapter(this.context, demoBookNames, this)
+        undergradMedicalAdapter = RecycleViewAdapter(
+            this.context,
+            demoBookNames,
+            this
+        )
+        undergradEngineeringAdapter =
+            RecycleViewAdapter(
+                this.context,
+                demoBookNames,
+                this
+            )
+        undergradBbaAdapter = RecycleViewAdapter(
+            this.context,
+            demoBookNames,
+            this
+        )
 
         undergradMedicalRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
         undergradMedicalRecyclerView.adapter = undergradMedicalAdapter

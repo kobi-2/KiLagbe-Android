@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.kilagbe.kilagbe.R
-import com.kilagbe.kilagbe.RecycleViewAdapter
+import com.kilagbe.kilagbe.tools.RecycleViewAdapter
 
 
 class NctbBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
@@ -49,7 +49,11 @@ class NctbBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
 
     private fun initRecyclerView(){
 
-        nctbTopChartAdapter = RecycleViewAdapter(this.context, demoBookNames, this)
+        nctbTopChartAdapter = RecycleViewAdapter(
+            this.context,
+            demoBookNames,
+            this
+        )
 
         nctbTopChatRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
         nctbTopChatRecyclerView.adapter = nctbTopChartAdapter

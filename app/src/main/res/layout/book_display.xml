@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/bookMainImg"
+        android:layout_width="196dp"
+        android:layout_height="204dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+    <TextView
+        android:id="@+id/bookName"
+        android:layout_width="0dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="4dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/bookMainImg"
+        app:layout_constraintTop_toBottomOf="@+id/bookMainImg" />
+
+    <TextView
+        android:id="@+id/bookAuthors"
+        android:layout_width="0dp"
+        android:layout_height="63dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/bookName"
+        app:layout_constraintTop_toBottomOf="@+id/bookName" />
+
+    <TextView
+        android:id="@+id/bookPublishers"
+        android:layout_width="0dp"
+        android:layout_height="63dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="@+id/bookAuthors"
+        app:layout_constraintStart_toStartOf="@+id/bookAuthors"
+        app:layout_constraintTop_toBottomOf="@+id/bookAuthors" />
+
+    <TextView
+        android:id="@+id/bookCategories"
+        android:layout_width="0dp"
+        android:layout_height="63dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="@+id/bookPublishers"
+        app:layout_constraintStart_toStartOf="@+id/bookPublishers"
+        app:layout_constraintTop_toBottomOf="@+id/bookPublishers" />
+
+    <TextView
+        android:id="@+id/bookStock"
+        android:layout_width="180dp"
+        android:layout_height="63dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="@+id/bookCategories"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bookCategories" />
+</androidx.constraintlayout.widget.ConstraintLayout>
