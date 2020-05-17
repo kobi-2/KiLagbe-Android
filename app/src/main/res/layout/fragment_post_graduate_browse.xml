@@ -12,64 +12,71 @@
         android:layout_height="wrap_content">
 
 
-    <TextView
-        android:id="@+id/postgraduate_medical_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="4dp"
-        android:text="@string/medical"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        <TextView
+            android:id="@+id/postgraduate_medical_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/medical"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/postgraduate_medical_recycler_view"
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="@+id/postgraduate_medical_text_view"
-        app:layout_constraintTop_toBottomOf="@+id/postgraduate_medical_text_view" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/postgraduate_medical_recycler_view"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/recyclerview_parent_custom_height"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/postgraduate_medical_text_view" />
 
         <TextView
             android:id="@+id/postgraduate_engineering_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="16dp"
             android:text="@string/engineering"
             android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="@+id/postgraduate_medical_recycler_view"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/postgraduate_medical_recycler_view" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/postgraduate_engineering_recycler_view"
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="@+id/postgraduate_engineering_text_view"
-        app:layout_constraintTop_toBottomOf="@+id/postgraduate_engineering_text_view"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/postgraduate_engineering_recycler_view"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/recyclerview_parent_custom_height"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/postgraduate_engineering_text_view" />
 
         <TextView
             android:id="@+id/postgraduate_mba_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="16dp"
             android:text="@string/mba"
             android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="@+id/postgraduate_engineering_recycler_view"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/postgraduate_engineering_recycler_view" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/postgraduate_mba_recycler_view"
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="@+id/postgraduate_mba_text_view"
-        app:layout_constraintTop_toBottomOf="@+id/postgraduate_mba_text_view"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/postgraduate_mba_recycler_view"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/recyclerview_parent_custom_height"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/postgraduate_mba_text_view" />
 
 
 
