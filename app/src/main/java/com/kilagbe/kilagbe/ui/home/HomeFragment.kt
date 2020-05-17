@@ -100,7 +100,7 @@ class HomeFragment : Fragment(), OnCatListener {
         Toast.makeText(this.context, name, Toast.LENGTH_SHORT).show()
         when(name) {
             "Undergraduate" -> navController!!.navigate(R.id.action_navigation_home_to_undergraduateBrowseFragment)
-            "Post Graduate" -> navController!!.navigate(R.id.action_navigation_home_to_postGraduateBrowseFragment)
+            "Postgraduate" -> navController!!.navigate(R.id.action_navigation_home_to_postGraduateBrowseFragment)
             "English Medium" -> navController!!.navigate(R.id.action_navigation_home_to_englishMediumBrowseFragment)
             "NCTB" -> navController!!.navigate(R.id.action_navigation_home_to_nctbBrowseFragment)
             "Abroad" -> navController!!.navigate(R.id.action_navigation_home_to_abroadBrowseFragment)

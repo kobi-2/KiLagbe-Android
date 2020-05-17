@@ -38,29 +38,31 @@
         android:name="com.kilagbe.kilagbe.ui.cart.CartFragment"
         android:label="@string/title_cart"
         tools:layout="@layout/fragment_cart" />
+
     <fragment
         android:id="@+id/undergraduateBrowseFragment"
         android:name="com.kilagbe.kilagbe.ui.categories.UndergraduateBrowseFragment"
-        android:label="fragment_undergraduate_browse"
+        android:label="@string/undergraduate"
         tools:layout="@layout/fragment_undergraduate_browse" />
     <fragment
         android:id="@+id/postGraduateBrowseFragment"
         android:name="com.kilagbe.kilagbe.ui.categories.PostGraduateBrowseFragment"
-        android:label="fragment_post_graduate_browse"
+        android:label="@string/postgraduate"
         tools:layout="@layout/fragment_post_graduate_browse" />
     <fragment
         android:id="@+id/englishMediumBrowseFragment"
         android:name="com.kilagbe.kilagbe.ui.categories.EnglishMediumBrowseFragment"
-        android:label="fragment_english_medium_browse"
+        android:label="@string/english_medium"
         tools:layout="@layout/fragment_english_medium_browse" />
     <fragment
         android:id="@+id/nctbBrowseFragment"
         android:name="com.kilagbe.kilagbe.ui.categories.NctbBrowseFragment"
-        android:label="fragment_nctb_browse"
+        android:label="@string/nctb"
         tools:layout="@layout/fragment_nctb_browse" />
     <fragment
         android:id="@+id/abroadBrowseFragment"
         android:name="com.kilagbe.kilagbe.ui.categories.AbroadBrowseFragment"
-        android:label="fragment_abroad_browse"
+        android:label="@string/abroad"
         tools:layout="@layout/fragment_abroad_browse" />
+
 </navigation>

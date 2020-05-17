@@ -14,9 +14,9 @@
             android:id="@+id/text_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:gravity="start"
@@ -29,34 +29,36 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
-            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/recyclerview_parent_custom_height"
             android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="@+id/text_category"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_category" />
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="16dp"
             android:gravity="start"
             android:text="@string/top_chart"
             android:textAlignment="textStart"
             android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="@+id/recycler_view"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recycler_view" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view2"
-            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/recyclerview_parent_custom_height"
+            android:padding="5dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="@+id/textView"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
