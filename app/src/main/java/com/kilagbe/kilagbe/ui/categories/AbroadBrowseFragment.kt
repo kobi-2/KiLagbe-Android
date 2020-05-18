@@ -1,6 +1,8 @@
 package com.kilagbe.kilagbe.ui.categories
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -17,6 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.kilagbe.kilagbe.R
 import com.kilagbe.kilagbe.data.Book
 import com.kilagbe.kilagbe.tools.BookAdapter
+import com.kilagbe.kilagbe.tools.BookItemOnClickListener
 import com.kilagbe.kilagbe.tools.RecycleViewAdapter
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
@@ -32,6 +35,7 @@ class AbroadBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
 
     private var demoBookNames = arrayListOf<String>()
 
+    @SuppressLint("UseRequireInsteadOfGet")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,7 +51,7 @@ class AbroadBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
 
 
 
-        initRecyclerView()
+        initRecyclerView(this!!.activity!!)
 
         return root
 
@@ -55,7 +59,7 @@ class AbroadBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
 
 
 
-    private fun initRecyclerView(){
+    private fun initRecyclerView(context: Context){
 
         val abroadTopChartAdapter = GroupAdapter<GroupieViewHolder>()
 
@@ -69,29 +73,8 @@ class AbroadBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
                 }
                 abroadTopChatRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 abroadTopChatRecyclerView.adapter = abroadTopChartAdapter
-                abroadTopChartAdapter.setOnItemClickListener { item, view ->
-                    item as BookAdapter
-                    val dialog = AlertDialog.Builder(activity).create()
-                    val dialogview = layoutInflater.inflate(R.layout.book_display, null)
-                    Picasso.get().load(item.book.photoUrl).into(dialogview.findViewById<ImageView>(R.id.bookMainImg))
-                    dialogview.findViewById<TextView>(R.id.bookName).setText("${item.book.name}")
-                    var authors: String? = ""
-                    item.book.authors.forEach {
-                        authors += "$it, "
-                    }
-                    var cats: String? = ""
-                    item.book.categories.forEach {
-                        cats += "$it, "
-                    }
-                    dialogview.findViewById<TextView>(R.id.bookAuthors).setText("$authors")
-                    dialogview.findViewById<TextView>(R.id.bookPublishers).setText("${item.book.publisher}")
-                    dialogview.findViewById<TextView>(R.id.bookCategories).setText("$cats")
-                    dialogview.findViewById<TextView>(R.id.bookStock).setText("${item.book.amountInStock}")
-
-                    dialog.setView(dialogview)
-                    dialog.setCancelable(true)
-                    dialog.show()
-                }
+                val listener = BookItemOnClickListener(context, layoutInflater)
+                abroadTopChartAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {
                 Toast.makeText(activity, "${it.message}", Toast.LENGTH_SHORT).show()
