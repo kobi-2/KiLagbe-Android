@@ -6,5 +6,6 @@ data class Book(val name: String, var price: Double) {
     var categories =  arrayListOf<Categories>()
     lateinit var publisher: String
     var amountInStock : Int? = null
+    var photoUrl: String? = null
     constructor():this("", 0.0)
 }
