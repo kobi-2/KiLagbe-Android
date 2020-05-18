@@ -11,11 +11,12 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kilagbe.kilagbe.R
+import com.kilagbe.kilagbe.tools.BookRecycleViewAdapter
 import com.kilagbe.kilagbe.tools.RecycleViewAdapter
 import com.kilagbe.kilagbe.tools.RecycleViewAdapter.OnCatListener
 
 
-class HomeFragment : Fragment(), OnCatListener {
+class HomeFragment : Fragment(), OnCatListener{
 
     /*
     private lateinit var homeViewModel: HomeViewModel
@@ -82,6 +83,7 @@ class HomeFragment : Fragment(), OnCatListener {
             categoryNames,
             this
         )
+
         booksAdapter = RecycleViewAdapter(
             this.context,
             demoBookNames,
@@ -114,5 +116,6 @@ class HomeFragment : Fragment(), OnCatListener {
             "Abroad" -> navController!!.navigate(R.id.action_navigation_home_to_abroadBrowseFragment)
         }
     }
+
 
 }
