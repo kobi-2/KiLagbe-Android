@@ -6,4 +6,5 @@ data class Book(val name: String, var price: Double) {
     var categories =  arrayListOf<Categories>()
     lateinit var publisher: String
     var amountInStock : Int? = null
+    constructor():this("", 0.0)
 }
