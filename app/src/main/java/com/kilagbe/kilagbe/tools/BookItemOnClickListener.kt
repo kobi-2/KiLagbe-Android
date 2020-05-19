@@ -9,18 +9,20 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kilagbe.kilagbe.R
-import com.kilagbe.kilagbe.data.Order
+import com.kilagbe.kilagbe.data.Cart
+import com.kilagbe.kilagbe.data.OrderItems
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.Item
 import com.xwray.groupie.OnItemClickListener
-import java.util.*
 
 class BookItemOnClickListener(val context: Context, val layoutInflater: LayoutInflater) : OnItemClickListener{
+    lateinit var dialog: AlertDialog
     override fun onItemClick(item: Item<*>, view: View) {
         item as BookAdapter
-        val dialog = AlertDialog.Builder(context).create()
+        dialog = AlertDialog.Builder(context).create()
         val dialogview = layoutInflater.inflate(R.layout.book_display, null)
         Picasso.get().load(item.book.photoUrl).into(dialogview.findViewById<ImageView>(R.id.bookMainImg))
         dialogview.findViewById<TextView>(R.id.bookName).setText("${item.book.name}")
@@ -63,9 +65,8 @@ class BookItemOnClickListener(val context: Context, val layoutInflater: LayoutIn
             }
         }
 
-        dialogview.findViewById<Button>(R.id.order_button).setOnClickListener {
-            order(item.book.itemId!!, dialogview.findViewById<TextView>(R.id.quantity_text).text.toString().toInt())
-            dialog.dismiss()
+        dialogview.findViewById<Button>(R.id.addToCart_button).setOnClickListener {
+            addToCart(item.book.itemId!!, dialogview.findViewById<TextView>(R.id.quantity_text).text.toString().toInt(), FirebaseAuth.getInstance().uid!!)
         }
 
         dialog.setView(dialogview)
@@ -73,17 +74,56 @@ class BookItemOnClickListener(val context: Context, val layoutInflater: LayoutIn
         dialog.show()
     }
 
-    fun order(itemid: String, qty: Int)
+    fun addToCart(itemid: String, qty: Int, uid: String)
     {
-        val orderId = UUID.randomUUID().toString()
         if ( qty > 0 ) {
-            val order = Order(orderId, FirebaseAuth.getInstance().currentUser!!.uid, itemid, qty, "Pending")
-            FirebaseFirestore.getInstance().collection("orders").document(orderId).set(order)
+            val order = OrderItems(itemid)
+            order.qty = qty
+            val dbref = FirebaseFirestore.getInstance().collection("carts").document(uid)
+            dbref.get()
                 .addOnSuccessListener {
-                    Toast.makeText(context, "Order posted successfully", Toast.LENGTH_SHORT).show()
-                }
-                .addOnFailureListener {
-                    Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                    if (it!!.exists()) {
+                        //check to see if item has been previously added to cart
+                        val cart = it.toObject(Cart::class.java)
+                        if ( (cart!!.orderItems.filter { it.itemid == itemid }).isNotEmpty() )
+                        {
+                            val oldList = cart!!.orderItems
+                            val ind = oldList.indexOfFirst {
+                                it.itemid == itemid
+                            }
+                            oldList[ind].qty = oldList[ind].qty?.plus(qty)
+                            dbref.update("orderItems", oldList)
+                                .addOnSuccessListener {
+                                    Toast.makeText(context, "Added to cart successfully", Toast.LENGTH_SHORT).show()
+                                    dialog.dismiss()
+                                }
+                                .addOnFailureListener {
+                                    Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                                }
+                        }
+                        else {
+                            dbref.update("orderItems", FieldValue.arrayUnion(order))
+                                .addOnSuccessListener {
+                                    Toast.makeText(context, "Added to cart successfully", Toast.LENGTH_SHORT).show()
+                                    dialog.dismiss()
+                                }
+                                .addOnFailureListener {
+                                    Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                                }
+                        }
+                    } else {
+                        val cart = Cart(uid)
+                        cart.orderItems.add(order)
+                        cart.status = "PENDING"
+                        dbref.set(cart)
+                            .addOnSuccessListener {
+                                Toast.makeText(context, "Added to cart successfully", Toast.LENGTH_SHORT).show()
+                                dialog.dismiss()
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                            }
+                    }
                 }
         }
         else
