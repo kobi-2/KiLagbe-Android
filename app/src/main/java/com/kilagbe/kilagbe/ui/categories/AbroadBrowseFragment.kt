@@ -68,7 +68,6 @@ class AbroadBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
                 for ( doc in it!! )
                 {
                     val temp = doc.toObject(Book::class.java)
-                    Log.d("ADAPTER", "${temp.name}")
                     abroadTopChartAdapter.add(BookAdapter(temp))
                 }
                 abroadTopChatRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
