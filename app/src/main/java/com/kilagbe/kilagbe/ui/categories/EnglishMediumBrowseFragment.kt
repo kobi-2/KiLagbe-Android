@@ -1,28 +1,39 @@
 package com.kilagbe.kilagbe.ui.categories
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.FirebaseFirestore
 
 import com.kilagbe.kilagbe.R
+import com.kilagbe.kilagbe.data.Book
+import com.kilagbe.kilagbe.tools.BookAdapter
+import com.kilagbe.kilagbe.tools.BookItemOnClickListener
 import com.kilagbe.kilagbe.tools.RecycleViewAdapter
+import com.squareup.picasso.Picasso
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
+import kotlinx.android.synthetic.main.activity_customer_home.*
+
 
 
 class EnglishMediumBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
 
-    //  variables
+
     private lateinit var englishMediumTopChartRecyclerView: RecyclerView
-    private lateinit var englishMediumTopChartAdapter: RecycleViewAdapter
+//    private lateinit var englishMediumTopChartAdapter: RecycleViewAdapter
 
     private var demoBookNames = arrayListOf<String>()
 
 
-
+    @SuppressLint("UseRequireInsteadOfGet")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,7 +48,7 @@ class EnglishMediumBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener
         demoBookNames = resources.getStringArray(R.array.demo_book_names).toCollection(ArrayList())
 
 
-        initRecyclerView()
+        initRecyclerView(this!!.requireActivity())  // using this!!.activity!! gives red lines for some reason
 
         return root
 
@@ -46,18 +57,25 @@ class EnglishMediumBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener
 
 
 
-    private fun initRecyclerView(){
+    private fun initRecyclerView(context : Context){
 
-        englishMediumTopChartAdapter =
-            RecycleViewAdapter(
-                this.context,
-                demoBookNames,
-                this
-            )
+        val englishMediumTopChartAdapter = GroupAdapter<GroupieViewHolder>()
 
-        englishMediumTopChartRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
-        englishMediumTopChartRecyclerView.adapter = englishMediumTopChartAdapter
-
+        FirebaseFirestore.getInstance().collection("books").get()
+            .addOnSuccessListener {
+                for ( doc in it!! )
+                {
+                    val temp = doc.toObject(Book::class.java)
+                    englishMediumTopChartAdapter.add(BookAdapter(temp))
+                }
+                englishMediumTopChartRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
+                englishMediumTopChartRecyclerView.adapter = englishMediumTopChartAdapter
+                val listener = BookItemOnClickListener(context, layoutInflater)
+                englishMediumTopChartAdapter.setOnItemClickListener(listener)
+            }
+            .addOnFailureListener {
+                Toast.makeText(activity, "${it.message}", Toast.LENGTH_SHORT).show()
+            }
 
     }
 

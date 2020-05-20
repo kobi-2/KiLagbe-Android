@@ -29,7 +29,7 @@ import kotlinx.android.synthetic.main.activity_customer_home.*
 
 class AbroadBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
 
-//  variables
+
     private lateinit var abroadTopChatRecyclerView: RecyclerView
 //    private lateinit var abroadTopChartAdapter: RecycleViewAdapter
 
