@@ -114,7 +114,7 @@ class BookItemOnClickListener(val context: Context, val layoutInflater: LayoutIn
                     } else {
                         val cart = Cart(uid)
                         cart.orderItems.add(order)
-                        cart.status = "PENDING"
+                        cart.status = "ORDERING"
                         dbref.set(cart)
                             .addOnSuccessListener {
                                 Toast.makeText(context, "Added to cart successfully", Toast.LENGTH_SHORT).show()

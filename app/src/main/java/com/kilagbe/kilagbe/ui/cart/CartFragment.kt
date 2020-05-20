@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -22,6 +23,7 @@ import com.kilagbe.kilagbe.tools.OrderItemAdapter
 import com.kilagbe.kilagbe.tools.OrderItemOnClickListener
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import kotlinx.android.synthetic.main.fragment_cart.*
 
 class CartFragment : Fragment() {
 
@@ -38,6 +40,16 @@ class CartFragment : Fragment() {
         cartrecycler = root.findViewById<RecyclerView>(R.id.orderItemsRecycler)
 
         initRecyclerView(this!!.activity!!)
+
+        root.findViewById<Button>(R.id.checkout_button).setOnClickListener {
+            FirebaseFirestore.getInstance().collection("carts").document(FirebaseAuth.getInstance().uid.toString()).update("status", "PENDING")
+                .addOnSuccessListener {
+                    Toast.makeText(activity, "Checked out successfully", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(activity, "${it.message}", Toast.LENGTH_SHORT).show()
+                }
+        }
         return root
     }
 
