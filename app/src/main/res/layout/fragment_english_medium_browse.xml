@@ -25,7 +25,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/english_medium_top_chart_recycler_view"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/recyclerview_parent_custom_height_books"
             android:layout_marginTop="8dp"
             android:orientation="horizontal"
