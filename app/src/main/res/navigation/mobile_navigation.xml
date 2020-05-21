@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_navigation_home_to_abroadBrowseFragment"
             app:destination="@id/abroadBrowseFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_literatureBrowseFragment"
+            app:destination="@id/literatureBrowseFragment" />
     </fragment>
 
     <fragment
@@ -64,5 +67,10 @@
         android:name="com.kilagbe.kilagbe.ui.categories.AbroadBrowseFragment"
         android:label="@string/abroad"
         tools:layout="@layout/fragment_abroad_browse" />
+    <fragment
+        android:id="@+id/literatureBrowseFragment"
+        android:name="com.kilagbe.kilagbe.ui.categories.LiteratureBrowseFragment"
+        android:label="fragment_literature_browse"
+        tools:layout="@layout/fragment_literature_browse" />
 
 </navigation>
