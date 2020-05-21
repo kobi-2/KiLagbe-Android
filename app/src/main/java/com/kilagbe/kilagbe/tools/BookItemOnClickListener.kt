@@ -23,6 +23,7 @@ class BookItemOnClickListener(val context: Context) : OnItemClickListener{
     lateinit var layoutInflater: LayoutInflater
     override fun onItemClick(item: Item<*>, view: View) {
         item as BookAdapter
+        layoutInflater = LayoutInflater.from(context)
         dialog = AlertDialog.Builder(context).create()
         val dialogview = layoutInflater.inflate(R.layout.book_display, null)
         Picasso.get().load(item.book.photoUrl).into(dialogview.findViewById<ImageView>(R.id.bookMainImg))
