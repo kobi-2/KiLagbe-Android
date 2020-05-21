@@ -30,7 +30,6 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener {
 
     lateinit var cartrecycler: RecyclerView
 
-    @SuppressLint("UseRequireInsteadOfGet")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,8 +38,6 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener {
         val root = inflater.inflate(R.layout.fragment_cart, container, false)
 
         cartrecycler = root.findViewById<RecyclerView>(R.id.orderItemsRecycler)
-
-        initRecyclerView(this!!.activity!!)
 
         root.findViewById<Button>(R.id.checkout_button).setOnClickListener {
             FirebaseFirestore.getInstance().collection("carts").document(FirebaseAuth.getInstance().uid.toString()).update("status", "PENDING")
@@ -52,6 +49,12 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener {
                 }
         }
         return root
+    }
+
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun onStart() {
+        initRecyclerView(this!!.activity!!)
+        super.onStart()
     }
 
     fun initRecyclerView(context: Context) {
@@ -72,7 +75,7 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener {
                     {
                         Toast.makeText(context, "No items in cart", Toast.LENGTH_SHORT).show()
                     }
-                    val listener = OrderItemOnClickListener(context,layoutInflater)
+                    val listener = OrderItemOnClickListener(context)
                     listener.setOnExitListener(this)
                     adapter.setOnItemClickListener(listener)
                     cartrecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL ,false)

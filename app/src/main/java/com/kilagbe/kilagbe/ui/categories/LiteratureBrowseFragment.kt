@@ -67,7 +67,7 @@ class LiteratureBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
                 }
                 literatureTopChatRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 literatureTopChatRecyclerView.adapter = literatureTopChartAdapter
-                val listener = BookItemOnClickListener(context, layoutInflater)
+                val listener = BookItemOnClickListener(context)
                 literatureTopChartAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {

@@ -49,14 +49,15 @@ class AbroadBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
         /*getting demo book names data from string resources*/
         demoBookNames = resources.getStringArray(R.array.demo_book_names).toCollection(ArrayList())
 
-
-
-        initRecyclerView(this!!.activity!!)
-
         return root
 
     }
 
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun onStart() {
+        initRecyclerView(this!!.activity!!)
+        super.onStart()
+    }
 
 
     private fun initRecyclerView(context: Context){
@@ -72,7 +73,7 @@ class AbroadBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
                 }
                 abroadTopChatRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 abroadTopChatRecyclerView.adapter = abroadTopChartAdapter
-                val listener = BookItemOnClickListener(context, layoutInflater)
+                val listener = BookItemOnClickListener(context)
                 abroadTopChartAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {

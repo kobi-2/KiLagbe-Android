@@ -44,13 +44,16 @@ class NctbBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
         /*getting demo book names data from string resources*/
         demoBookNames = resources.getStringArray(R.array.demo_book_names).toCollection(ArrayList())
 
-
-        initRecyclerView(this!!.requireActivity())  // using this!!.activity!! gives red lines for some reason
-
         return root
 
     }
 
+
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun onStart() {
+        initRecyclerView(this!!.activity!!)
+        super.onStart()
+    }
 
 
     private fun initRecyclerView(context : Context){
@@ -66,7 +69,7 @@ class NctbBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
                 }
                 nctbTopChatRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 nctbTopChatRecyclerView.adapter = nctbTopChartAdapter
-                val listener = BookItemOnClickListener(context, layoutInflater)
+                val listener = BookItemOnClickListener(context)
                 nctbTopChartAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {

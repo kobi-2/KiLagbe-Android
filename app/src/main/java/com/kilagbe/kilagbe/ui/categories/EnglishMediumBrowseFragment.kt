@@ -47,14 +47,16 @@ class EnglishMediumBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener
         /*getting demo book names data from string resources*/
         demoBookNames = resources.getStringArray(R.array.demo_book_names).toCollection(ArrayList())
 
-
-        initRecyclerView(this!!.requireActivity())  // using this!!.activity!! gives red lines for some reason
-
         return root
 
     }
 
 
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun onStart() {
+        initRecyclerView(this!!.activity!!)
+        super.onStart()
+    }
 
 
     private fun initRecyclerView(context : Context){
@@ -70,7 +72,7 @@ class EnglishMediumBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener
                 }
                 englishMediumTopChartRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 englishMediumTopChartRecyclerView.adapter = englishMediumTopChartAdapter
-                val listener = BookItemOnClickListener(context, layoutInflater)
+                val listener = BookItemOnClickListener(context)
                 englishMediumTopChartAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {

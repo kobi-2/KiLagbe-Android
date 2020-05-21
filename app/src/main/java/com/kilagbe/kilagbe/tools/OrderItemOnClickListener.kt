@@ -19,13 +19,16 @@ import com.xwray.groupie.Item
 import com.xwray.groupie.OnItemClickListener
 
 
-class OrderItemOnClickListener(val context: Context, val layoutInflater: LayoutInflater) : OnItemClickListener
+class OrderItemOnClickListener(val context: Context) : OnItemClickListener
 {
     lateinit var dialog: AlertDialog
     lateinit var mOnExitListener: onExitListener
+    lateinit var layoutInflater: LayoutInflater
 
     override fun onItemClick(item: Item<*>, view: View) {
         item as OrderItemAdapter
+
+        layoutInflater = LayoutInflater.from(context)
         Toast.makeText(context, "${item.order.itemid}", Toast.LENGTH_SHORT).show()
 
         FirebaseFirestore.getInstance().collection("books").whereEqualTo("itemId", item.order.itemid).get()
