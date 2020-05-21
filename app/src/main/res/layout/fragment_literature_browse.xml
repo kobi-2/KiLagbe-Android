@@ -33,7 +33,7 @@
             android:orientation="horizontal"
             android:padding="5dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/abroad_top_chart_text_view" />
+            app:layout_constraintTop_toBottomOf="@+id/literature_top_chart_text_view" />
 
 
 

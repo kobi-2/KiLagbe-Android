@@ -13,13 +13,16 @@
     <string name="title_home">Home</string>
     <string name="title_profile">Profile</string>
     <string name="title_cart">Cart</string>
-    <string name="category">Category</string>
+    <string name="essentials">Essentials</string>
+    <string name="book_categories">Book Categories</string>
+    <string name="books_top_chart">Books Top Chart</string>
     <string name="top_chart">Top Chart</string>
     <string name="undergraduate">Undergraduate</string>
     <string name="postgraduate">Postgraduate</string>
     <string name="english_medium">English Medium</string>
     <string name="nctb">NCTB</string>
     <string name="abroad">Abroad</string>
+    <string name="literature">Literature</string>
     <string name="medical">Medical</string>
     <string name="engineering">Engineering</string>
     <string name="bba">BBA</string>
