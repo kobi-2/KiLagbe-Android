@@ -18,8 +18,9 @@ import com.squareup.picasso.Picasso
 import com.xwray.groupie.Item
 import com.xwray.groupie.OnItemClickListener
 
-class BookItemOnClickListener(val context: Context, val layoutInflater: LayoutInflater) : OnItemClickListener{
+class BookItemOnClickListener(val context: Context) : OnItemClickListener{
     lateinit var dialog: AlertDialog
+    lateinit var layoutInflater: LayoutInflater
     override fun onItemClick(item: Item<*>, view: View) {
         item as BookAdapter
         dialog = AlertDialog.Builder(context).create()

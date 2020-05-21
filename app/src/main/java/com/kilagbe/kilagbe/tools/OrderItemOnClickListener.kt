@@ -19,10 +19,11 @@ import com.xwray.groupie.Item
 import com.xwray.groupie.OnItemClickListener
 
 
-class OrderItemOnClickListener(val context: Context, val layoutInflater: LayoutInflater) : OnItemClickListener
+class OrderItemOnClickListener(val context: Context) : OnItemClickListener
 {
     lateinit var dialog: AlertDialog
     lateinit var mOnExitListener: onExitListener
+    lateinit var layoutInflater: LayoutInflater
 
     override fun onItemClick(item: Item<*>, view: View) {
         item as OrderItemAdapter

@@ -59,14 +59,16 @@ class HomeFragment : Fragment(), OnCatListener{
         categoryNames = resources.getStringArray(R.array.category_names).toCollection(ArrayList())
         demoBookNames = resources.getStringArray(R.array.demo_book_names).toCollection(ArrayList())
 
-        initRecyclerView(this!!.requireActivity())      // using this!!.activity!! gives red lines for some reason
-
 
         return root
 
     }
 
-
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun onStart() {
+        initRecyclerView(this!!.activity!!)
+        super.onStart()
+    }
 
     private fun initRecyclerView(context: Context){
 
@@ -93,7 +95,7 @@ class HomeFragment : Fragment(), OnCatListener{
                 }
                 booksRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 booksRecyclerView.adapter = booksAdapter
-                val listener = BookItemOnClickListener(context, layoutInflater)
+                val listener = BookItemOnClickListener(context)
                 booksAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {

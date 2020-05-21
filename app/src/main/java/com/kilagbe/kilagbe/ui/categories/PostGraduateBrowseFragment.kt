@@ -52,14 +52,16 @@ class PostGraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener 
         /*getting demo book names data from string resources*/
         demoBookNames = resources.getStringArray(R.array.demo_book_names).toCollection(ArrayList())
 
-        initRecyclerView(this!!.requireActivity())      // using this!!.activity!! gives red lines for some reason
-
 
         return root
 
     }
 
-
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun onStart() {
+        initRecyclerView(this!!.activity!!)
+        super.onStart()
+    }
 
     private fun initRecyclerView(context: Context){
 
@@ -76,7 +78,7 @@ class PostGraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener 
                 }
                 postgradMedicalRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 postgradMedicalRecyclerView.adapter = postgradMedicalAdapter
-                val listener = BookItemOnClickListener(context, layoutInflater)
+                val listener = BookItemOnClickListener(context)
                 postgradMedicalAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {
@@ -92,7 +94,7 @@ class PostGraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener 
                 }
                 postgradEngineeringRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 postgradEngineeringRecyclerView.adapter = postgradEngineeringAdapter
-                val listener = BookItemOnClickListener(context, layoutInflater)
+                val listener = BookItemOnClickListener(context)
                 postgradEngineeringAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {
@@ -108,7 +110,7 @@ class PostGraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener 
                 }
                 postgradMbaRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 postgradMbaRecyclerView.adapter = postgradMbaAdapter
-                val listener = BookItemOnClickListener(context, layoutInflater)
+                val listener = BookItemOnClickListener(context)
                 postgradMbaAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {
