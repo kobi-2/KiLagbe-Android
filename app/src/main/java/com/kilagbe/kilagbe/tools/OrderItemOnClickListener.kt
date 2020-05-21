@@ -22,6 +22,7 @@ import com.xwray.groupie.OnItemClickListener
 class OrderItemOnClickListener(val context: Context, val layoutInflater: LayoutInflater) : OnItemClickListener
 {
     lateinit var dialog: AlertDialog
+    lateinit var mOnExitListener: onExitListener
 
     override fun onItemClick(item: Item<*>, view: View) {
         item as OrderItemAdapter
@@ -98,6 +99,7 @@ class OrderItemOnClickListener(val context: Context, val layoutInflater: LayoutI
                             .addOnSuccessListener {
                                 Toast.makeText(context, "Deleted successfully", Toast.LENGTH_SHORT).show()
                                 dialog.dismiss()
+                                mOnExitListener.onExit()
                             }
                             .addOnFailureListener {
                                 Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
@@ -134,6 +136,7 @@ class OrderItemOnClickListener(val context: Context, val layoutInflater: LayoutI
                             .addOnSuccessListener {
                                 Toast.makeText(context, "Added to cart successfully", Toast.LENGTH_SHORT).show()
                                 dialog.dismiss()
+                                mOnExitListener.onExit()
                             }
                             .addOnFailureListener {
                                 Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
@@ -149,5 +152,14 @@ class OrderItemOnClickListener(val context: Context, val layoutInflater: LayoutI
             .addOnFailureListener {
                 Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    fun setOnExitListener(lol: onExitListener)
+    {
+        this.mOnExitListener = lol
+    }
+
+    interface onExitListener {
+        fun onExit()
     }
 }

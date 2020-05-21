@@ -3,6 +3,7 @@ package com.kilagbe.kilagbe.ui.cart
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +26,7 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_cart.*
 
-class CartFragment : Fragment() {
+class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener {
 
     lateinit var cartrecycler: RecyclerView
 
@@ -61,14 +62,21 @@ class CartFragment : Fragment() {
                 if ( it!!.exists() )
                 {
                     val temp = it.toObject(Cart::class.java)
-                    temp!!.orderItems.forEach { orderItem ->
-                        adapter.add(OrderItemAdapter(orderItem))
+                    if ( temp!!.orderItems.isNotEmpty() )
+                    {
+                        temp!!.orderItems.forEach { orderItem ->
+                            adapter.add(OrderItemAdapter(orderItem))
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(context, "No items in cart", Toast.LENGTH_SHORT).show()
                     }
                     val listener = OrderItemOnClickListener(context,layoutInflater)
+                    listener.setOnExitListener(this)
                     adapter.setOnItemClickListener(listener)
                     cartrecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL ,false)
                     cartrecycler.adapter = adapter
-
                 }
                 else
                 {
@@ -78,5 +86,11 @@ class CartFragment : Fragment() {
             .addOnFailureListener {
                 Toast.makeText(activity, "${it.message}", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun onExit() {
+        Log.d("ONEXIT", "Interface call from cart fragment")
+        initRecyclerView(this!!.activity!!)
     }
 }
