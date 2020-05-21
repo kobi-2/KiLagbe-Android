@@ -32,6 +32,7 @@ class HomeFragment : Fragment(), OnCatListener{
 
     private lateinit var navController : NavController
 
+    private lateinit var essentialRecyclerView: RecyclerView
     private lateinit var categoryRecyclerView: RecyclerView
     private lateinit var booksRecyclerView: RecyclerView
 //    private lateinit var categoryAdapter: RecycleViewAdapter
@@ -51,6 +52,7 @@ class HomeFragment : Fragment(), OnCatListener{
         val root = inflater.inflate(R.layout.fragment_home, container, false)
 
 
+        essentialRecyclerView = root.findViewById(R.id.essentials_topchart_recycler_view) as RecyclerView
         categoryRecyclerView = root.findViewById(R.id.recycler_view) as RecyclerView
         booksRecyclerView = root.findViewById(R.id.recycler_view2) as RecyclerView
 
@@ -100,6 +102,26 @@ class HomeFragment : Fragment(), OnCatListener{
                 booksRecyclerView.adapter = booksAdapter
                 val listener = BookItemOnClickListener(context)
                 booksAdapter.setOnItemClickListener(listener)
+            }
+            .addOnFailureListener {
+                Toast.makeText(activity, "${it.message}", Toast.LENGTH_SHORT).show()
+            }
+
+
+
+        val essentialAdapter = GroupAdapter<GroupieViewHolder>()
+
+        FirebaseFirestore.getInstance().collection("books").get()
+            .addOnSuccessListener {
+                for ( doc in it!! )
+                {
+                    val temp = doc.toObject(Book::class.java)
+                    essentialAdapter.add(BookAdapter(temp))
+                }
+                essentialRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
+                essentialRecyclerView.adapter = essentialAdapter
+                val listener = BookItemOnClickListener(context)
+                essentialAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {
                 Toast.makeText(activity, "${it.message}", Toast.LENGTH_SHORT).show()
