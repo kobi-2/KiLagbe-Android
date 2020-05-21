@@ -34,7 +34,7 @@ class HomeFragment : Fragment(), OnCatListener{
 
     private lateinit var categoryRecyclerView: RecyclerView
     private lateinit var booksRecyclerView: RecyclerView
-    private lateinit var categoryAdapter: RecycleViewAdapter
+//    private lateinit var categoryAdapter: RecycleViewAdapter
 //    private lateinit var booksAdapter: RecycleViewAdapter
 
     private var categoryNames = arrayListOf<String>()
@@ -70,7 +70,7 @@ class HomeFragment : Fragment(), OnCatListener{
 
     private fun initRecyclerView(context: Context){
 
-        categoryAdapter = RecycleViewAdapter(
+        val categoryAdapter = RecycleViewAdapter(
             this.context,
             categoryNames,
             this
@@ -79,6 +79,9 @@ class HomeFragment : Fragment(), OnCatListener{
         categoryRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
         categoryRecyclerView.adapter = categoryAdapter
 
+//        val booksAdapter = RecycleViewAdapter(this.context, demoBookNames, this)
+//        booksRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+//        booksRecyclerView.adapter = booksAdapter
 
 
 
