@@ -122,6 +122,7 @@ class HomeFragment : Fragment(), OnCatListener{
             "English Medium" -> navController!!.navigate(R.id.action_navigation_home_to_englishMediumBrowseFragment)
             "NCTB" -> navController!!.navigate(R.id.action_navigation_home_to_nctbBrowseFragment)
             "Abroad" -> navController!!.navigate(R.id.action_navigation_home_to_abroadBrowseFragment)
+            "Literature" -> navController!!.navigate(R.id.action_navigation_home_to_literatureBrowseFragment)
         }
     }
 
