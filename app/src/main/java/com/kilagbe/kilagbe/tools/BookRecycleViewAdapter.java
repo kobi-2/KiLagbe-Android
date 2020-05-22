@@ -36,7 +36,7 @@ public class BookRecycleViewAdapter extends RecyclerView.Adapter<BookRecycleView
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder: called");
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_book, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_generic_item, parent, false);
         return new ViewHolder(view, mOnBookListener);
     }
 
@@ -75,7 +75,7 @@ public class BookRecycleViewAdapter extends RecyclerView.Adapter<BookRecycleView
             super(itemView);
             this.onBookListener = onBookListener;
 
-            textView = itemView.findViewById(R.id.book_name_textview);
+            textView = itemView.findViewById(R.id.item_name_textview);
             itemView.setOnClickListener(this);
         }
 

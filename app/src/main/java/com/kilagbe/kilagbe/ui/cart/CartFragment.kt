@@ -8,23 +8,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kilagbe.kilagbe.R
 import com.kilagbe.kilagbe.data.Cart
-import com.kilagbe.kilagbe.data.OrderItems
-import com.kilagbe.kilagbe.tools.OrderItemAdapter
+import com.kilagbe.kilagbe.tools.OrderAdapter
 import com.kilagbe.kilagbe.tools.OrderItemOnClickListener
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import kotlinx.android.synthetic.main.fragment_cart.*
 
 class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener {
 
@@ -65,15 +60,26 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener {
                 if ( it!!.exists() )
                 {
                     val temp = it.toObject(Cart::class.java)
-                    if ( temp!!.orderItems.isNotEmpty() )
+                    if ( temp!!.orderBookItems.isNotEmpty() )
                     {
-                        temp!!.orderItems.forEach { orderItem ->
-                            adapter.add(OrderItemAdapter(orderItem))
+                        temp!!.orderBookItems.forEach { orderItem ->
+                            adapter.add(OrderAdapter(orderItem))
                         }
                     }
                     else
                     {
-                        Toast.makeText(context, "No items in cart", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "No book items in cart", Toast.LENGTH_SHORT).show()
+                    }
+
+                    if ( temp!!.orderEssentialItems.isNotEmpty() )
+                    {
+                        temp!!.orderEssentialItems.forEach { orderItem ->
+                            adapter.add(OrderAdapter(orderItem))
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(context, "No essential items in cart", Toast.LENGTH_SHORT).show()
                     }
                     val listener = OrderItemOnClickListener(context)
                     listener.setOnExitListener(this)

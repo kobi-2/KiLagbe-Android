@@ -15,7 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.kilagbe.kilagbe.R
 import com.kilagbe.kilagbe.data.Book
 import com.kilagbe.kilagbe.tools.BookAdapter
-import com.kilagbe.kilagbe.tools.BookItemOnClickListener
+import com.kilagbe.kilagbe.tools.ItemOnClickListener
 import com.kilagbe.kilagbe.tools.RecycleViewAdapter
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -77,7 +77,7 @@ class UndergraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener
                 }
                 undergradMedicalRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 undergradMedicalRecyclerView.adapter = undergradMedicalAdapter
-                val listener = BookItemOnClickListener(context)
+                val listener = ItemOnClickListener(context)
                 undergradMedicalAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {
@@ -93,7 +93,7 @@ class UndergraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener
                 }
                 undergradEngineeringRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 undergradEngineeringRecyclerView.adapter = undergradEngineeringAdapter
-                val listener = BookItemOnClickListener(context)
+                val listener = ItemOnClickListener(context)
                 undergradEngineeringAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {
@@ -109,7 +109,7 @@ class UndergraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener
                 }
                 undergradBbaRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 undergradBbaRecyclerView.adapter = undergradBbaAdapter
-                val listener = BookItemOnClickListener(context)
+                val listener = ItemOnClickListener(context)
                 undergradBbaAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {

@@ -13,18 +13,13 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kilagbe.kilagbe.R
-import com.kilagbe.kilagbe.tools.BookRecycleViewAdapter
-import com.kilagbe.kilagbe.tools.RecycleViewAdapter
 import com.kilagbe.kilagbe.tools.RecycleViewAdapter.OnCatListener
 import com.kilagbe.kilagbe.data.Book
-import com.kilagbe.kilagbe.tools.BookAdapter
-import com.kilagbe.kilagbe.tools.BookItemOnClickListener
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.google.firebase.firestore.FirebaseFirestore
-
-
-
+import com.kilagbe.kilagbe.data.Essential
+import com.kilagbe.kilagbe.tools.*
 
 
 class HomeFragment : Fragment(), OnCatListener{
@@ -100,7 +95,7 @@ class HomeFragment : Fragment(), OnCatListener{
                 }
                 booksRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 booksRecyclerView.adapter = booksAdapter
-                val listener = BookItemOnClickListener(context)
+                val listener = ItemOnClickListener(context)
                 booksAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {
@@ -111,16 +106,16 @@ class HomeFragment : Fragment(), OnCatListener{
 
         val essentialAdapter = GroupAdapter<GroupieViewHolder>()
 
-        FirebaseFirestore.getInstance().collection("books").get()
+        FirebaseFirestore.getInstance().collection("essentials").get()
             .addOnSuccessListener {
                 for ( doc in it!! )
                 {
-                    val temp = doc.toObject(Book::class.java)
-                    essentialAdapter.add(BookAdapter(temp))
+                    val temp = doc.toObject(Essential::class.java)
+                    essentialAdapter.add(EssentialAdapter(temp))
                 }
                 essentialRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 essentialRecyclerView.adapter = essentialAdapter
-                val listener = BookItemOnClickListener(context)
+                val listener = ItemOnClickListener(context)
                 essentialAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {

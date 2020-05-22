@@ -15,7 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.kilagbe.kilagbe.R
 import com.kilagbe.kilagbe.data.Book
 import com.kilagbe.kilagbe.tools.BookAdapter
-import com.kilagbe.kilagbe.tools.BookItemOnClickListener
+import com.kilagbe.kilagbe.tools.ItemOnClickListener
 import com.kilagbe.kilagbe.tools.RecycleViewAdapter
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -78,7 +78,7 @@ class PostGraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener 
                 }
                 postgradMedicalRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 postgradMedicalRecyclerView.adapter = postgradMedicalAdapter
-                val listener = BookItemOnClickListener(context)
+                val listener = ItemOnClickListener(context)
                 postgradMedicalAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {
@@ -94,7 +94,7 @@ class PostGraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener 
                 }
                 postgradEngineeringRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 postgradEngineeringRecyclerView.adapter = postgradEngineeringAdapter
-                val listener = BookItemOnClickListener(context)
+                val listener = ItemOnClickListener(context)
                 postgradEngineeringAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {
@@ -110,7 +110,7 @@ class PostGraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener 
                 }
                 postgradMbaRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 postgradMbaRecyclerView.adapter = postgradMbaAdapter
-                val listener = BookItemOnClickListener(context)
+                val listener = ItemOnClickListener(context)
                 postgradMbaAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {

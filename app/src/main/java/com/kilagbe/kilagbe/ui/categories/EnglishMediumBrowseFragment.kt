@@ -15,13 +15,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.kilagbe.kilagbe.R
 import com.kilagbe.kilagbe.data.Book
 import com.kilagbe.kilagbe.tools.BookAdapter
-import com.kilagbe.kilagbe.tools.BookItemOnClickListener
+import com.kilagbe.kilagbe.tools.ItemOnClickListener
 import com.kilagbe.kilagbe.tools.RecycleViewAdapter
-import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import kotlinx.android.synthetic.main.activity_customer_home.*
-
 
 
 class EnglishMediumBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
@@ -72,7 +69,7 @@ class EnglishMediumBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener
                 }
                 englishMediumTopChartRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 englishMediumTopChartRecyclerView.adapter = englishMediumTopChartAdapter
-                val listener = BookItemOnClickListener(context)
+                val listener = ItemOnClickListener(context)
                 englishMediumTopChartAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {
