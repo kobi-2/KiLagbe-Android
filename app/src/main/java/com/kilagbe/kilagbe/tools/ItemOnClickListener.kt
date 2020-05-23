@@ -138,6 +138,14 @@ class ItemOnClickListener(val context: Context) : OnItemClickListener{
                             oldList[ind].qty = oldList[ind].qty?.plus(qty)
                             dbref.update("orderBookItems", oldList)
                                 .addOnSuccessListener {
+                                    val inc = -1 * qty
+                                    FirebaseFirestore.getInstance().collection("books").document(order.itemid).update("amountInStock", FieldValue.increment(inc.toLong()))
+                                        .addOnSuccessListener {
+                                            Toast.makeText(context, "Updated item in database", Toast.LENGTH_SHORT).show()
+                                        }
+                                        .addOnFailureListener {
+                                            Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                                        }
                                     Toast.makeText(context, "Added to cart successfully", Toast.LENGTH_SHORT).show()
                                     dialog.dismiss()
                                 }
@@ -148,6 +156,14 @@ class ItemOnClickListener(val context: Context) : OnItemClickListener{
                         else {
                             dbref.update("orderBookItems", FieldValue.arrayUnion(order))
                                 .addOnSuccessListener {
+                                    val inc = -1 * qty
+                                    FirebaseFirestore.getInstance().collection("books").document(order.itemid).update("amountInStock", FieldValue.increment(inc.toLong()))
+                                        .addOnSuccessListener {
+                                            Toast.makeText(context, "Updated item in database", Toast.LENGTH_SHORT).show()
+                                        }
+                                        .addOnFailureListener {
+                                            Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                                        }
                                     Toast.makeText(context, "Added to cart successfully", Toast.LENGTH_SHORT).show()
                                     dialog.dismiss()
                                 }
@@ -161,6 +177,14 @@ class ItemOnClickListener(val context: Context) : OnItemClickListener{
                         cart.status = "ORDERING"
                         dbref.set(cart)
                             .addOnSuccessListener {
+                                val inc = -1 * qty
+                                FirebaseFirestore.getInstance().collection("books").document(order.itemid).update("amountInStock", FieldValue.increment(inc.toLong()))
+                                    .addOnSuccessListener {
+                                        Toast.makeText(context, "Updated item in database", Toast.LENGTH_SHORT).show()
+                                    }
+                                    .addOnFailureListener {
+                                        Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                                    }
                                 Toast.makeText(context, "Added to cart successfully", Toast.LENGTH_SHORT).show()
                                 dialog.dismiss()
                             }
@@ -196,6 +220,14 @@ class ItemOnClickListener(val context: Context) : OnItemClickListener{
                             oldList[ind].qty = oldList[ind].qty?.plus(qty)
                             dbref.update("orderEssentialItems", oldList)
                                 .addOnSuccessListener {
+                                    val inc = -1 * qty
+                                    FirebaseFirestore.getInstance().collection("essentials").document(order.itemid).update("amountInStock", FieldValue.increment(inc.toLong()))
+                                        .addOnSuccessListener {
+                                            Toast.makeText(context, "Updated item in database", Toast.LENGTH_SHORT).show()
+                                        }
+                                        .addOnFailureListener {
+                                            Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                                        }
                                     Toast.makeText(context, "Added to cart successfully", Toast.LENGTH_SHORT).show()
                                     dialog.dismiss()
                                 }
@@ -206,6 +238,15 @@ class ItemOnClickListener(val context: Context) : OnItemClickListener{
                         else {
                             dbref.update("orderEssentialItems", FieldValue.arrayUnion(order))
                                 .addOnSuccessListener {
+                                    val inc = -1 * qty
+                                    FirebaseFirestore.getInstance().collection("essentials").document(order.itemid).update("amountInStock", FieldValue.increment(inc.toLong()))
+                                        .addOnSuccessListener {
+                                            Toast.makeText(context, "Updated item in database", Toast.LENGTH_SHORT).show()
+                                        }
+                                        .addOnFailureListener {
+                                            Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                                        }
+
                                     Toast.makeText(context, "Added to cart successfully", Toast.LENGTH_SHORT).show()
                                     dialog.dismiss()
                                 }
@@ -219,6 +260,14 @@ class ItemOnClickListener(val context: Context) : OnItemClickListener{
                         cart.status = "ORDERING"
                         dbref.set(cart)
                             .addOnSuccessListener {
+                                val inc = -1 * qty
+                                FirebaseFirestore.getInstance().collection("books").document(order.itemid).update("amountInStock", FieldValue.increment(inc.toLong()))
+                                    .addOnSuccessListener {
+                                        Toast.makeText(context, "Updated item in database", Toast.LENGTH_SHORT).show()
+                                    }
+                                    .addOnFailureListener {
+                                        Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                                    }
                                 Toast.makeText(context, "Added to cart successfully", Toast.LENGTH_SHORT).show()
                                 dialog.dismiss()
                             }
