@@ -2,7 +2,6 @@ package com.kilagbe.kilagbe.tools
 
 import android.app.AlertDialog
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -10,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kilagbe.kilagbe.R
 import com.kilagbe.kilagbe.data.Book
@@ -26,64 +26,153 @@ class OrderItemOnClickListener(val context: Context) : OnItemClickListener
     lateinit var layoutInflater: LayoutInflater
 
     override fun onItemClick(item: Item<*>, view: View) {
-        item as OrderItemAdapter
-
+        item as OrderAdapter
         layoutInflater = LayoutInflater.from(context)
-        Toast.makeText(context, "${item.order.itemid}", Toast.LENGTH_SHORT).show()
 
         FirebaseFirestore.getInstance().collection("books").whereEqualTo("itemId", item.order.itemid).get()
             .addOnSuccessListener {
-                dialog = AlertDialog.Builder(context).create()
-                val dialogview = layoutInflater.inflate(R.layout.order_item_display, null)
-                val book = it.documents[0].toObject(Book::class.java)
-                Picasso.get().load(book!!.photoUrl!!).into(dialogview.findViewById<ImageView>(R.id.itemImg))
-                dialogview.findViewById<TextView>(R.id.itemName).text = book.name
-                dialogview.findViewById<TextView>(R.id.itemQty).text = item.order.qty.toString()
-                dialogview.findViewById<TextView>(R.id.quantity_text).text = item.order.qty.toString()
-                dialogview.findViewById<Button>(R.id.inc_button).setOnClickListener {
-                    var q = dialogview.findViewById<TextView>(R.id.quantity_text).text.toString().toInt()
-                    if ( q < book!!.amountInStock!! )
-                    {
-                        q++
-                        dialogview.findViewById<TextView>(R.id.quantity_text).setText(q.toString())
-                    }
-                    else
-                    {
-                        Toast.makeText(context, "Exceeding quantity in stock", Toast.LENGTH_SHORT).show()
-                    }
-                }
+                if (!it.isEmpty) {
+                    dialog = AlertDialog.Builder(context).create()
+                    val dialogview = layoutInflater.inflate(R.layout.order_item_display, null)
+                    val book = it.documents[0].toObject(Book::class.java)
 
-                dialogview.findViewById<Button>(R.id.dec_button).setOnClickListener {
-                    var q = dialogview.findViewById<TextView>(R.id.quantity_text).text.toString().toInt()
-                    if ( q > 0 )
-                    {
-                        q--
-                        dialogview.findViewById<TextView>(R.id.quantity_text).setText(q.toString())
+                    Picasso.get().load(book!!.photoUrl!!).into(dialogview.findViewById<ImageView>(R.id.itemImg))
+                    dialogview.findViewById<TextView>(R.id.itemName).text = book.name
+                    dialogview.findViewById<TextView>(R.id.itemQty).text = item.order.qty.toString()
+                    dialogview.findViewById<TextView>(R.id.quantity_text).text = item.order.qty.toString()
+
+                    dialogview.findViewById<Button>(R.id.inc_button).setOnClickListener {
+                        var q = dialogview.findViewById<TextView>(R.id.quantity_text).text.toString().toInt()
+                        if (q < book!!.amountInStock!!) {
+                            q++
+                            dialogview.findViewById<TextView>(R.id.quantity_text).setText(q.toString())
+                        } else {
+                            Toast.makeText(context, "Exceeding quantity in stock", Toast.LENGTH_SHORT).show()
+                        }
                     }
-                    else
-                    {
-                        Toast.makeText(context, "Quantity has to be greater than 0", Toast.LENGTH_SHORT).show()
+
+                    dialogview.findViewById<Button>(R.id.dec_button).setOnClickListener {
+                        var q = dialogview.findViewById<TextView>(R.id.quantity_text).text.toString().toInt()
+                        if (q > 0) {
+                            q--
+                            dialogview.findViewById<TextView>(R.id.quantity_text).setText(q.toString())
+                        } else {
+                            Toast.makeText(context, "Quantity has to be greater than 0", Toast.LENGTH_SHORT).show()
+                        }
                     }
-                }
 
-                dialogview.findViewById<Button>(R.id.modify_button).setOnClickListener {
-                    modifyItem(FirebaseAuth.getInstance().uid.toString(), item.order.itemid, dialogview.findViewById<TextView>(R.id.quantity_text).text.toString().toInt())
-                }
+                    dialogview.findViewById<Button>(R.id.modify_button).setOnClickListener {
+                        modifyItemBook(FirebaseAuth.getInstance().uid.toString(), item.order.itemid, dialogview.findViewById<TextView>(R.id.quantity_text).text.toString().toInt())
+                        val inc = dialogview.findViewById<TextView>(R.id.itemQty).text.toString().toInt() - dialogview.findViewById<TextView>(R.id.quantity_text).text.toString().toInt()
+                        FirebaseFirestore.getInstance().collection("books").document(item.order.itemid).update("amountInStock", FieldValue.increment(inc.toLong()))
+                            .addOnSuccessListener {
+                                Toast.makeText(context, "Updated item in database", Toast.LENGTH_SHORT).show()
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                            }
+                    }
 
-                dialogview.findViewById<Button>(R.id.delete_button).setOnClickListener {
-                    deleteItem(FirebaseAuth.getInstance().uid.toString(), item.order.itemid)
-                }
+                    dialogview.findViewById<Button>(R.id.delete_button).setOnClickListener {
+                        deleteItemBook(FirebaseAuth.getInstance().uid.toString(), item.order.itemid)
+                        val inc = dialogview.findViewById<TextView>(R.id.itemQty).text.toString().toInt()
+                        FirebaseFirestore.getInstance().collection("books").document(item.order.itemid).update("amountInStock", FieldValue.increment(inc.toLong()))
+                            .addOnSuccessListener {
+                                Toast.makeText(context, "Updated item in database", Toast.LENGTH_SHORT).show()
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                            }
+                    }
 
-                dialog.setView(dialogview)
-                dialog.setCancelable(true)
-                dialog.show()
+                    dialog.setView(dialogview)
+                    dialog.setCancelable(true)
+                    dialog.show()
+                }
             }
             .addOnFailureListener {
                 Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
             }
-    }
 
-    fun deleteItem(uid: String, itemid: String)
+            FirebaseFirestore.getInstance().collection("essentials").whereEqualTo("itemId", item.order.itemid).get()
+                .addOnSuccessListener {
+                    if (!it.isEmpty) {
+                        dialog = AlertDialog.Builder(context).create()
+                        val dialogview = layoutInflater.inflate(R.layout.order_item_display, null)
+                        val book = it.documents[0].toObject(Book::class.java)
+                        Picasso.get().load(book!!.photoUrl!!).into(dialogview.findViewById<ImageView>(R.id.itemImg))
+                        dialogview.findViewById<TextView>(R.id.itemName).text = book.name
+                        dialogview.findViewById<TextView>(R.id.itemQty).text = item.order.qty.toString()
+                        dialogview.findViewById<TextView>(R.id.quantity_text).text = item.order.qty.toString()
+                        dialogview.findViewById<Button>(R.id.inc_button).setOnClickListener {
+                            var q =
+                                dialogview.findViewById<TextView>(R.id.quantity_text).text.toString()
+                                    .toInt()
+                            if (q < book!!.amountInStock!!) {
+                                q++
+                                dialogview.findViewById<TextView>(R.id.quantity_text)
+                                    .setText(q.toString())
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    "Exceeding quantity in stock",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+
+                        dialogview.findViewById<Button>(R.id.dec_button).setOnClickListener {
+                            var q =
+                                dialogview.findViewById<TextView>(R.id.quantity_text).text.toString()
+                                    .toInt()
+                            if (q > 0) {
+                                q--
+                                dialogview.findViewById<TextView>(R.id.quantity_text)
+                                    .setText(q.toString())
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    "Quantity has to be greater than 0",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+
+                        dialogview.findViewById<Button>(R.id.modify_button).setOnClickListener {
+                            modifyItemEssential(FirebaseAuth.getInstance().uid.toString(), item.order.itemid, dialogview.findViewById<TextView>(R.id.quantity_text).text.toString().toInt())
+                            val inc = dialogview.findViewById<TextView>(R.id.itemQty).text.toString().toInt() - dialogview.findViewById<TextView>(R.id.quantity_text).text.toString().toInt()
+                            FirebaseFirestore.getInstance().collection("essentials").document(item.order.itemid).update("amountInStock", FieldValue.increment(inc.toLong()))
+                                .addOnSuccessListener {
+                                    Toast.makeText(context, "Updated item in database", Toast.LENGTH_SHORT).show()
+                                }
+                                .addOnFailureListener {
+                                    Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                                }
+                        }
+
+                        dialogview.findViewById<Button>(R.id.delete_button).setOnClickListener {
+                            deleteItemEssential(FirebaseAuth.getInstance().uid.toString(), item.order.itemid)
+                            val inc = dialogview.findViewById<TextView>(R.id.itemQty).text.toString().toInt()
+                            FirebaseFirestore.getInstance().collection("essentials").document(item.order.itemid).update("amountInStock", FieldValue.increment(inc.toLong()))
+                                .addOnSuccessListener {
+                                    Toast.makeText(context, "Updated item in database", Toast.LENGTH_SHORT).show()
+                                }
+                                .addOnFailureListener {
+                                    Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                                }
+                        }
+
+                        dialog.setView(dialogview)
+                        dialog.setCancelable(true)
+                        dialog.show()
+                    }
+                }
+                        .addOnFailureListener {
+                            Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                        }
+                }
+
+    fun deleteItemBook(uid: String, itemid: String)
     {
         val dbref = FirebaseFirestore.getInstance().collection("carts").document(uid)
         dbref.get()
@@ -91,18 +180,24 @@ class OrderItemOnClickListener(val context: Context) : OnItemClickListener
                 if (it!!.exists()) {
                     //check to see if item has been previously added to cart
                     val cart = it.toObject(Cart::class.java)
-                    if ( (cart!!.orderItems.filter { it.itemid == itemid }).isNotEmpty() )
+                    if ( (cart!!.orderBookItems.filter { it.itemid == itemid }).isNotEmpty() )
                     {
-                        val oldList = cart!!.orderItems
+                        val oldList = cart!!.orderBookItems
                         val ind = oldList.indexOfFirst {
                             it.itemid == itemid
                         }
+                        val subtract = oldList[ind].cost
+                        val add = 0.0
+                        val inc = add?.minus(subtract!!)
                         oldList.removeAt(ind)
-                        dbref.update("orderItems", oldList)
+                        dbref.update("orderBookItems", oldList)
                             .addOnSuccessListener {
                                 Toast.makeText(context, "Deleted successfully", Toast.LENGTH_SHORT).show()
-                                dialog.dismiss()
-                                mOnExitListener.onExit()
+                                dbref.update("total", FieldValue.increment(inc.toLong()))
+                                    .addOnSuccessListener {
+                                        dialog.dismiss()
+                                        mOnExitListener.onExit()
+                                    }
                             }
                             .addOnFailureListener {
                                 Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
@@ -120,7 +215,7 @@ class OrderItemOnClickListener(val context: Context) : OnItemClickListener
             }
     }
 
-    fun modifyItem(uid: String, itemid: String, qty: Int)
+    fun modifyItemBook(uid: String, itemid: String, qty: Int)
     {
         val dbref = FirebaseFirestore.getInstance().collection("carts").document(uid)
         dbref.get()
@@ -128,18 +223,112 @@ class OrderItemOnClickListener(val context: Context) : OnItemClickListener
                 if (it!!.exists()) {
                     //check to see if item has been previously added to cart
                     val cart = it.toObject(Cart::class.java)
-                    if ( (cart!!.orderItems.filter { it.itemid == itemid }).isNotEmpty() )
+                    if ( (cart!!.orderBookItems.filter { it.itemid == itemid }).isNotEmpty() )
                     {
-                        val oldList = cart!!.orderItems
+                        val oldList = cart!!.orderBookItems
                         val ind = oldList.indexOfFirst {
                             it.itemid == itemid
                         }
+                        val add = oldList[ind].cost?.div(oldList[ind].qty!!)?.times(qty)
+                        val subtract = oldList[ind].cost
+                        val inc = add?.minus(subtract!!)
                         oldList[ind].qty = qty
-                        dbref.update("orderItems", oldList)
+                        oldList[ind].cost = add
+                        dbref.update("orderBookItems", oldList)
                             .addOnSuccessListener {
                                 Toast.makeText(context, "Added to cart successfully", Toast.LENGTH_SHORT).show()
-                                dialog.dismiss()
-                                mOnExitListener.onExit()
+                                dbref.update("total", FieldValue.increment(inc?.toLong()!!))
+                                    .addOnSuccessListener {
+                                        dialog.dismiss()
+                                        mOnExitListener.onExit()
+                                    }
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                            }
+                    }
+                    else {
+                        Toast.makeText(context, "Order not found in cart", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(context, "Cart not found", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    fun deleteItemEssential(uid: String, itemid: String)
+    {
+        val dbref = FirebaseFirestore.getInstance().collection("carts").document(uid)
+        dbref.get()
+            .addOnSuccessListener {
+                if (it!!.exists()) {
+                    //check to see if item has been previously added to cart
+                    val cart = it.toObject(Cart::class.java)
+                    if ( (cart!!.orderEssentialItems.filter { it.itemid == itemid }).isNotEmpty() )
+                    {
+                        val oldList = cart!!.orderEssentialItems
+                        val ind = oldList.indexOfFirst {
+                            it.itemid == itemid
+                        }
+                        val subtract = oldList[ind].cost
+                        val add = 0.0
+                        val inc = add?.minus(subtract!!)
+                        oldList.removeAt(ind)
+                        dbref.update("orderEssentialItems", oldList)
+                            .addOnSuccessListener {
+                                Toast.makeText(context, "Deleted successfully", Toast.LENGTH_SHORT).show()
+                                dbref.update("total", FieldValue.increment(inc.toLong()))
+                                    .addOnSuccessListener {
+                                        dialog.dismiss()
+                                        mOnExitListener.onExit()
+                                    }
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                            }
+                    }
+                    else {
+                        Toast.makeText(context, "Order not found in cart", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(context, "Cart not found", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    fun modifyItemEssential(uid: String, itemid: String, qty: Int)
+    {
+        val dbref = FirebaseFirestore.getInstance().collection("carts").document(uid)
+        dbref.get()
+            .addOnSuccessListener {
+                if (it!!.exists()) {
+                    //check to see if item has been previously added to cart
+                    val cart = it.toObject(Cart::class.java)
+                    if ( (cart!!.orderEssentialItems.filter { it.itemid == itemid }).isNotEmpty() )
+                    {
+                        val oldList = cart!!.orderEssentialItems
+                        val ind = oldList.indexOfFirst {
+                            it.itemid == itemid
+                        }
+                        val add = oldList[ind].cost?.div(oldList[ind].qty!!)?.times(qty)
+                        val subtract = oldList[ind].cost
+                        val inc = add?.minus(subtract!!)
+                        oldList[ind].qty = qty
+                        oldList[ind].cost = add
+                        dbref.update("orderEssentialItems", oldList)
+                            .addOnSuccessListener {
+                                Toast.makeText(context, "Added to cart successfully", Toast.LENGTH_SHORT).show()
+                                dbref.update("total", FieldValue.increment(inc?.toLong()!!))
+                                    .addOnSuccessListener {
+                                        dialog.dismiss()
+                                        mOnExitListener.onExit()
+                                    }
                             }
                             .addOnFailureListener {
                                 Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()

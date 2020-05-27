@@ -15,7 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.kilagbe.kilagbe.R
 import com.kilagbe.kilagbe.data.Book
 import com.kilagbe.kilagbe.tools.BookAdapter
-import com.kilagbe.kilagbe.tools.BookItemOnClickListener
+import com.kilagbe.kilagbe.tools.ItemOnClickListener
 import com.kilagbe.kilagbe.tools.RecycleViewAdapter
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -67,7 +67,7 @@ class LiteratureBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
                 }
                 literatureTopChatRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 literatureTopChatRecyclerView.adapter = literatureTopChartAdapter
-                val listener = BookItemOnClickListener(context)
+                val listener = ItemOnClickListener(context)
                 literatureTopChartAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {

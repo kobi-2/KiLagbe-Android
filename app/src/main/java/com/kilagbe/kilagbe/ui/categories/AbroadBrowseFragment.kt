@@ -1,16 +1,12 @@
 package com.kilagbe.kilagbe.ui.categories
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,12 +15,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.kilagbe.kilagbe.R
 import com.kilagbe.kilagbe.data.Book
 import com.kilagbe.kilagbe.tools.BookAdapter
-import com.kilagbe.kilagbe.tools.BookItemOnClickListener
+import com.kilagbe.kilagbe.tools.ItemOnClickListener
 import com.kilagbe.kilagbe.tools.RecycleViewAdapter
-import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import kotlinx.android.synthetic.main.activity_customer_home.*
 
 
 class AbroadBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
@@ -73,7 +67,7 @@ class AbroadBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
                 }
                 abroadTopChatRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 abroadTopChatRecyclerView.adapter = abroadTopChartAdapter
-                val listener = BookItemOnClickListener(context)
+                val listener = ItemOnClickListener(context)
                 abroadTopChartAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {

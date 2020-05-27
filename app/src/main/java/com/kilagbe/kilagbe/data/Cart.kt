@@ -3,7 +3,9 @@ package com.kilagbe.kilagbe.data
 
 class Cart(var customeruid: String) {
     var status: String? = null
-    var orderItems = arrayListOf<OrderItems>()
+    var orderBookItems = arrayListOf<OrderItems>()
+    var orderEssentialItems = arrayListOf<OrderItems>()
     var deliverymanuid: String? = null
+    var total: Double? = 0.0
     constructor():this("")
 }

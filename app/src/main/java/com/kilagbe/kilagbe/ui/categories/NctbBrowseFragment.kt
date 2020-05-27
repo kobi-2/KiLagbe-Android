@@ -15,7 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.kilagbe.kilagbe.R
 import com.kilagbe.kilagbe.data.Book
 import com.kilagbe.kilagbe.tools.BookAdapter
-import com.kilagbe.kilagbe.tools.BookItemOnClickListener
+import com.kilagbe.kilagbe.tools.ItemOnClickListener
 import com.kilagbe.kilagbe.tools.RecycleViewAdapter
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -69,7 +69,7 @@ class NctbBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
                 }
                 nctbTopChatRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 nctbTopChatRecyclerView.adapter = nctbTopChartAdapter
-                val listener = BookItemOnClickListener(context)
+                val listener = ItemOnClickListener(context)
                 nctbTopChartAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {

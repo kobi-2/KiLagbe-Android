@@ -13,7 +13,7 @@
 
 
         <ImageView
-            android:id="@+id/itemImg"
+            android:id="@+id/essentialMainImg"
             android:layout_width="196dp"
             android:layout_height="204dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -24,7 +24,7 @@
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
         <TextView
-            android:id="@+id/itemName"
+            android:id="@+id/essentialName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -34,40 +34,48 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/itemImg" />
+            app:layout_constraintTop_toBottomOf="@+id/essentialMainImg" />
 
         <TextView
-            android:id="@+id/itemQty"
+            android:id="@+id/essentialManufacturer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="@+id/essentialName"
+            app:layout_constraintStart_toStartOf="@+id/essentialName"
+            app:layout_constraintTop_toBottomOf="@+id/essentialName" />
+
+        <TextView
+            android:id="@+id/essentialStock"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="TextView"
-            app:layout_constraintEnd_toEndOf="@+id/itemName"
+            app:layout_constraintEnd_toEndOf="@+id/essentialManufacturer"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/itemName" />
+            app:layout_constraintTop_toBottomOf="@+id/essentialManufacturer" />
 
         <Button
-            android:id="@+id/modify_button"
+            android:id="@+id/addToCart_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="14dp"
-            android:layout_marginRight="14dp"
-            android:text="Modify order"
+            android:text="Add to cart"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/delete_button"
             app:layout_constraintHorizontal_bias="0.521"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/essentialStock"
             app:layout_constraintTop_toBottomOf="@+id/quantity_text" />
 
         <TextView
             android:id="@+id/quantity_text"
             android:layout_width="50dp"
             android:layout_height="40dp"
-            android:gravity="center"
             android:text="0"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="@+id/dec_button"
+            app:layout_constraintEnd_toEndOf="@+id/essentialStock"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/dec_button"
             app:layout_constraintTop_toTopOf="@+id/dec_button" />
@@ -78,10 +86,10 @@
             android:layout_height="40dp"
             android:layout_marginTop="12dp"
             android:text="-"
-            app:layout_constraintEnd_toEndOf="@+id/itemQty"
+            app:layout_constraintEnd_toEndOf="@+id/essentialStock"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/itemQty"
-            app:layout_constraintTop_toBottomOf="@+id/itemQty" />
+            app:layout_constraintStart_toStartOf="@+id/essentialStock"
+            app:layout_constraintTop_toBottomOf="@+id/essentialStock" />
 
         <Button
             android:id="@+id/inc_button"
@@ -92,16 +100,6 @@
             app:layout_constraintStart_toEndOf="@+id/quantity_text"
             app:layout_constraintTop_toTopOf="@+id/quantity_text"
             app:layout_constraintVertical_bias="0.523" />
-
-        <Button
-            android:id="@+id/delete_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Delete Order"
-            app:layout_constraintBottom_toBottomOf="@+id/modify_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/modify_button"
-            app:layout_constraintTop_toTopOf="@+id/modify_button" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
