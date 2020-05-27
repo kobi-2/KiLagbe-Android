@@ -6,5 +6,6 @@ class Cart(var customeruid: String) {
     var orderBookItems = arrayListOf<OrderItems>()
     var orderEssentialItems = arrayListOf<OrderItems>()
     var deliverymanuid: String? = null
+    var total: Double? = 0.0
     constructor():this("")
 }

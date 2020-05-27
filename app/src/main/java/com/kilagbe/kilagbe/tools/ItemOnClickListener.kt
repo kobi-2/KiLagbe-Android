@@ -12,7 +12,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kilagbe.kilagbe.R
+import com.kilagbe.kilagbe.data.Book
 import com.kilagbe.kilagbe.data.Cart
+import com.kilagbe.kilagbe.data.Essential
 import com.kilagbe.kilagbe.data.OrderItems
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.Item
@@ -69,7 +71,7 @@ class ItemOnClickListener(val context: Context) : OnItemClickListener{
             }
 
             dialogview.findViewById<Button>(R.id.addToCart_button).setOnClickListener {
-                addToCartBook(item.book.itemId!!, dialogview.findViewById<TextView>(R.id.quantity_text).text.toString().toInt(), FirebaseAuth.getInstance().uid!!)
+                addToCartBook(item.book, dialogview.findViewById<TextView>(R.id.quantity_text).text.toString().toInt(), FirebaseAuth.getInstance().uid!!)
             }
             dialog.setView(dialogview)
         }
@@ -110,7 +112,7 @@ class ItemOnClickListener(val context: Context) : OnItemClickListener{
             }
 
             dialogview.findViewById<Button>(R.id.addToCart_button).setOnClickListener {
-                addToCartEssential(item.essential.itemId!!, dialogview.findViewById<TextView>(R.id.quantity_text).text.toString().toInt(), FirebaseAuth.getInstance().uid!!)
+                addToCartEssential(item.essential, dialogview.findViewById<TextView>(R.id.quantity_text).text.toString().toInt(), FirebaseAuth.getInstance().uid!!)
             }
             dialog.setView(dialogview)
         }
@@ -118,24 +120,26 @@ class ItemOnClickListener(val context: Context) : OnItemClickListener{
         dialog.show()
     }
 
-    fun addToCartBook(itemid: String, qty: Int, uid: String)
+    fun addToCartBook(book: Book, qty: Int, uid: String)
     {
         if ( qty > 0 ) {
-            val order = OrderItems(itemid)
+            val order = OrderItems(book.itemId!!)
             order.qty = qty
+            order.cost = qty * book.price
             val dbref = FirebaseFirestore.getInstance().collection("carts").document(uid)
             dbref.get()
                 .addOnSuccessListener {
                     if (it!!.exists()) {
                         //check to see if item has been previously added to cart
                         val cart = it.toObject(Cart::class.java)
-                        if ( (cart!!.orderBookItems.filter { it.itemid == itemid }).isNotEmpty() )
+                        if ( (cart!!.orderBookItems.filter { it.itemid == book.itemId }).isNotEmpty() )
                         {
                             val oldList = cart!!.orderBookItems
                             val ind = oldList.indexOfFirst {
-                                it.itemid == itemid
+                                it.itemid == book.itemId
                             }
                             oldList[ind].qty = oldList[ind].qty?.plus(qty)
+                            oldList[ind].cost = oldList[ind].cost?.plus(order.cost!!)
                             dbref.update("orderBookItems", oldList)
                                 .addOnSuccessListener {
                                     val inc = -1 * qty
@@ -171,10 +175,18 @@ class ItemOnClickListener(val context: Context) : OnItemClickListener{
                                     Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
                                 }
                         }
+                        dbref.update("total", FieldValue.increment(order.cost!!.toLong()))
+                            .addOnSuccessListener {
+                                Toast.makeText(context, "Updated total for cart", Toast.LENGTH_SHORT).show()
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                            }
                     } else {
                         val cart = Cart(uid)
                         cart.orderBookItems.add(order)
                         cart.status = "ORDERING"
+                        cart.total = cart.total?.plus(order.cost!!)
                         dbref.set(cart)
                             .addOnSuccessListener {
                                 val inc = -1 * qty
@@ -200,10 +212,11 @@ class ItemOnClickListener(val context: Context) : OnItemClickListener{
         }
     }
 
-    fun addToCartEssential(itemid: String, qty: Int, uid: String)
+    fun addToCartEssential(essential: Essential, qty: Int, uid: String)
     {
         if ( qty > 0 ) {
-            val order = OrderItems(itemid)
+            val order = OrderItems(essential.itemId!!)
+            order.cost = qty * essential.price
             order.qty = qty
             val dbref = FirebaseFirestore.getInstance().collection("carts").document(uid)
             dbref.get()
@@ -211,13 +224,14 @@ class ItemOnClickListener(val context: Context) : OnItemClickListener{
                     if (it!!.exists()) {
                         //check to see if item has been previously added to cart
                         val cart = it.toObject(Cart::class.java)
-                        if ( (cart!!.orderEssentialItems.filter { it.itemid == itemid }).isNotEmpty() )
+                        if ( (cart!!.orderEssentialItems.filter { it.itemid == essential.itemId }).isNotEmpty() )
                         {
                             val oldList = cart!!.orderEssentialItems
                             val ind = oldList.indexOfFirst {
-                                it.itemid == itemid
+                                it.itemid == essential.itemId
                             }
                             oldList[ind].qty = oldList[ind].qty?.plus(qty)
+                            oldList[ind].cost = oldList[ind].cost?.plus(order.cost!!)
                             dbref.update("orderEssentialItems", oldList)
                                 .addOnSuccessListener {
                                     val inc = -1 * qty
@@ -254,14 +268,22 @@ class ItemOnClickListener(val context: Context) : OnItemClickListener{
                                     Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
                                 }
                         }
+                        dbref.update("total", FieldValue.increment(order.cost!!.toLong()))
+                            .addOnSuccessListener {
+                                Toast.makeText(context, "Updated total for cart", Toast.LENGTH_SHORT).show()
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                            }
                     } else {
                         val cart = Cart(uid)
                         cart.orderEssentialItems.add(order)
                         cart.status = "ORDERING"
+                        cart.total = cart.total?.plus(order.cost!!)
                         dbref.set(cart)
                             .addOnSuccessListener {
                                 val inc = -1 * qty
-                                FirebaseFirestore.getInstance().collection("books").document(order.itemid).update("amountInStock", FieldValue.increment(inc.toLong()))
+                                FirebaseFirestore.getInstance().collection("essentials").document(order.itemid).update("amountInStock", FieldValue.increment(inc.toLong()))
                                     .addOnSuccessListener {
                                         Toast.makeText(context, "Updated item in database", Toast.LENGTH_SHORT).show()
                                     }

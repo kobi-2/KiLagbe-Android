@@ -2,7 +2,6 @@ package com.kilagbe.kilagbe.tools
 
 import android.app.AlertDialog
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -29,7 +28,6 @@ class OrderItemOnClickListener(val context: Context) : OnItemClickListener
     override fun onItemClick(item: Item<*>, view: View) {
         item as OrderAdapter
         layoutInflater = LayoutInflater.from(context)
-        Toast.makeText(context, "${item.order.itemid}", Toast.LENGTH_SHORT).show()
 
         FirebaseFirestore.getInstance().collection("books").whereEqualTo("itemId", item.order.itemid).get()
             .addOnSuccessListener {
@@ -38,12 +36,10 @@ class OrderItemOnClickListener(val context: Context) : OnItemClickListener
                     val dialogview = layoutInflater.inflate(R.layout.order_item_display, null)
                     val book = it.documents[0].toObject(Book::class.java)
 
-                    Picasso.get().load(book!!.photoUrl!!)
-                        .into(dialogview.findViewById<ImageView>(R.id.itemImg))
+                    Picasso.get().load(book!!.photoUrl!!).into(dialogview.findViewById<ImageView>(R.id.itemImg))
                     dialogview.findViewById<TextView>(R.id.itemName).text = book.name
                     dialogview.findViewById<TextView>(R.id.itemQty).text = item.order.qty.toString()
-                    dialogview.findViewById<TextView>(R.id.quantity_text).text =
-                        item.order.qty.toString()
+                    dialogview.findViewById<TextView>(R.id.quantity_text).text = item.order.qty.toString()
 
                     dialogview.findViewById<Button>(R.id.inc_button).setOnClickListener {
                         var q = dialogview.findViewById<TextView>(R.id.quantity_text).text.toString().toInt()
@@ -104,13 +100,10 @@ class OrderItemOnClickListener(val context: Context) : OnItemClickListener
                         dialog = AlertDialog.Builder(context).create()
                         val dialogview = layoutInflater.inflate(R.layout.order_item_display, null)
                         val book = it.documents[0].toObject(Book::class.java)
-                        Picasso.get().load(book!!.photoUrl!!)
-                            .into(dialogview.findViewById<ImageView>(R.id.itemImg))
+                        Picasso.get().load(book!!.photoUrl!!).into(dialogview.findViewById<ImageView>(R.id.itemImg))
                         dialogview.findViewById<TextView>(R.id.itemName).text = book.name
-                        dialogview.findViewById<TextView>(R.id.itemQty).text =
-                            item.order.qty.toString()
-                        dialogview.findViewById<TextView>(R.id.quantity_text).text =
-                            item.order.qty.toString()
+                        dialogview.findViewById<TextView>(R.id.itemQty).text = item.order.qty.toString()
+                        dialogview.findViewById<TextView>(R.id.quantity_text).text = item.order.qty.toString()
                         dialogview.findViewById<Button>(R.id.inc_button).setOnClickListener {
                             var q =
                                 dialogview.findViewById<TextView>(R.id.quantity_text).text.toString()
@@ -193,12 +186,18 @@ class OrderItemOnClickListener(val context: Context) : OnItemClickListener
                         val ind = oldList.indexOfFirst {
                             it.itemid == itemid
                         }
+                        val subtract = oldList[ind].cost
+                        val add = 0.0
+                        val inc = add?.minus(subtract!!)
                         oldList.removeAt(ind)
                         dbref.update("orderBookItems", oldList)
                             .addOnSuccessListener {
                                 Toast.makeText(context, "Deleted successfully", Toast.LENGTH_SHORT).show()
-                                dialog.dismiss()
-                                mOnExitListener.onExit()
+                                dbref.update("total", FieldValue.increment(inc.toLong()))
+                                    .addOnSuccessListener {
+                                        dialog.dismiss()
+                                        mOnExitListener.onExit()
+                                    }
                             }
                             .addOnFailureListener {
                                 Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
@@ -230,12 +229,19 @@ class OrderItemOnClickListener(val context: Context) : OnItemClickListener
                         val ind = oldList.indexOfFirst {
                             it.itemid == itemid
                         }
+                        val add = oldList[ind].cost?.div(oldList[ind].qty!!)?.times(qty)
+                        val subtract = oldList[ind].cost
+                        val inc = add?.minus(subtract!!)
                         oldList[ind].qty = qty
+                        oldList[ind].cost = add
                         dbref.update("orderBookItems", oldList)
                             .addOnSuccessListener {
                                 Toast.makeText(context, "Added to cart successfully", Toast.LENGTH_SHORT).show()
-                                dialog.dismiss()
-                                mOnExitListener.onExit()
+                                dbref.update("total", FieldValue.increment(inc?.toLong()!!))
+                                    .addOnSuccessListener {
+                                        dialog.dismiss()
+                                        mOnExitListener.onExit()
+                                    }
                             }
                             .addOnFailureListener {
                                 Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
@@ -267,12 +273,18 @@ class OrderItemOnClickListener(val context: Context) : OnItemClickListener
                         val ind = oldList.indexOfFirst {
                             it.itemid == itemid
                         }
+                        val subtract = oldList[ind].cost
+                        val add = 0.0
+                        val inc = add?.minus(subtract!!)
                         oldList.removeAt(ind)
                         dbref.update("orderEssentialItems", oldList)
                             .addOnSuccessListener {
                                 Toast.makeText(context, "Deleted successfully", Toast.LENGTH_SHORT).show()
-                                dialog.dismiss()
-                                mOnExitListener.onExit()
+                                dbref.update("total", FieldValue.increment(inc.toLong()))
+                                    .addOnSuccessListener {
+                                        dialog.dismiss()
+                                        mOnExitListener.onExit()
+                                    }
                             }
                             .addOnFailureListener {
                                 Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
@@ -304,12 +316,19 @@ class OrderItemOnClickListener(val context: Context) : OnItemClickListener
                         val ind = oldList.indexOfFirst {
                             it.itemid == itemid
                         }
+                        val add = oldList[ind].cost?.div(oldList[ind].qty!!)?.times(qty)
+                        val subtract = oldList[ind].cost
+                        val inc = add?.minus(subtract!!)
                         oldList[ind].qty = qty
+                        oldList[ind].cost = add
                         dbref.update("orderEssentialItems", oldList)
                             .addOnSuccessListener {
                                 Toast.makeText(context, "Added to cart successfully", Toast.LENGTH_SHORT).show()
-                                dialog.dismiss()
-                                mOnExitListener.onExit()
+                                dbref.update("total", FieldValue.increment(inc?.toLong()!!))
+                                    .addOnSuccessListener {
+                                        dialog.dismiss()
+                                        mOnExitListener.onExit()
+                                    }
                             }
                             .addOnFailureListener {
                                 Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
