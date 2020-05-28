@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/deliveryman_navigation"
+    app:startDestination="@id/navigation_all_orders">
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.kilagbe.kilagbe.ui.profile.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" />
+
+
+    <fragment
+        android:id="@+id/navigation_all_orders"
+        android:name="com.kilagbe.kilagbe.ui.deliveryman.DeliveryAllOrdersFragment"
+        android:label="@string/all_orders"
+        tools:layout="@layout/fragment_delivery_all_orders" >
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/navigation_my_orders"
+        android:name="com.kilagbe.kilagbe.ui.deliveryman.DeliveryMyOrdersFragment"
+        android:label="@string/my_orders"
+        tools:layout="@layout/fragment_delivery_my_orders" />
+
+
+
+</navigation>
