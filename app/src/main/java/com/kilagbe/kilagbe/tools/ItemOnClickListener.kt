@@ -23,6 +23,8 @@ import com.xwray.groupie.OnItemClickListener
 class ItemOnClickListener(val context: Context) : OnItemClickListener{
     lateinit var dialog: AlertDialog
     lateinit var layoutInflater: LayoutInflater
+    lateinit var mOnExitListener: onExitListener
+
     override fun onItemClick(item: Item<*>, view: View) {
         if ( item is BookAdapter )
         {
@@ -151,6 +153,7 @@ class ItemOnClickListener(val context: Context) : OnItemClickListener{
                                             Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
                                         }
                                     Toast.makeText(context, "Added to cart successfully", Toast.LENGTH_SHORT).show()
+                                    mOnExitListener.onExit()
                                     dialog.dismiss()
                                 }
                                 .addOnFailureListener {
@@ -169,6 +172,7 @@ class ItemOnClickListener(val context: Context) : OnItemClickListener{
                                             Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
                                         }
                                     Toast.makeText(context, "Added to cart successfully", Toast.LENGTH_SHORT).show()
+                                    mOnExitListener.onExit()
                                     dialog.dismiss()
                                 }
                                 .addOnFailureListener {
@@ -198,6 +202,7 @@ class ItemOnClickListener(val context: Context) : OnItemClickListener{
                                         Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
                                     }
                                 Toast.makeText(context, "Added to cart successfully", Toast.LENGTH_SHORT).show()
+                                mOnExitListener.onExit()
                                 dialog.dismiss()
                             }
                             .addOnFailureListener {
@@ -243,6 +248,7 @@ class ItemOnClickListener(val context: Context) : OnItemClickListener{
                                             Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
                                         }
                                     Toast.makeText(context, "Added to cart successfully", Toast.LENGTH_SHORT).show()
+                                    mOnExitListener.onExit()
                                     dialog.dismiss()
                                 }
                                 .addOnFailureListener {
@@ -262,6 +268,7 @@ class ItemOnClickListener(val context: Context) : OnItemClickListener{
                                         }
 
                                     Toast.makeText(context, "Added to cart successfully", Toast.LENGTH_SHORT).show()
+                                    mOnExitListener.onExit()
                                     dialog.dismiss()
                                 }
                                 .addOnFailureListener {
@@ -291,6 +298,7 @@ class ItemOnClickListener(val context: Context) : OnItemClickListener{
                                         Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
                                     }
                                 Toast.makeText(context, "Added to cart successfully", Toast.LENGTH_SHORT).show()
+                                mOnExitListener.onExit()
                                 dialog.dismiss()
                             }
                             .addOnFailureListener {
@@ -303,5 +311,15 @@ class ItemOnClickListener(val context: Context) : OnItemClickListener{
         {
             Toast.makeText(context, "Please enter a quantity greater than 0", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    interface onExitListener
+    {
+        fun onExit()
+    }
+
+    fun setOnExitListener(lol: onExitListener)
+    {
+        this.mOnExitListener = lol
     }
 }

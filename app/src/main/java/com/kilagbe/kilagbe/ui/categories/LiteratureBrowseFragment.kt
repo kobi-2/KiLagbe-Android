@@ -21,7 +21,7 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 
 
-class LiteratureBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
+class LiteratureBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener, ItemOnClickListener.onExitListener {
 
 
     private lateinit var literatureTopChatRecyclerView: RecyclerView
@@ -68,6 +68,7 @@ class LiteratureBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
                 literatureTopChatRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 literatureTopChatRecyclerView.adapter = literatureTopChartAdapter
                 val listener = ItemOnClickListener(context)
+                listener.setOnExitListener(this)
                 literatureTopChartAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {
@@ -79,6 +80,10 @@ class LiteratureBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
         Toast.makeText(this.context, name, Toast.LENGTH_SHORT).show()
     }
 
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun onExit() {
+        initRecyclerView(this!!.activity!!)
+    }
 
 
 }

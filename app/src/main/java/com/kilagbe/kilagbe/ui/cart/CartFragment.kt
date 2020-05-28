@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +25,7 @@ import com.xwray.groupie.GroupieViewHolder
 class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener {
 
     lateinit var cartrecycler: RecyclerView
+    lateinit var totalText: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,7 +35,7 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener {
         val root = inflater.inflate(R.layout.fragment_cart, container, false)
 
         cartrecycler = root.findViewById<RecyclerView>(R.id.orderItemsRecycler)
-
+        totalText = root.findViewById<TextView>(R.id.cart_total)
         root.findViewById<Button>(R.id.checkout_button).setOnClickListener {
             FirebaseFirestore.getInstance().collection("carts").document(FirebaseAuth.getInstance().uid.toString()).update("status", "PENDING")
                 .addOnSuccessListener {
@@ -86,6 +88,7 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener {
                     adapter.setOnItemClickListener(listener)
                     cartrecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL ,false)
                     cartrecycler.adapter = adapter
+                    totalText.text = (temp.total.toString())
                 }
                 else
                 {
