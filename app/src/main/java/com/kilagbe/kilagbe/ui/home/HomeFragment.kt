@@ -22,7 +22,11 @@ import com.kilagbe.kilagbe.data.Essential
 import com.kilagbe.kilagbe.tools.*
 
 
-class HomeFragment : Fragment(), OnCatListener{
+class HomeFragment : Fragment(), OnCatListener, ItemOnClickListener.onExitListener{
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun onExit() {
+        initRecyclerView(this!!.activity!!)
+    }
 
 
     private lateinit var navController : NavController
@@ -116,6 +120,7 @@ class HomeFragment : Fragment(), OnCatListener{
                 essentialRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 essentialRecyclerView.adapter = essentialAdapter
                 val listener = ItemOnClickListener(context)
+                listener.setOnExitListener(this)
                 essentialAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {

@@ -7,6 +7,7 @@
     tools:context=".ui.cart.CartFragment"
     android:padding="32dp">
 
+
     <Button
         android:id="@+id/checkout_button"
         android:layout_width="wrap_content"
@@ -14,22 +15,32 @@
         android:text="Checkout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/orderItemsRecycler"
-        app:layout_constraintVertical_bias="1" />
-
-
+        app:layout_constraintVertical_bias="1.0" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/orderItemsRecycler"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="357dp"
+        android:layout_height="720dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:layout_constraintHorizontal_bias="0.5"
-        android:layout_marginBottom="48dp" />
+        app:layout_constraintVertical_bias="0.007" />
+
+    <TextView
+        android:id="@+id/cart_total"
+        android:layout_width="99dp"
+        android:layout_height="0dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/checkout_button"
+        app:layout_constraintEnd_toStartOf="@+id/checkout_button"
+        app:layout_constraintHorizontal_bias="0.923"
+        app:layout_constraintStart_toStartOf="@+id/orderItemsRecycler"
+        app:layout_constraintTop_toTopOf="@+id/checkout_button"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

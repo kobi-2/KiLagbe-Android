@@ -20,7 +20,7 @@ import com.kilagbe.kilagbe.tools.RecycleViewAdapter
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 
-class UndergraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
+class UndergraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener, ItemOnClickListener.onExitListener {
 
 
     private lateinit var undergradMedicalRecyclerView: RecyclerView
@@ -110,6 +110,7 @@ class UndergraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener
                 undergradBbaRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 undergradBbaRecyclerView.adapter = undergradBbaAdapter
                 val listener = ItemOnClickListener(context)
+                listener.setOnExitListener(this)
                 undergradBbaAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {
@@ -124,6 +125,11 @@ class UndergraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener
 
     override fun onCatClick(name: String?) {
         Toast.makeText(this.context, name, Toast.LENGTH_SHORT).show()
+    }
+
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun onExit() {
+        initRecyclerView(this!!.activity!!)
     }
 
 

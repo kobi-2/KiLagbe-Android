@@ -21,7 +21,7 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 
 
-class NctbBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
+class NctbBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener, ItemOnClickListener.onExitListener {
 
 
     private lateinit var nctbTopChatRecyclerView: RecyclerView
@@ -70,6 +70,7 @@ class NctbBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
                 nctbTopChatRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 nctbTopChatRecyclerView.adapter = nctbTopChartAdapter
                 val listener = ItemOnClickListener(context)
+                listener.setOnExitListener(this)
                 nctbTopChartAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {
@@ -84,6 +85,10 @@ class NctbBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
         Toast.makeText(this.context, name, Toast.LENGTH_SHORT).show()
     }
 
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun onExit() {
+        initRecyclerView(this!!.activity!!)
+    }
 
 
 }

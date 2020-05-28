@@ -22,7 +22,7 @@ import com.xwray.groupie.GroupieViewHolder
 
 
 
-class PostGraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
+class PostGraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener, ItemOnClickListener.onExitListener {
 
 
     private lateinit var postgradMedicalRecyclerView: RecyclerView
@@ -111,6 +111,7 @@ class PostGraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener 
                 postgradMbaRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 postgradMbaRecyclerView.adapter = postgradMbaAdapter
                 val listener = ItemOnClickListener(context)
+                listener.setOnExitListener(this)
                 postgradMbaAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {
@@ -125,6 +126,10 @@ class PostGraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener 
         Toast.makeText(this.context, name, Toast.LENGTH_SHORT).show()
     }
 
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun onExit() {
+        initRecyclerView(this!!.activity!!)
+    }
 
 
 }

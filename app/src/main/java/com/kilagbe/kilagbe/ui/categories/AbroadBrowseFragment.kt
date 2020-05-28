@@ -21,7 +21,7 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 
 
-class AbroadBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
+class AbroadBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener, ItemOnClickListener.onExitListener {
 
 
     private lateinit var abroadTopChatRecyclerView: RecyclerView
@@ -68,6 +68,7 @@ class AbroadBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
                 abroadTopChatRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 abroadTopChatRecyclerView.adapter = abroadTopChartAdapter
                 val listener = ItemOnClickListener(context)
+                listener.setOnExitListener(this)
                 abroadTopChartAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {
@@ -79,6 +80,10 @@ class AbroadBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener {
         Toast.makeText(this.context, name, Toast.LENGTH_SHORT).show()
     }
 
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun onExit() {
+        initRecyclerView(this!!.activity!!)
+    }
 
 
 }
