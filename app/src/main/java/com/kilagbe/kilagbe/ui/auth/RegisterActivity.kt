@@ -7,7 +7,7 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kilagbe.kilagbe.R
-import com.kilagbe.kilagbe.data.Customer
+import com.kilagbe.kilagbe.data.User
 import com.kilagbe.kilagbe.ui.CustomerHome
 import kotlinx.android.synthetic.main.activity_register.*
 
@@ -30,7 +30,7 @@ class RegisterActivity : AppCompatActivity() {
                     password_text.text.toString()
                 )
                     .addOnSuccessListener {
-                        val user = Customer(
+                        val user = User(
                             name_text.text.toString(),
                             email_text.text.toString(),
                             phone_text.text.toString()
