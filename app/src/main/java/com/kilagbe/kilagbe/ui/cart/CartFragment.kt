@@ -156,8 +156,10 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener, CartHe
         totalText.text = (cart.total.toString())
     }
 
+    @SuppressLint("UseRequireInsteadOfGet")
     override fun checkoutSuccess() {
         Toast.makeText(this.activity, "Added cart to orders", Toast.LENGTH_SHORT).show()
+        initRecyclerView(this!!.activity!!)
     }
 
     override fun checkoutFailure() {
