@@ -100,6 +100,7 @@ class HomeFragment : Fragment(), OnCatListener, ItemOnClickListener.onExitListen
                 booksRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
                 booksRecyclerView.adapter = booksAdapter
                 val listener = ItemOnClickListener(context)
+                listener.setOnExitListener(this)
                 booksAdapter.setOnItemClickListener(listener)
             }
             .addOnFailureListener {
