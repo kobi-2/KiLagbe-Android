@@ -25,7 +25,6 @@ import com.kilagbe.kilagbe.tools.CustomerOrderAdapter
 import com.kilagbe.kilagbe.tools.OrderItemOnClickListener
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import kotlinx.android.synthetic.main.alert_dialog_user_confirm_address.*
 
 class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener, CartHelper.cartFoundListener, CartHelper.cartNotFoundFailureListener, CartHelper.checkoutSuccessListener, CartHelper.checkoutFailureListener {
 

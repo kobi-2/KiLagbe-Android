@@ -1,7 +1,9 @@
 package com.kilagbe.kilagbe.ui.deliveryman
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,42 +15,56 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 import com.kilagbe.kilagbe.R
 import com.kilagbe.kilagbe.data.Cart
+import com.kilagbe.kilagbe.data.CompleteOrder
+import com.kilagbe.kilagbe.databasing.OrderHelper
+import com.kilagbe.kilagbe.tools.DeliverymanOrderAdapter
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 
 /**
  * A simple [Fragment] subclass.
  */
-class DeliveryAllOrdersFragment : Fragment() {
+class DeliveryAllOrdersFragment : Fragment(), OrderHelper.getOrdersSuccessListener, OrderHelper.getOrdersFailureListener {
+
+    lateinit var oh: OrderHelper
 
     private lateinit var allOrdersRecycler: RecyclerView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        oh = OrderHelper()
+        oh.setGetOrdersFailureListener(this)
+        oh.setGetOrdersSuccessListener(this)
         val root = inflater.inflate(R.layout.fragment_delivery_all_orders, container, false)
         allOrdersRecycler = root.findViewById(R.id.all_orders_recycler_view)
+
         return root
     }
 
-//    private fun initRecyclerView(context: Context){
-//
-//        val allOrdersAdapter = GroupAdapter<GroupieViewHolder>()
-//
-//        FirebaseFirestore.getInstance().collection("carts").whereEqualTo("status", "PENDING").get()
-//            .addOnSuccessListener {
-//                if ( it.isEmpty )
-//                {
-//                    Toast.makeText(context, "No pending orders", Toast.LENGTH_SHORT).show()
-//                }
-//                else
-//                {
-//                    for ( doc in it.documents )
-//                    {
-//                        val temp = doc.toObject(Cart::class.java)
-//
-//                    }
-//                }
-//            }
-//    }
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun onStart() {
+        initRecyclerView(this!!.activity!!)
+        super.onStart()
+    }
+
+    private fun initRecyclerView(context: Context){
+        oh.getAllOrders()
+    }
+
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun getOrdersSuccess(orderArray: ArrayList<CompleteOrder>) {
+        val context = this!!.activity!!
+        val adapter = GroupAdapter<GroupieViewHolder>()
+
+        orderArray.forEach {
+            adapter.add(DeliverymanOrderAdapter(it, context))
+        }
+        allOrdersRecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL ,false)
+        allOrdersRecycler.adapter = adapter
+    }
+
+    override fun getOrdersFailure() {
+        TODO("Not yet implemented")
+    }
 }

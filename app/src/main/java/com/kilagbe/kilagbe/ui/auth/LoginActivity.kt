@@ -54,7 +54,6 @@ class LoginActivity : AppCompatActivity() {
                                 .addOnSuccessListener {
                                     if ( !it.documents.isEmpty() )
                                     {
-                                        Log.d("CHECK", "${it.documents.toString()}")
                                         Toast.makeText(this, "Signed in successfully", Toast.LENGTH_SHORT).show()
                                         val intent = Intent(this, DeliverymanHome::class.java)
                                         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.and(Intent.FLAG_ACTIVITY_NEW_TASK)

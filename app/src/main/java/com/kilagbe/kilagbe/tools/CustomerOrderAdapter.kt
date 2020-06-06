@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.recyclerview_customer_order_item.view.*
 
 class CustomerOrderAdapter(val order: OrderItems, val context: Context) : Item<GroupieViewHolder>(), ItemHelper.getBookSuccessListener, ItemHelper.getBookFailureListener, ItemHelper.getEssentialSuccessListener, ItemHelper.getEssentialFailureListener
 {
-    val db = ItemHelper(context)
+    val ih = ItemHelper(context)
 
     private lateinit var mViewHolder: GroupieViewHolder
 
@@ -25,13 +25,13 @@ class CustomerOrderAdapter(val order: OrderItems, val context: Context) : Item<G
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         this.mViewHolder = viewHolder
 
-        db.setGetBookSuccessListener(this)
-        db.setGetBookFailureListener(this)
-        db.setGetEssentialSuccessListener(this)
-        db.setGetEssentialFailureListener(this)
+        ih.setGetBookSuccessListener(this)
+        ih.setGetBookFailureListener(this)
+        ih.setGetEssentialSuccessListener(this)
+        ih.setGetEssentialFailureListener(this)
 
-        db.getBook(order.itemid)
-        db.getEssential(order.itemid)
+        ih.getBook(order.itemid)
+        ih.getEssential(order.itemid)
 
     }
 
