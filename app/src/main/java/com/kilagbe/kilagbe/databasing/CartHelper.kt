@@ -413,16 +413,31 @@ class CartHelper(var context: Context?) : ItemHelper.changeAmountEssentialSucces
                 if ( it.exists() )
                 {
                     val temp = it.toObject(Cart::class.java)
-                    order.status = "PENDING"
-                    order.orderId = order.customeruid + "-" + order.timestamp
-                    order.cart = temp!!
-                    order.address = address
-                    val orderref = FirebaseFirestore.getInstance().collection("orders").document(order.orderId!!)
-                    orderref.set(order)
+                    FirebaseFirestore.getInstance().collection("customer").document(uid).get()
                         .addOnSuccessListener {
-                            //reset cart
-                            cartRef.delete()
-                            mCheckoutSuccessListener.checkoutSuccess()
+                            if ( it.exists() )
+                            {
+                                val cust = it.toObject(User::class.java)
+                                order.status = "PENDING"
+                                order.orderId = order.customeruid + "-" + order.timestamp
+                                order.cart = temp!!
+                                order.address = address
+                                order.customerphone = cust!!.phone
+                                val orderref = FirebaseFirestore.getInstance().collection("orders").document(order.orderId!!)
+                                orderref.set(order)
+                                    .addOnSuccessListener {
+                                        //reset cart
+                                        cartRef.delete()
+                                        mCheckoutSuccessListener.checkoutSuccess()
+                                    }
+                                    .addOnFailureListener {
+                                        mCheckoutFailureListener.checkoutFailure()
+                                    }
+                            }
+                            else
+                            {
+                                mCheckoutFailureListener.checkoutFailure()
+                            }
                         }
                         .addOnFailureListener {
                             mCheckoutFailureListener.checkoutFailure()

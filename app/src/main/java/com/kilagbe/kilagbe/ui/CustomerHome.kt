@@ -1,18 +1,14 @@
 package com.kilagbe.kilagbe.ui
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.firebase.auth.FirebaseAuth
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.kilagbe.kilagbe.R
-import com.kilagbe.kilagbe.ui.auth.RegisterActivity
 
 class CustomerHome : AppCompatActivity() {
 
@@ -21,15 +17,6 @@ class CustomerHome : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_customer_home)
-
-        if ( FirebaseAuth.getInstance().currentUser == null )
-        {
-            Toast.makeText(this, "Not logged in", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, RegisterActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK.and(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            startActivity(intent)
-            finish()
-        }
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
