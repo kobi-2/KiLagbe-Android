@@ -74,10 +74,9 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener, CartHe
                     mAlertDialog.setMessage("Do You Confirm This Address?")
                     mAlertDialog.setButton(Dialog.BUTTON_POSITIVE, "YES", DialogInterface.OnClickListener { dialog, which ->
 
-//                          todo: checkoutCart is now here...
+//                          todo: not a todo, but rather a note --- checkoutCart is now here...
                         ch.checkoutCart(FirebaseAuth.getInstance().uid.toString(), mUserAddress)
                         Toast.makeText(context, "Address Confirmed", Toast.LENGTH_SHORT).show()
-//                        todo: make a toast to the user about order confirmation??
                         addressDialog.dismiss()
                     })
 
