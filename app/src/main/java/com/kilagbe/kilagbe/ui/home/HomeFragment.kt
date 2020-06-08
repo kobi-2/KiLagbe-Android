@@ -12,14 +12,17 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.FirebaseFirestore
 import com.kilagbe.kilagbe.R
-import com.kilagbe.kilagbe.tools.RecycleViewAdapter.OnCatListener
 import com.kilagbe.kilagbe.data.Book
+import com.kilagbe.kilagbe.data.Essential
+import com.kilagbe.kilagbe.tools.BookAdapter
+import com.kilagbe.kilagbe.tools.EssentialAdapter
+import com.kilagbe.kilagbe.tools.ItemOnClickListener
+import com.kilagbe.kilagbe.tools.RecycleViewAdapter
+import com.kilagbe.kilagbe.tools.RecycleViewAdapter.OnCatListener
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import com.google.firebase.firestore.FirebaseFirestore
-import com.kilagbe.kilagbe.data.Essential
-import com.kilagbe.kilagbe.tools.*
 
 
 class HomeFragment : Fragment(), OnCatListener, ItemOnClickListener.onExitListener{

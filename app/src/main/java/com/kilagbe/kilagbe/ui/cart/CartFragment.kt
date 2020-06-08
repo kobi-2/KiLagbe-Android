@@ -25,7 +25,6 @@ import com.kilagbe.kilagbe.tools.CustomerOrderAdapter
 import com.kilagbe.kilagbe.tools.OrderItemOnClickListener
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import kotlinx.android.synthetic.main.alert_dialog_user_confirm_address.*
 
 class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener, CartHelper.cartFoundListener, CartHelper.cartNotFoundFailureListener, CartHelper.checkoutSuccessListener, CartHelper.checkoutFailureListener {
 
@@ -96,14 +95,6 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener, CartHe
 //            addressDialog.setCancelable(true)
             addressDialog.show()
 
-
-//            FirebaseFirestore.getInstance().collection("carts").document(FirebaseAuth.getInstance().uid.toString()).update("status", "PENDING")
-//                .addOnSuccessListener {
-//                    Toast.makeText(activity, "Checked out successfully", Toast.LENGTH_SHORT).show()
-//                }
-//                .addOnFailureListener {
-//                    Toast.makeText(activity, "${it.message}", Toast.LENGTH_SHORT).show()
-//                }
         }
 
         return root
@@ -119,48 +110,6 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener, CartHe
         adapter = GroupAdapter<GroupieViewHolder>()
 
         ch.fetchCart(FirebaseAuth.getInstance().uid.toString())
-
-//        FirebaseFirestore.getInstance().collection("carts").document(FirebaseAuth.getInstance().uid.toString()).get()
-//            .addOnSuccessListener {
-//                if ( it!!.exists() )
-//                {
-//                    val temp = it.toObject(Cart::class.java)
-//                    if ( temp!!.orderBookItems.isNotEmpty() )
-//                    {
-//                        temp!!.orderBookItems.forEach { orderItem ->
-//                            adapter.add(CustomerOrderAdapter(orderItem, context))
-//                        }
-//                    }
-//                    else
-//                    {
-//                        Toast.makeText(context, "No book items in cart", Toast.LENGTH_SHORT).show()
-//                    }
-//
-//                    if ( temp!!.orderEssentialItems.isNotEmpty() )
-//                    {
-//                        temp!!.orderEssentialItems.forEach { orderItem ->
-//                            adapter.add(CustomerOrderAdapter(orderItem, context))
-//                        }
-//                    }
-//                    else
-//                    {
-//                        Toast.makeText(context, "No essential items in cart", Toast.LENGTH_SHORT).show()
-//                    }
-//                    val listener = OrderItemOnClickListener(context)
-//                    listener.setOnExitListener(this)
-//                    adapter.setOnItemClickListener(listener)
-//                    cartrecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL ,false)
-//                    cartrecycler.adapter = adapter
-//                    totalText.text = (temp.total.toString())
-//                }
-//                else
-//                {
-//                    Toast.makeText(activity, "No cart found", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//            .addOnFailureListener {
-//                Toast.makeText(activity, "${it.message}", Toast.LENGTH_SHORT).show()
-//            }
     }
 
     @SuppressLint("UseRequireInsteadOfGet")
@@ -170,7 +119,9 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener, CartHe
     }
 
     override fun cartNotFoundFailure() {
-        Toast.makeText(this.activity, "Failed to get cart", Toast.LENGTH_SHORT).show()
+        cartrecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL ,false)
+        cartrecycler.adapter = adapter
+        totalText.text = "0"
     }
 
     @SuppressLint("UseRequireInsteadOfGet")

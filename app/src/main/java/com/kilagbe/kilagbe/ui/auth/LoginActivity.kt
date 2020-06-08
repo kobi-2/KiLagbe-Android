@@ -1,15 +1,14 @@
 package com.kilagbe.kilagbe.ui.auth
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.kilagbe.kilagbe.ui.DeliverymanHome
-import com.kilagbe.kilagbe.ui.CustomerHome
 import com.kilagbe.kilagbe.R
+import com.kilagbe.kilagbe.ui.CustomerHome
+import com.kilagbe.kilagbe.ui.DeliverymanHome
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
@@ -54,7 +53,6 @@ class LoginActivity : AppCompatActivity() {
                                 .addOnSuccessListener {
                                     if ( !it.documents.isEmpty() )
                                     {
-                                        Log.d("CHECK", "${it.documents.toString()}")
                                         Toast.makeText(this, "Signed in successfully", Toast.LENGTH_SHORT).show()
                                         val intent = Intent(this, DeliverymanHome::class.java)
                                         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.and(Intent.FLAG_ACTIVITY_NEW_TASK)
