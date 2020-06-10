@@ -10,7 +10,7 @@ import com.kilagbe.kilagbe.databasing.ItemHelper
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
-import kotlinx.android.synthetic.main.recyclerview_customer_order_item.view.*
+import kotlinx.android.synthetic.main.recyclerview_deliveryman_order_item.view.*
 
 class DeliverymanOrderDetailsAdapter(val order: OrderItems, val context: Context) : Item<GroupieViewHolder>(), ItemHelper.getBookSuccessListener, ItemHelper.getBookFailureListener, ItemHelper.getEssentialSuccessListener, ItemHelper.getEssentialFailureListener
 {
@@ -54,6 +54,7 @@ class DeliverymanOrderDetailsAdapter(val order: OrderItems, val context: Context
     fun binding(viewHolder: GroupieViewHolder, name: String, qty: String, photoUrl: String)
     {
         viewHolder.itemView.itemTitle.text = name
+        viewHolder.itemView.itemQty.text = qty
         Picasso.get().load(photoUrl).into(viewHolder.itemView.itemImg)
     }
 
