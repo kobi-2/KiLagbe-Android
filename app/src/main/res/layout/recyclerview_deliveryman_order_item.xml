@@ -30,17 +30,6 @@
                 app:layout_constraintTop_toTopOf="@+id/itemImg"
                 app:layout_constraintVertical_bias="0.431" />
 
-            <TextView
-                android:id="@+id/itemQty"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/itemTitle"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="@+id/itemTitle"
-                app:layout_constraintTop_toBottomOf="@+id/itemTitle" />
-
             <ImageView
                 android:id="@+id/itemImg"
                 android:layout_width="70dp"

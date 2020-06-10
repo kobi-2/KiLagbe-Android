@@ -13,6 +13,7 @@ import com.kilagbe.kilagbe.R
 import com.kilagbe.kilagbe.data.CompleteOrder
 import com.kilagbe.kilagbe.databasing.OrderHelper
 import com.kilagbe.kilagbe.tools.DeliverymanOrderAdapter
+import com.kilagbe.kilagbe.tools.DeliverymanOrderItemOnClickListener
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 
@@ -55,6 +56,8 @@ class DeliveryAllOrdersFragment : Fragment(), OrderHelper.getOrdersSuccessListen
         orderArray.forEach {
             adapter.add(DeliverymanOrderAdapter(it, context))
         }
+        val listener = DeliverymanOrderItemOnClickListener(context)
+        adapter.setOnItemClickListener(listener)
         allOrdersRecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL ,false)
         allOrdersRecycler.adapter = adapter
     }
