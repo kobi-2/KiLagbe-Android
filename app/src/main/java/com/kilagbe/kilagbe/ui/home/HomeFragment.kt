@@ -28,7 +28,7 @@ import com.xwray.groupie.GroupieViewHolder
 class HomeFragment : Fragment(), OnCatListener, ItemOnClickListener.onExitListener{
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onExit() {
-        initRecyclerView(this!!.activity!!)
+        initRecyclerView(this.activity!!)
     }
 
 
@@ -70,7 +70,7 @@ class HomeFragment : Fragment(), OnCatListener, ItemOnClickListener.onExitListen
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onStart() {
-        initRecyclerView(this!!.activity!!)
+        initRecyclerView(this.activity!!)
         super.onStart()
     }
 
@@ -145,12 +145,12 @@ class HomeFragment : Fragment(), OnCatListener, ItemOnClickListener.onExitListen
     override fun onCatClick(name: String) {
         Toast.makeText(this.context, name, Toast.LENGTH_SHORT).show()
         when(name) {
-            "Undergraduate" -> navController!!.navigate(R.id.action_navigation_home_to_undergraduateBrowseFragment)
-            "Postgraduate" -> navController!!.navigate(R.id.action_navigation_home_to_postGraduateBrowseFragment)
-            "English Medium" -> navController!!.navigate(R.id.action_navigation_home_to_englishMediumBrowseFragment)
-            "NCTB" -> navController!!.navigate(R.id.action_navigation_home_to_nctbBrowseFragment)
-            "Abroad" -> navController!!.navigate(R.id.action_navigation_home_to_abroadBrowseFragment)
-            "Literature" -> navController!!.navigate(R.id.action_navigation_home_to_literatureBrowseFragment)
+            "Undergraduate" -> navController.navigate(R.id.action_navigation_home_to_undergraduateBrowseFragment)
+            "Postgraduate" -> navController.navigate(R.id.action_navigation_home_to_postGraduateBrowseFragment)
+            "English Medium" -> navController.navigate(R.id.action_navigation_home_to_englishMediumBrowseFragment)
+            "NCTB" -> navController.navigate(R.id.action_navigation_home_to_nctbBrowseFragment)
+            "Abroad" -> navController.navigate(R.id.action_navigation_home_to_abroadBrowseFragment)
+            "Literature" -> navController.navigate(R.id.action_navigation_home_to_literatureBrowseFragment)
         }
     }
 

@@ -50,7 +50,7 @@ class NctbBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener, ItemOnC
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onStart() {
-        initRecyclerView(this!!.activity!!)
+        initRecyclerView(this.activity!!)
         super.onStart()
     }
 
@@ -86,7 +86,7 @@ class NctbBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener, ItemOnC
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onExit() {
-        initRecyclerView(this!!.activity!!)
+        initRecyclerView(this.activity!!)
     }
 
 

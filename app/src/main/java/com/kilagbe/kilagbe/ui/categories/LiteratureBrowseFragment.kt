@@ -45,7 +45,7 @@ class LiteratureBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener, I
 
 
 
-        initRecyclerView(this!!.activity!!)
+        initRecyclerView(this.activity!!)
 
         return root
 
@@ -81,7 +81,7 @@ class LiteratureBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener, I
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onExit() {
-        initRecyclerView(this!!.activity!!)
+        initRecyclerView(this.activity!!)
     }
 
 

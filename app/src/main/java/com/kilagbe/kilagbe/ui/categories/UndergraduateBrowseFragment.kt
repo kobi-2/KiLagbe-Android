@@ -56,7 +56,7 @@ class UndergraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onStart() {
-        initRecyclerView(this!!.activity!!)
+        initRecyclerView(this.activity!!)
         super.onStart()
     }
 
@@ -128,7 +128,7 @@ class UndergraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onExit() {
-        initRecyclerView(this!!.activity!!)
+        initRecyclerView(this.activity!!)
     }
 
 

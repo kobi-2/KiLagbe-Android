@@ -58,8 +58,8 @@ class ProfileFragment : Fragment() {
                 Log.d("LOL", "${it.message}")
             }
 
-        username_text.text = user!!.displayName
-        useremail_text.text = user!!.email
+        username_text.text = user.displayName
+        useremail_text.text = user.email
 
 
         username_edit_button.setOnClickListener {
@@ -177,7 +177,7 @@ class ProfileFragment : Fragment() {
     }
 
     fun changeProfileEmail(email: String, user: FirebaseUser) {
-        user!!.updateEmail(email)
+        user.updateEmail(email)
             .addOnSuccessListener {
                 Toast.makeText(activity, "Email changed successfully", Toast.LENGTH_SHORT).show()
             }

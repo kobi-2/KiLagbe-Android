@@ -40,7 +40,7 @@ class DeliveryAllOrdersFragment : Fragment(), OrderHelper.getOrdersSuccessListen
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onStart() {
-        initRecyclerView(this!!.activity!!)
+        initRecyclerView(this.activity!!)
         super.onStart()
     }
 
@@ -50,7 +50,7 @@ class DeliveryAllOrdersFragment : Fragment(), OrderHelper.getOrdersSuccessListen
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun getOrdersSuccess(orderArray: ArrayList<CompleteOrder>) {
-        val context = this!!.activity!!
+        val context = this.activity!!
         val adapter = GroupAdapter<GroupieViewHolder>()
 
         orderArray.forEach {
