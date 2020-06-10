@@ -46,7 +46,7 @@ class CartHelper(var context: Context?) : ItemHelper.changeAmountEssentialSucces
                     {
                         cart = it.toObject(Cart::class.java)!!
                         //if item is already added in cart, increment it
-                        val oldList = cart!!.orderBookItems
+                        val oldList = cart.orderBookItems
                         if ( (oldList.filter { it.itemid == book.itemId }).isNotEmpty() )
                         {
                             //get item index and update at index
@@ -114,7 +114,7 @@ class CartHelper(var context: Context?) : ItemHelper.changeAmountEssentialSucces
                     {
                         cart = it.toObject(Cart::class.java)!!
                         //if item is already added in cart, increment it
-                        val oldList = cart!!.orderEssentialItems
+                        val oldList = cart.orderEssentialItems
                         if ( (oldList.filter { it.itemid == essential.itemId }).isNotEmpty() )
                         {
                             //get item index and update at index

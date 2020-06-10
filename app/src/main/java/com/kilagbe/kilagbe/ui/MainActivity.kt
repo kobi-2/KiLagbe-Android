@@ -38,8 +38,8 @@ class MainActivity : AppCompatActivity(), ProfileHelper.getCustomerSuccessListen
         }
         else
         {
-            ph.getCustomer(uid!!)
-            ph.getDeliveryman(uid!!)
+            ph.getCustomer(uid)
+            ph.getDeliveryman(uid)
         }
     }
 

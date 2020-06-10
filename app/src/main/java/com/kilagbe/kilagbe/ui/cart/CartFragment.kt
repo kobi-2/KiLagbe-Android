@@ -45,7 +45,7 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener, CartHe
     ): View? {
         val root = inflater.inflate(R.layout.fragment_cart, container, false)
 
-        ch = CartHelper(this!!.activity!!)
+        ch = CartHelper(this.activity!!)
 
         ch.setCartFoundListener(this)
         ch.setCartNotFoundFailureListener(this)
@@ -101,7 +101,7 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener, CartHe
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onStart() {
-        initRecyclerView(this!!.activity!!)
+        initRecyclerView(this.activity!!)
         super.onStart()
     }
 
@@ -114,7 +114,7 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener, CartHe
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onExit() {
         Log.d("ONEXIT", "Interface call from cart fragment")
-        initRecyclerView(this!!.activity!!)
+        initRecyclerView(this.activity!!)
     }
 
     override fun cartNotFoundFailure() {
@@ -125,7 +125,7 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener, CartHe
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun cartFound(cart: Cart) {
-        val context = this!!.activity!!
+        val context = this.activity!!
         if ( cart.orderBookItems.isNotEmpty() )
         {
             cart.orderBookItems.forEach { orderItem ->
@@ -158,7 +158,7 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener, CartHe
     @SuppressLint("UseRequireInsteadOfGet")
     override fun checkoutSuccess() {
         Toast.makeText(this.activity, "Added cart to orders", Toast.LENGTH_SHORT).show()
-        initRecyclerView(this!!.activity!!)
+        initRecyclerView(this.activity!!)
     }
 
     override fun checkoutFailure() {

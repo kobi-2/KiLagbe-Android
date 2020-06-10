@@ -15,13 +15,10 @@ class ProfileHelper {
     //profile functionality
     fun getUid(): String?
     {
-        if ( FirebaseAuth.getInstance().currentUser != null )
-        {
-            return FirebaseAuth.getInstance().currentUser!!.uid.toString()
-        }
-        else
-        {
-            return null
+        return if ( FirebaseAuth.getInstance().currentUser != null ) {
+            FirebaseAuth.getInstance().currentUser!!.uid.toString()
+        } else {
+            null
         }
     }
 

@@ -35,7 +35,7 @@ class ItemOnClickListener(val context: Context) : OnItemClickListener, CartHelpe
             dialog = AlertDialog.Builder(context).create()
             val dialogview = layoutInflater.inflate(R.layout.book_display, null)
             Picasso.get().load(item.book.photoUrl).into(dialogview.findViewById<ImageView>(R.id.bookMainImg))
-            dialogview.findViewById<TextView>(R.id.bookName).setText("${item.book.name}")
+            dialogview.findViewById<TextView>(R.id.bookName).text = "${item.book.name}"
             var authors: String? = ""
             item.book.authors.forEach {
                 authors += "$it, "
@@ -44,17 +44,17 @@ class ItemOnClickListener(val context: Context) : OnItemClickListener, CartHelpe
             item.book.categories.forEach {
                 cats += "$it, "
             }
-            dialogview.findViewById<TextView>(R.id.bookAuthors).setText("$authors")
-            dialogview.findViewById<TextView>(R.id.bookPublishers).setText("${item.book.publisher}")
-            dialogview.findViewById<TextView>(R.id.bookCategories).setText("$cats")
-            dialogview.findViewById<TextView>(R.id.bookStock).setText("${item.book.amountInStock}")
+            dialogview.findViewById<TextView>(R.id.bookAuthors).text = "$authors"
+            dialogview.findViewById<TextView>(R.id.bookPublishers).text = "${item.book.publisher}"
+            dialogview.findViewById<TextView>(R.id.bookCategories).text = "$cats"
+            dialogview.findViewById<TextView>(R.id.bookStock).text = "${item.book.amountInStock}"
 
             dialogview.findViewById<Button>(R.id.inc_button).setOnClickListener {
                 var q = dialogview.findViewById<TextView>(R.id.quantity_text).text.toString().toInt()
                 if ( q < item.book.amountInStock!! )
                 {
                     q++
-                    dialogview.findViewById<TextView>(R.id.quantity_text).setText(q.toString())
+                    dialogview.findViewById<TextView>(R.id.quantity_text).text = q.toString()
                 }
                 else
                 {
@@ -67,7 +67,7 @@ class ItemOnClickListener(val context: Context) : OnItemClickListener, CartHelpe
                 if ( q > 0 )
                 {
                     q--
-                    dialogview.findViewById<TextView>(R.id.quantity_text).setText(q.toString())
+                    dialogview.findViewById<TextView>(R.id.quantity_text).text = q.toString()
                 }
                 else
                 {
@@ -86,16 +86,16 @@ class ItemOnClickListener(val context: Context) : OnItemClickListener, CartHelpe
             dialog = AlertDialog.Builder(context).create()
             val dialogview = layoutInflater.inflate(R.layout.essential_display, null)
             Picasso.get().load(item.essential.photoUrl).into(dialogview.findViewById<ImageView>(R.id.essentialMainImg))
-            dialogview.findViewById<TextView>(R.id.essentialName).setText("${item.essential.name}")
-            dialogview.findViewById<TextView>(R.id.essentialStock).setText("${item.essential.amountInStock.toString()}")
-            dialogview.findViewById<TextView>(R.id.essentialManufacturer).setText("${item.essential.manufacturer}")
+            dialogview.findViewById<TextView>(R.id.essentialName).text = "${item.essential.name}"
+            dialogview.findViewById<TextView>(R.id.essentialStock).text = "${item.essential.amountInStock.toString()}"
+            dialogview.findViewById<TextView>(R.id.essentialManufacturer).text = "${item.essential.manufacturer}"
 
             dialogview.findViewById<Button>(R.id.inc_button).setOnClickListener {
                 var q = dialogview.findViewById<TextView>(R.id.quantity_text).text.toString().toInt()
                 if ( q < item.essential.amountInStock!! )
                 {
                     q++
-                    dialogview.findViewById<TextView>(R.id.quantity_text).setText(q.toString())
+                    dialogview.findViewById<TextView>(R.id.quantity_text).text = q.toString()
                 }
                 else
                 {
@@ -108,7 +108,7 @@ class ItemOnClickListener(val context: Context) : OnItemClickListener, CartHelpe
                 if ( q > 0 )
                 {
                     q--
-                    dialogview.findViewById<TextView>(R.id.quantity_text).setText(q.toString())
+                    dialogview.findViewById<TextView>(R.id.quantity_text).text = q.toString()
                 }
                 else
                 {

@@ -9,11 +9,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kilagbe.kilagbe.R
 import com.kilagbe.kilagbe.data.Book
-import com.kilagbe.kilagbe.data.Cart
 import com.kilagbe.kilagbe.databasing.CartHelper
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.Item
@@ -50,9 +48,9 @@ class OrderItemOnClickListener(val context: Context) : OnItemClickListener, Cart
 
                     dialogview.findViewById<Button>(R.id.inc_button).setOnClickListener {
                         var q = dialogview.findViewById<TextView>(R.id.quantity_text).text.toString().toInt()
-                        if (q < book!!.amountInStock!!) {
+                        if (q < book.amountInStock!!) {
                             q++
-                            dialogview.findViewById<TextView>(R.id.quantity_text).setText(q.toString())
+                            dialogview.findViewById<TextView>(R.id.quantity_text).text = q.toString()
                         } else {
                             Toast.makeText(context, "Exceeding quantity in stock", Toast.LENGTH_SHORT).show()
                         }
@@ -62,7 +60,7 @@ class OrderItemOnClickListener(val context: Context) : OnItemClickListener, Cart
                         var q = dialogview.findViewById<TextView>(R.id.quantity_text).text.toString().toInt()
                         if (q > 0) {
                             q--
-                            dialogview.findViewById<TextView>(R.id.quantity_text).setText(q.toString())
+                            dialogview.findViewById<TextView>(R.id.quantity_text).text = q.toString()
                         } else {
                             Toast.makeText(context, "Quantity has to be greater than 0", Toast.LENGTH_SHORT).show()
                         }
@@ -99,10 +97,9 @@ class OrderItemOnClickListener(val context: Context) : OnItemClickListener, Cart
                             var q =
                                 dialogview.findViewById<TextView>(R.id.quantity_text).text.toString()
                                     .toInt()
-                            if (q < book!!.amountInStock!!) {
+                            if (q < book.amountInStock!!) {
                                 q++
-                                dialogview.findViewById<TextView>(R.id.quantity_text)
-                                    .setText(q.toString())
+                                dialogview.findViewById<TextView>(R.id.quantity_text).text = q.toString()
                             } else {
                                 Toast.makeText(
                                     context,
@@ -118,8 +115,7 @@ class OrderItemOnClickListener(val context: Context) : OnItemClickListener, Cart
                                     .toInt()
                             if (q > 0) {
                                 q--
-                                dialogview.findViewById<TextView>(R.id.quantity_text)
-                                    .setText(q.toString())
+                                dialogview.findViewById<TextView>(R.id.quantity_text).text = q.toString()
                             } else {
                                 Toast.makeText(
                                     context,
