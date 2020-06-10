@@ -5,12 +5,12 @@ import com.kilagbe.kilagbe.R
 import com.kilagbe.kilagbe.data.CompleteOrder
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
-import kotlinx.android.synthetic.main.recyclerview_delivery_order_item.view.*
+import kotlinx.android.synthetic.main.recyclerview_delivery_order_list.view.*
 
 class DeliverymanOrderAdapter(val orderItem: CompleteOrder, val context: Context) : Item<GroupieViewHolder>()
 {
     override fun getLayout(): Int {
-        return R.layout.recyclerview_delivery_order_item
+        return R.layout.recyclerview_delivery_order_list
     }
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
