@@ -402,7 +402,7 @@ class CartHelper(var context: Context?) : ItemHelper.changeAmountEssentialSucces
             }
     }
 
-    fun checkoutCart(uid: String, address: String)
+    fun checkoutCart(uid: String, address: String, charge: Double)
     {
         val _timestamp = Date().date.toString() + Date().month.toString() + Date().year.toString() + "-"  + Date().hours.toString() + Date().minutes.toString() + Date().seconds.toString()
         val order = CompleteOrder(uid, _timestamp)
@@ -418,9 +418,10 @@ class CartHelper(var context: Context?) : ItemHelper.changeAmountEssentialSucces
                             if ( it.exists() )
                             {
                                 val cust = it.toObject(User::class.java)
-                                order.status = "PENDING"
+                                order.customerstatus = "AWAITING DELIVERY"
                                 order.orderId = order.customeruid + "-" + order.timestamp
-                                order.cart = temp!!
+                                temp!!.total = temp.total!!.plus(charge)
+                                order.cart = temp
                                 order.address = address
                                 order.customerphone = cust!!.phone
                                 val orderref = FirebaseFirestore.getInstance().collection("orders").document(order.orderId!!)

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -62,7 +63,8 @@ class DeliveryAllOrdersFragment : Fragment(), OrderHelper.getOrdersSuccessListen
         allOrdersRecycler.adapter = adapter
     }
 
+    @SuppressLint("UseRequireInsteadOfGet")
     override fun getOrdersFailure() {
-        TODO("Not yet implemented")
+        Toast.makeText(this.activity!!, "Failed to get orders", Toast.LENGTH_SHORT).show()
     }
 }
