@@ -69,7 +69,7 @@ class OrderHelper {
                         val deliveryman = it.toObject(User::class.java)
                         temp!!.deliverymanuid = deliverymanuid
                         temp.deliverymanphone = deliveryman!!.phone
-                        temp.status = "PICKED UP"
+                        temp.deliverymanstatus = "PICKED UP"
                         dbref.set(temp)
                             .addOnSuccessListener {
                                 mConfirmOrderSuccessListener.confirmOrderSuccess()

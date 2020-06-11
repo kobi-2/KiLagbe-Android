@@ -10,16 +10,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.kilagbe.kilagbe.R
 import com.kilagbe.kilagbe.data.Cart
+import com.kilagbe.kilagbe.data.Location
 import com.kilagbe.kilagbe.databasing.CartHelper
 import com.kilagbe.kilagbe.tools.CustomerOrderAdapter
 import com.kilagbe.kilagbe.tools.OrderItemOnClickListener
@@ -36,6 +35,10 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener, CartHe
     lateinit var cartrecycler: RecyclerView
     lateinit var totalText: TextView
     lateinit var adapter: GroupAdapter<GroupieViewHolder>
+
+    lateinit var locations: ArrayList<Location>
+    lateinit var spinnerList: ArrayList<String>
+    lateinit var spinner: Spinner
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onCreateView(
@@ -59,13 +62,21 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener, CartHe
             addressDialog = AlertDialog.Builder(context).create()
             val addressDialogview = layoutInflater.inflate(R.layout.alert_dialog_user_confirm_address, null)
 
+            locations = arrayListOf<Location>()
+            spinnerList = arrayListOf<String>()
+
+            spinner = addressDialogview.findViewById(R.id.area_spinner)
+            getSpinner()
+
             addressDialogview.findViewById<Button>(R.id.confirm_address_button).setOnClickListener {
+
+                val charge = locations.find { it.name == spinner.selectedItem.toString() }!!.charge
 
                 val editText = addressDialogview.findViewById(R.id.user_address_text) as EditText
                 mUserAddress = editText.text.toString()
 
                 if(mUserAddress.isNullOrBlank()){
-                    Toast.makeText(context, "Please Provide An Address", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this.activity!!, "Please Provide An Address", Toast.LENGTH_SHORT).show()
                 }
                 else{
 
@@ -75,7 +86,7 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener, CartHe
                     mAlertDialog.setButton(Dialog.BUTTON_POSITIVE, "YES", DialogInterface.OnClickListener { dialog, which ->
 
 //                          todo: not a todo, but rather a note --- checkoutCart is now here...
-                        ch.checkoutCart(FirebaseAuth.getInstance().uid.toString(), mUserAddress)
+                        ch.checkoutCart(FirebaseAuth.getInstance().uid.toString(), mUserAddress, charge!!)
                         Toast.makeText(context, "Address Confirmed", Toast.LENGTH_SHORT).show()
                         addressDialog.dismiss()
                     })
@@ -97,6 +108,34 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener, CartHe
         }
 
         return root
+    }
+
+    @SuppressLint("UseRequireInsteadOfGet")
+    fun getSpinner()
+    {
+        FirebaseFirestore.getInstance().collection("locations").get()
+            .addOnSuccessListener {
+                if ( it.isEmpty )
+                {
+                    Toast.makeText(this.activity!!, "Failed to get locations", Toast.LENGTH_SHORT).show()
+                }
+                else
+                {
+                    for ( doc in it )
+                    {
+                        val temp = doc.toObject(Location::class.java)
+                        locations.add(temp)
+                    }
+                }
+                locations.forEach {
+                    spinnerList.add("${it.name}")
+                }
+                val adapter = ArrayAdapter<String>(this.activity!!, android.R.layout.simple_spinner_item, spinnerList)
+                spinner.adapter = adapter
+            }
+            .addOnFailureListener {
+                Toast.makeText(this.activity!!, "Failed to get locations", Toast.LENGTH_SHORT).show()
+            }
     }
 
     @SuppressLint("UseRequireInsteadOfGet")
