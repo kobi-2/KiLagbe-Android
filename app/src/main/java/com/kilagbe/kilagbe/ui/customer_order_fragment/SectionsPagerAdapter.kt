@@ -1,11 +1,10 @@
 package com.kilagbe.kilagbe.ui.customer_order_fragment
 
-import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentStatePagerAdapter
 
-class SectionsPagerAdapter( fm: FragmentManager) : FragmentPagerAdapter(fm){
+class SectionsPagerAdapter( fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
 
