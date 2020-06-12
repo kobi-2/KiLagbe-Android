@@ -72,5 +72,10 @@
         android:name="com.kilagbe.kilagbe.ui.categories.LiteratureBrowseFragment"
         android:label="@string/literature"
         tools:layout="@layout/fragment_literature_browse" />
+    <fragment
+        android:id="@+id/navigation_orders"
+        android:name="com.kilagbe.kilagbe.ui.customer_order_fragment.CustomerOrderMenuFragment"
+        android:label="@string/my_orders"
+        tools:layout="@layout/fragment_customer_order_menu" />
 
 </navigation>
