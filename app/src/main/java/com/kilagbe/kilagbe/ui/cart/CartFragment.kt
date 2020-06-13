@@ -3,7 +3,6 @@ package com.kilagbe.kilagbe.ui.cart
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
@@ -140,11 +139,11 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener, CartHe
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onStart() {
-        initRecyclerView(this.activity!!)
+        initRecyclerView()
         super.onStart()
     }
 
-    fun initRecyclerView(context: Context) {
+    fun initRecyclerView() {
         adapter = GroupAdapter<GroupieViewHolder>()
 
         ch.fetchCart(FirebaseAuth.getInstance().uid.toString())
@@ -153,7 +152,7 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener, CartHe
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onExit() {
         Log.d("ONEXIT", "Interface call from cart fragment")
-        initRecyclerView(this.activity!!)
+        initRecyclerView()
     }
 
     override fun cartNotFoundFailure() {
@@ -197,7 +196,7 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener, CartHe
     @SuppressLint("UseRequireInsteadOfGet")
     override fun checkoutSuccess() {
         Toast.makeText(this.activity, "Added cart to orders", Toast.LENGTH_SHORT).show()
-        initRecyclerView(this.activity!!)
+        initRecyclerView()
     }
 
     override fun checkoutFailure() {

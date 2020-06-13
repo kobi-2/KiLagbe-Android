@@ -34,7 +34,7 @@ class OrderHelper {
             }
     }
 
-    fun getPersonalOrders(uid: String)
+    fun getDeliverymanPersonalOrders(uid: String)
     {
         var orderArray = arrayListOf<CompleteOrder>()
         FirebaseFirestore.getInstance().collection("orders").whereEqualTo("deliverymanuid", uid).get()
@@ -84,6 +84,30 @@ class OrderHelper {
             }
             .addOnFailureListener {
                 mConfirmOrderFailureListener.confirmOrderFailure()
+            }
+    }
+
+    fun getCustomerPersonalOrders(uid: String)
+    {
+        var orderArray = arrayListOf<CompleteOrder>()
+        FirebaseFirestore.getInstance().collection("orders").whereEqualTo("customeruid", uid).get()
+            .addOnSuccessListener {
+                if ( !it.isEmpty )
+                {
+                    for ( doc in it!! )
+                    {
+                        val temp = doc.toObject(CompleteOrder::class.java)
+                        orderArray.add(temp)
+                    }
+                    mGetOrdersSuccessListener.getOrdersSuccess(orderArray)
+                }
+                else
+                {
+                    mGetOrdersFailureListener.getOrdersFailure()
+                }
+            }
+            .addOnFailureListener {
+                mGetOrdersFailureListener.getOrdersFailure()
             }
     }
 

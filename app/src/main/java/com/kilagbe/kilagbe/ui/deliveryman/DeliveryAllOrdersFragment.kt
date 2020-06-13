@@ -1,7 +1,6 @@
 package com.kilagbe.kilagbe.ui.deliveryman
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -41,11 +40,11 @@ class DeliveryAllOrdersFragment : Fragment(), OrderHelper.getOrdersSuccessListen
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onStart() {
-        initRecyclerView(this.activity!!)
+        initRecyclerView()
         super.onStart()
     }
 
-    private fun initRecyclerView(context: Context){
+    private fun initRecyclerView() {
         oh.getAllOrders()
     }
 
