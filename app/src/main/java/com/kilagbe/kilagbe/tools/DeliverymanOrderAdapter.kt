@@ -15,7 +15,7 @@ class DeliverymanOrderAdapter(val orderItem: CompleteOrder, val context: Context
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.order_no_textview.text = orderItem.orderId
-        viewHolder.itemView.phone_no_textview.text = orderItem.customerphone
+//        viewHolder.itemView.phone_no_textview.text = orderItem.customerphone
         viewHolder.itemView.address_textview.text = orderItem.address
     }
 }
