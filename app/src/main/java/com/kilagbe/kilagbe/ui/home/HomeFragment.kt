@@ -12,10 +12,10 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.FirebaseFirestore
 import com.kilagbe.kilagbe.R
 import com.kilagbe.kilagbe.data.Book
 import com.kilagbe.kilagbe.data.Essential
+import com.kilagbe.kilagbe.databasing.ItemHelper
 import com.kilagbe.kilagbe.tools.BookAdapter
 import com.kilagbe.kilagbe.tools.EssentialAdapter
 import com.kilagbe.kilagbe.tools.ItemOnClickListener
@@ -25,20 +25,22 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 
 
-class HomeFragment : Fragment(), OnCatListener, ItemOnClickListener.onExitListener{
+class HomeFragment : Fragment(), OnCatListener, ItemOnClickListener.onExitListener, ItemHelper.getAllEssentialsSuccessListener, ItemHelper.getAllEssentialsFailureListener, ItemHelper.getAllBooksSuccessListener, ItemHelper.getAllBooksFailureListener{
+
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onExit() {
         initRecyclerView(this.activity!!)
     }
 
-
     private lateinit var navController : NavController
+
+    lateinit var mContext: Context
+
+    private lateinit var ih: ItemHelper
 
     private lateinit var essentialRecyclerView: RecyclerView
     private lateinit var categoryRecyclerView: RecyclerView
     private lateinit var booksRecyclerView: RecyclerView
-//    private lateinit var categoryAdapter: RecycleViewAdapter
-//    private lateinit var booksAdapter: RecycleViewAdapter
 
     private var categoryNames = arrayListOf<String>()
     private var demoBookNames = arrayListOf<String>()
@@ -50,9 +52,7 @@ class HomeFragment : Fragment(), OnCatListener, ItemOnClickListener.onExitListen
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         val root = inflater.inflate(R.layout.fragment_home, container, false)
-
 
         essentialRecyclerView = root.findViewById(R.id.essentials_topchart_recycler_view) as RecyclerView
         categoryRecyclerView = root.findViewById(R.id.recycler_view) as RecyclerView
@@ -63,14 +63,20 @@ class HomeFragment : Fragment(), OnCatListener, ItemOnClickListener.onExitListen
         categoryNames = resources.getStringArray(R.array.category_names).toCollection(ArrayList())
         demoBookNames = resources.getStringArray(R.array.demo_book_names).toCollection(ArrayList())
 
+        ih = ItemHelper()
+        ih.setGetAllBooksSuccessListener(this)
+        ih.setGetAllBooksFailureListener(this)
+        ih.setGetAllEssentialsSuccessListener(this)
+        ih.setGetAllEssentialsFailureListener(this)
+
+        mContext = this.context!!
 
         return root
-
     }
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onStart() {
-        initRecyclerView(this.activity!!)
+        initRecyclerView(mContext)
         super.onStart()
     }
 
@@ -85,56 +91,45 @@ class HomeFragment : Fragment(), OnCatListener, ItemOnClickListener.onExitListen
         categoryRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
         categoryRecyclerView.adapter = categoryAdapter
 
-//        val booksAdapter = RecycleViewAdapter(this.context, demoBookNames, this)
-//        booksRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-//        booksRecyclerView.adapter = booksAdapter
-
-
-
-        val booksAdapter = GroupAdapter<GroupieViewHolder>()
-
-        FirebaseFirestore.getInstance().collection("books").get()
-            .addOnSuccessListener {
-                for ( doc in it!! )
-                {
-                    val temp = doc.toObject(Book::class.java)
-                    booksAdapter.add(BookAdapter(temp))
-                }
-                booksRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
-                booksRecyclerView.adapter = booksAdapter
-                val listener = ItemOnClickListener(context)
-                listener.setOnExitListener(this)
-                booksAdapter.setOnItemClickListener(listener)
-            }
-            .addOnFailureListener {
-                Toast.makeText(activity, "${it.message}", Toast.LENGTH_SHORT).show()
-            }
-
-
-
-        val essentialAdapter = GroupAdapter<GroupieViewHolder>()
-
-        FirebaseFirestore.getInstance().collection("essentials").get()
-            .addOnSuccessListener {
-                for ( doc in it!! )
-                {
-                    val temp = doc.toObject(Essential::class.java)
-                    essentialAdapter.add(EssentialAdapter(temp))
-                }
-                essentialRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
-                essentialRecyclerView.adapter = essentialAdapter
-                val listener = ItemOnClickListener(context)
-                listener.setOnExitListener(this)
-                essentialAdapter.setOnItemClickListener(listener)
-            }
-            .addOnFailureListener {
-                Toast.makeText(activity, "${it.message}", Toast.LENGTH_SHORT).show()
-            }
-
-
+        ih.getAllBooks()
+        ih.getAllEssentials()
     }
 
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun getAllBooksSuccess(bookArray: ArrayList<Book>) {
+        val booksAdapter = GroupAdapter<GroupieViewHolder>()
+        bookArray.forEach {
+            booksAdapter.add(BookAdapter(it))
+        }
+        booksRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
+        booksRecyclerView.adapter = booksAdapter
+        val listener = ItemOnClickListener(mContext)
+        listener.setOnExitListener(this)
+        booksAdapter.setOnItemClickListener(listener)
+    }
 
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun getAllBooksFailure() {
+        Toast.makeText(mContext, "Failed to get all books", Toast.LENGTH_SHORT).show()
+    }
+
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun getAllEssentialsSuccess(essentialArray: ArrayList<Essential>) {
+        val essentialAdapter = GroupAdapter<GroupieViewHolder>()
+        essentialArray.forEach {
+            essentialAdapter.add(EssentialAdapter(it))
+        }
+        essentialRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
+        essentialRecyclerView.adapter = essentialAdapter
+        val listener = ItemOnClickListener(mContext)
+        listener.setOnExitListener(this)
+        essentialAdapter.setOnItemClickListener(listener)
+    }
+
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun getAllEssentialsFailure() {
+        Toast.makeText(mContext, "Failed to get all essentials", Toast.LENGTH_SHORT).show()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -153,6 +148,4 @@ class HomeFragment : Fragment(), OnCatListener, ItemOnClickListener.onExitListen
             "Literature" -> navController.navigate(R.id.action_navigation_home_to_literatureBrowseFragment)
         }
     }
-
-
 }

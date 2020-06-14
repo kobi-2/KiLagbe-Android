@@ -10,9 +10,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.FirebaseFirestore
 import com.kilagbe.kilagbe.R
 import com.kilagbe.kilagbe.data.Book
+import com.kilagbe.kilagbe.databasing.ItemHelper
 import com.kilagbe.kilagbe.tools.BookAdapter
 import com.kilagbe.kilagbe.tools.ItemOnClickListener
 import com.kilagbe.kilagbe.tools.RecycleViewAdapter
@@ -20,11 +20,14 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 
 
-class LiteratureBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener, ItemOnClickListener.onExitListener {
+class LiteratureBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener, ItemOnClickListener.onExitListener, ItemHelper.getCategoryBookFailureListener, ItemHelper.getCategoryBookSuccessListener {
 
 
     private lateinit var literatureTopChatRecyclerView: RecyclerView
-//    private lateinit var abroadTopChartAdapter: RecycleViewAdapter
+
+    lateinit var mContext: Context
+
+    private lateinit var ih: ItemHelper
 
     private var demoBookNames = arrayListOf<String>()
 
@@ -43,46 +46,49 @@ class LiteratureBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener, I
         /*getting demo book names data from string resources*/
         demoBookNames = resources.getStringArray(R.array.demo_book_names).toCollection(ArrayList())
 
+        mContext = this.context!!
 
-
-        initRecyclerView(this.activity!!)
-
+        ih = ItemHelper()
+        ih.setGetCategoryBookSuccessListener(this)
+        ih.setGetCategoryBookFailureListener(this)
         return root
 
     }
 
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun onStart() {
+        initRecyclerView()
+        super.onStart()
+    }
 
-
-    private fun initRecyclerView(context: Context){
-
-        val literatureTopChartAdapter = GroupAdapter<GroupieViewHolder>()
-
-        FirebaseFirestore.getInstance().collection("books").get()
-            .addOnSuccessListener {
-                for ( doc in it!! )
-                {
-                    val temp = doc.toObject(Book::class.java)
-                    literatureTopChartAdapter.add(BookAdapter(temp))
-                }
-                literatureTopChatRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
-                literatureTopChatRecyclerView.adapter = literatureTopChartAdapter
-                val listener = ItemOnClickListener(context)
-                listener.setOnExitListener(this)
-                literatureTopChartAdapter.setOnItemClickListener(listener)
-            }
-            .addOnFailureListener {
-                Toast.makeText(activity, "${it.message}", Toast.LENGTH_SHORT).show()
-            }
+    private fun initRecyclerView() {
+        ih.getCategoryBook("Literature")
     }
 
     override fun onCatClick(name: String?) {
-        Toast.makeText(this.context, name, Toast.LENGTH_SHORT).show()
+        Toast.makeText(mContext, name, Toast.LENGTH_SHORT).show()
     }
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onExit() {
-        initRecyclerView(this.activity!!)
+        initRecyclerView()
     }
 
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun getCategoryBookSuccess(bookArray: ArrayList<Book>) {
+        val literatureTopChartAdapter = GroupAdapter<GroupieViewHolder>()
+        bookArray.forEach {
+            literatureTopChartAdapter.add(BookAdapter(it))
+        }
+        literatureTopChatRecyclerView.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL ,false)
+        literatureTopChatRecyclerView.adapter = literatureTopChartAdapter
+        val listener = ItemOnClickListener(mContext)
+        listener.setOnExitListener(this)
+        literatureTopChartAdapter.setOnItemClickListener(listener)
+    }
 
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun getCategoryBookFailure() {
+        Toast.makeText(mContext, "Failed to get books", Toast.LENGTH_SHORT).show()
+    }
 }

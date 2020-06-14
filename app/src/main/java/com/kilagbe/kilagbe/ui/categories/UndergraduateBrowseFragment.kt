@@ -10,24 +10,24 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.FirebaseFirestore
 import com.kilagbe.kilagbe.R
 import com.kilagbe.kilagbe.data.Book
+import com.kilagbe.kilagbe.databasing.ItemHelper
 import com.kilagbe.kilagbe.tools.BookAdapter
 import com.kilagbe.kilagbe.tools.ItemOnClickListener
 import com.kilagbe.kilagbe.tools.RecycleViewAdapter
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 
-class UndergraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener, ItemOnClickListener.onExitListener {
+class UndergraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener, ItemOnClickListener.onExitListener, ItemHelper.getDoubleCategoryBookSuccessListener, ItemHelper.getDoubleCategoryBookFailureListener {
 
 
     private lateinit var undergradMedicalRecyclerView: RecyclerView
     private lateinit var undergradEngineeringRecyclerView: RecyclerView
     private lateinit var undergradBbaRecyclerView: RecyclerView
-//    private lateinit var undergradMedicalAdapter: RecycleViewAdapter
-//    private lateinit var undergradEngineeringAdapter: RecycleViewAdapter
-//    private lateinit var undergradBbaAdapter: RecycleViewAdapter
+
+    lateinit var mContext: Context
+    lateinit var ih: ItemHelper
 
     private var demoBookNames = arrayListOf<String>()
 
@@ -49,74 +49,27 @@ class UndergraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener
         /*getting demo book names data from string resources*/
         demoBookNames = resources.getStringArray(R.array.demo_book_names).toCollection(ArrayList())
 
+        mContext = this.context!!
 
+        ih = ItemHelper()
+        ih.setGetDoubleCategoryBookSuccessListener(this)
+        ih.setGetDoubleCategoryBookFailureListener(this)
 
         return root
     }
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onStart() {
-        initRecyclerView(this.activity!!)
+        initRecyclerView()
         super.onStart()
     }
 
 
-    private fun initRecyclerView(context: Context){
+    private fun initRecyclerView() {
 
-        val undergradMedicalAdapter = GroupAdapter<GroupieViewHolder>()
-        val undergradEngineeringAdapter = GroupAdapter<GroupieViewHolder>()
-        val undergradBbaAdapter = GroupAdapter<GroupieViewHolder>()
-
-        FirebaseFirestore.getInstance().collection("books").get()
-            .addOnSuccessListener {
-                for ( doc in it!! )
-                {
-                    val temp = doc.toObject(Book::class.java)
-                    undergradMedicalAdapter.add(BookAdapter(temp))
-                }
-                undergradMedicalRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
-                undergradMedicalRecyclerView.adapter = undergradMedicalAdapter
-                val listener = ItemOnClickListener(context)
-                undergradMedicalAdapter.setOnItemClickListener(listener)
-            }
-            .addOnFailureListener {
-                Toast.makeText(activity, "${it.message}", Toast.LENGTH_SHORT).show()
-            }
-
-        FirebaseFirestore.getInstance().collection("books").get()
-            .addOnSuccessListener {
-                for ( doc in it!! )
-                {
-                    val temp = doc.toObject(Book::class.java)
-                    undergradEngineeringAdapter.add(BookAdapter(temp))
-                }
-                undergradEngineeringRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
-                undergradEngineeringRecyclerView.adapter = undergradEngineeringAdapter
-                val listener = ItemOnClickListener(context)
-                undergradEngineeringAdapter.setOnItemClickListener(listener)
-            }
-            .addOnFailureListener {
-                Toast.makeText(activity, "${it.message}", Toast.LENGTH_SHORT).show()
-            }
-
-        FirebaseFirestore.getInstance().collection("books").get()
-            .addOnSuccessListener {
-                for ( doc in it!! )
-                {
-                    val temp = doc.toObject(Book::class.java)
-                    undergradBbaAdapter.add(BookAdapter(temp))
-                }
-                undergradBbaRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
-                undergradBbaRecyclerView.adapter = undergradBbaAdapter
-                val listener = ItemOnClickListener(context)
-                listener.setOnExitListener(this)
-                undergradBbaAdapter.setOnItemClickListener(listener)
-            }
-            .addOnFailureListener {
-                Toast.makeText(activity, "${it.message}", Toast.LENGTH_SHORT).show()
-            }
-
-
+        ih.getDoubleCategoryBook("Undergraduate", "Medical")
+        ih.getDoubleCategoryBook("Undergraduate", "Engineering")
+        ih.getDoubleCategoryBook("Undergraduate", "BBA")
 
     }
 
@@ -128,8 +81,34 @@ class UndergraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onExit() {
-        initRecyclerView(this.activity!!)
+        initRecyclerView()
     }
 
+    override fun getDoubleCategoryBookSuccess(bookArray: ArrayList<Book>, cat2: String) {
+        val adapter = GroupAdapter<GroupieViewHolder>()
+        lateinit var recycler: RecyclerView
+        when (cat2) {
+            "Medical" -> {
+                recycler = undergradMedicalRecyclerView
+            }
+            "Engineering" -> {
+                recycler = undergradEngineeringRecyclerView
+            }
+            "BBA" -> {
+                recycler = undergradBbaRecyclerView
+            }
+        }
+        bookArray.forEach {
+            adapter.add(BookAdapter(it))
+        }
+        recycler.adapter = adapter
+        recycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL ,false)
+        val listener = ItemOnClickListener(mContext)
+        listener.setOnExitListener(this)
+        adapter.setOnItemClickListener(listener)
+    }
 
+    override fun getDoubleCategoryBookFailure() {
+        Toast.makeText(mContext, "Failed to get books", Toast.LENGTH_SHORT).show()
+    }
 }

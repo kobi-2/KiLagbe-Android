@@ -44,7 +44,7 @@
                     android:textSize="20sp" />
 
                 <TextView
-                    android:id="@+id/deliveryman_phone_no_textview"
+                    android:id="@+id/phone_no_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -52,12 +52,12 @@
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/address_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Loading Address..."
                     android:layout_marginTop="16dp"
-                    android:textSize="16sp"
-                    />
+                    android:text="Loading Address..."
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/total_price_textview"

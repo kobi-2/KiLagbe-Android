@@ -5,12 +5,13 @@ import android.content.Context
 import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kilagbe.kilagbe.data.*
+import java.text.SimpleDateFormat
 import java.util.*
 
-class CartHelper(var context: Context?) : ItemHelper.changeAmountEssentialSuccessListener, ItemHelper.changeAmountBookSuccessListener {
+class CartHelper(var context: Context?) : ItemHelper.changeAmountEssentialSuccessListener, ItemHelper.changeAmountBookSuccessListener, ItemHelper.changeAmountFailureListener {
 
     constructor():this(null)
-    val ih = ItemHelper(context!!)
+    val ih = ItemHelper()
     init {
         ih.setChangeAmountBookSuccessListener(this)
         ih.setChangeAmountEssentialSuccessListener(this)
@@ -404,7 +405,10 @@ class CartHelper(var context: Context?) : ItemHelper.changeAmountEssentialSucces
 
     fun checkoutCart(uid: String, address: String, charge: Double)
     {
-        val _timestamp = Date().date.toString() + Date().month.toString() + Date().year.toString() + "-"  + Date().hours.toString() + Date().minutes.toString() + Date().seconds.toString()
+        val time = Calendar.getInstance().time
+        val formatter = SimpleDateFormat("yyyy-MM-dd__HH-mm-ss")
+//        val _timestamp = Date().date.toString() + Date().month.toString() + Date().year.toString() + "-"  + Date().hours.toString() + Date().minutes.toString() + Date().seconds.toString()
+        val _timestamp = formatter.format(time)
         val order = CompleteOrder(uid, _timestamp)
         val cartRef = FirebaseFirestore.getInstance().collection("carts").document(uid)
         cartRef.get()
@@ -419,6 +423,8 @@ class CartHelper(var context: Context?) : ItemHelper.changeAmountEssentialSucces
                             {
                                 val cust = it.toObject(User::class.java)
                                 order.customerstatus = "AWAITING DELIVERY"
+                                order.deliverymanstatus = "AWAITING PICK UP"
+                                order.deliverymanphone = ""
                                 order.orderId = order.customeruid + "-" + order.timestamp
                                 temp!!.total = temp.total!!.plus(charge)
                                 order.cart = temp
@@ -534,5 +540,9 @@ class CartHelper(var context: Context?) : ItemHelper.changeAmountEssentialSucces
     interface checkoutFailureListener
     {
         fun checkoutFailure()
+    }
+
+    override fun changeAmountFailure() {
+        Toast.makeText(context, "Failed to change amount", Toast.LENGTH_SHORT).show()
     }
 }

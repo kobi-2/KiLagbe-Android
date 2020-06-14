@@ -1,6 +1,5 @@
 package com.kilagbe.kilagbe.tools
 
-import android.content.Context
 import android.util.Log
 import com.kilagbe.kilagbe.R
 import com.kilagbe.kilagbe.data.Book
@@ -12,9 +11,9 @@ import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.recyclerview_customer_order_item.view.*
 
-class CustomerOrderAdapter(val order: OrderItems, val context: Context) : Item<GroupieViewHolder>(), ItemHelper.getBookSuccessListener, ItemHelper.getBookFailureListener, ItemHelper.getEssentialSuccessListener, ItemHelper.getEssentialFailureListener
+class CustomerOrderAdapter(val order: OrderItems) : Item<GroupieViewHolder>(), ItemHelper.getBookSuccessListener, ItemHelper.getBookFailureListener, ItemHelper.getEssentialSuccessListener, ItemHelper.getEssentialFailureListener
 {
-    val ih = ItemHelper(context)
+    val ih = ItemHelper()
 
     private lateinit var mViewHolder: GroupieViewHolder
 

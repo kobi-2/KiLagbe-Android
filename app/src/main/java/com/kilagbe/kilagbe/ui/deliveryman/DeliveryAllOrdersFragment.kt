@@ -24,8 +24,10 @@ import com.xwray.groupie.GroupieViewHolder
 class DeliveryAllOrdersFragment : Fragment(), OrderHelper.getOrdersSuccessListener, OrderHelper.getOrdersFailureListener {
 
     lateinit var oh: OrderHelper
+    lateinit var mContext: Context
 
     private lateinit var allOrdersRecycler: RecyclerView
+    @SuppressLint("UseRequireInsteadOfGet")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,35 +38,37 @@ class DeliveryAllOrdersFragment : Fragment(), OrderHelper.getOrdersSuccessListen
         val root = inflater.inflate(R.layout.fragment_delivery_all_orders, container, false)
         allOrdersRecycler = root.findViewById(R.id.all_orders_recycler_view)
 
+        mContext = this.context!!
+
         return root
     }
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onStart() {
-        initRecyclerView(this.activity!!)
+        initRecyclerView()
         super.onStart()
     }
 
-    private fun initRecyclerView(context: Context){
-        oh.getAllOrders()
+    private fun initRecyclerView() {
+        oh.getDeliverymanAllOrders()
     }
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun getOrdersSuccess(orderArray: ArrayList<CompleteOrder>) {
-        val context = this.activity!!
+        val context = mContext
         val adapter = GroupAdapter<GroupieViewHolder>()
 
         orderArray.forEach {
-            adapter.add(DeliverymanOrderAdapter(it, context))
+            adapter.add(DeliverymanOrderAdapter(it, mContext))
         }
         val listener = DeliverymanOrderItemOnClickListener(context)
         adapter.setOnItemClickListener(listener)
-        allOrdersRecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL ,false)
+        allOrdersRecycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL ,false)
         allOrdersRecycler.adapter = adapter
     }
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun getOrdersFailure() {
-        Toast.makeText(this.activity!!, "Failed to get orders", Toast.LENGTH_SHORT).show()
+        Toast.makeText(mContext, "Failed to get orders", Toast.LENGTH_SHORT).show()
     }
 }
