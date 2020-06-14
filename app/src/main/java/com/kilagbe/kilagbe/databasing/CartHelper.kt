@@ -8,10 +8,10 @@ import com.kilagbe.kilagbe.data.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CartHelper(var context: Context?) : ItemHelper.changeAmountEssentialSuccessListener, ItemHelper.changeAmountBookSuccessListener {
+class CartHelper(var context: Context?) : ItemHelper.changeAmountEssentialSuccessListener, ItemHelper.changeAmountBookSuccessListener, ItemHelper.changeAmountFailureListener {
 
     constructor():this(null)
-    val ih = ItemHelper(context!!)
+    val ih = ItemHelper()
     init {
         ih.setChangeAmountBookSuccessListener(this)
         ih.setChangeAmountEssentialSuccessListener(this)
@@ -423,6 +423,8 @@ class CartHelper(var context: Context?) : ItemHelper.changeAmountEssentialSucces
                             {
                                 val cust = it.toObject(User::class.java)
                                 order.customerstatus = "AWAITING DELIVERY"
+                                order.deliverymanstatus = "AWAITING PICK UP"
+                                order.deliverymanphone = ""
                                 order.orderId = order.customeruid + "-" + order.timestamp
                                 temp!!.total = temp.total!!.plus(charge)
                                 order.cart = temp
@@ -538,5 +540,9 @@ class CartHelper(var context: Context?) : ItemHelper.changeAmountEssentialSucces
     interface checkoutFailureListener
     {
         fun checkoutFailure()
+    }
+
+    override fun changeAmountFailure() {
+        Toast.makeText(context, "Failed to change amount", Toast.LENGTH_SHORT).show()
     }
 }

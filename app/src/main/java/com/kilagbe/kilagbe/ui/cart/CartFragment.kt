@@ -3,9 +3,9 @@ package com.kilagbe.kilagbe.ui.cart
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +27,7 @@ import com.xwray.groupie.GroupieViewHolder
 class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener, CartHelper.cartFoundListener, CartHelper.cartNotFoundFailureListener, CartHelper.checkoutSuccessListener, CartHelper.checkoutFailureListener {
 
     lateinit var ch: CartHelper
+    lateinit var mContext: Context
 
     lateinit var addressDialog: AlertDialog
     lateinit var mUserAddress: String
@@ -47,7 +48,9 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener, CartHe
     ): View? {
         val root = inflater.inflate(R.layout.fragment_cart, container, false)
 
-        ch = CartHelper(this.activity!!)
+        mContext = this.context!!
+
+        ch = CartHelper(mContext)
 
         ch.setCartFoundListener(this)
         ch.setCartNotFoundFailureListener(this)
@@ -116,7 +119,7 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener, CartHe
             .addOnSuccessListener {
                 if ( it.isEmpty )
                 {
-                    Toast.makeText(this.activity!!, "Failed to get locations", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(mContext, "Failed to get locations", Toast.LENGTH_SHORT).show()
                 }
                 else
                 {
@@ -129,11 +132,11 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener, CartHe
                 locations.forEach {
                     spinnerList.add("${it.name}")
                 }
-                val adapter = ArrayAdapter<String>(this.activity!!, android.R.layout.simple_spinner_item, spinnerList)
+                val adapter = ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, spinnerList)
                 spinner.adapter = adapter
             }
             .addOnFailureListener {
-                Toast.makeText(this.activity!!, "Failed to get locations", Toast.LENGTH_SHORT).show()
+                Toast.makeText(mContext, "Failed to get locations", Toast.LENGTH_SHORT).show()
             }
     }
 
@@ -151,12 +154,11 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener, CartHe
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onExit() {
-        Log.d("ONEXIT", "Interface call from cart fragment")
         initRecyclerView()
     }
 
     override fun cartNotFoundFailure() {
-        cartrecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL ,false)
+        cartrecycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL ,false)
         cartrecycler.adapter = adapter
         totalText.text = "0"
     }
@@ -167,7 +169,7 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener, CartHe
         if ( cart.orderBookItems.isNotEmpty() )
         {
             cart.orderBookItems.forEach { orderItem ->
-                adapter.add(CustomerOrderAdapter(orderItem, context))
+                adapter.add(CustomerOrderAdapter(orderItem))
             }
         }
         else
@@ -178,28 +180,28 @@ class CartFragment : Fragment(), OrderItemOnClickListener.onExitListener, CartHe
         if ( cart.orderEssentialItems.isNotEmpty() )
         {
             cart.orderEssentialItems.forEach { orderItem ->
-                adapter.add(CustomerOrderAdapter(orderItem, context))
+                adapter.add(CustomerOrderAdapter(orderItem))
             }
         }
         else
         {
-            Toast.makeText(context, "No essential items in cart", Toast.LENGTH_SHORT).show()
+            Toast.makeText(mContext, "No essential items in cart", Toast.LENGTH_SHORT).show()
         }
-        val listener = OrderItemOnClickListener(context)
+        val listener = OrderItemOnClickListener(mContext)
         listener.setOnExitListener(this)
         adapter.setOnItemClickListener(listener)
-        cartrecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL ,false)
+        cartrecycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL ,false)
         cartrecycler.adapter = adapter
         totalText.text = (cart.total.toString())
     }
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun checkoutSuccess() {
-        Toast.makeText(this.activity, "Added cart to orders", Toast.LENGTH_SHORT).show()
+        Toast.makeText(mContext, "Added cart to orders", Toast.LENGTH_SHORT).show()
         initRecyclerView()
     }
 
     override fun checkoutFailure() {
-        Toast.makeText(this.activity, "Failed to check out", Toast.LENGTH_SHORT).show()
+        Toast.makeText(mContext, "Failed to check out", Toast.LENGTH_SHORT).show()
     }
 }

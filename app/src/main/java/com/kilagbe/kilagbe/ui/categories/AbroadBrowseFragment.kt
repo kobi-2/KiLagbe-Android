@@ -10,9 +10,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.FirebaseFirestore
 import com.kilagbe.kilagbe.R
 import com.kilagbe.kilagbe.data.Book
+import com.kilagbe.kilagbe.databasing.ItemHelper
 import com.kilagbe.kilagbe.tools.BookAdapter
 import com.kilagbe.kilagbe.tools.ItemOnClickListener
 import com.kilagbe.kilagbe.tools.RecycleViewAdapter
@@ -20,11 +20,14 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 
 
-class AbroadBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener, ItemOnClickListener.onExitListener {
+class AbroadBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener, ItemOnClickListener.onExitListener, ItemHelper.getCategoryBookSuccessListener, ItemHelper.getCategoryBookFailureListener {
 
 
     private lateinit var abroadTopChatRecyclerView: RecyclerView
-//    private lateinit var abroadTopChartAdapter: RecycleViewAdapter
+
+    lateinit var mContext: Context
+
+    private lateinit var ih: ItemHelper
 
     private var demoBookNames = arrayListOf<String>()
 
@@ -36,52 +39,56 @@ class AbroadBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener, ItemO
         // Inflate the layout for this fragment
         val root = inflater.inflate(R.layout.fragment_abroad_browse, container, false)
 
-
         abroadTopChatRecyclerView = root.findViewById(R.id.abroad_top_chart_recycler_view) as RecyclerView
 
         /*getting demo book names data from string resources*/
         demoBookNames = resources.getStringArray(R.array.demo_book_names).toCollection(ArrayList())
 
+        mContext = this.context!!
+
+        ih = ItemHelper()
+        ih.setGetCategoryBookSuccessListener(this)
+        ih.setGetCategoryBookFailureListener(this)
         return root
 
     }
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onStart() {
-        initRecyclerView(this.activity!!)
+        initRecyclerView()
         super.onStart()
     }
 
 
-    private fun initRecyclerView(context: Context){
-
-        val abroadTopChartAdapter = GroupAdapter<GroupieViewHolder>()
-
-        FirebaseFirestore.getInstance().collection("books").get()
-            .addOnSuccessListener {
-                for ( doc in it!! )
-                {
-                    val temp = doc.toObject(Book::class.java)
-                    abroadTopChartAdapter.add(BookAdapter(temp))
-                }
-                abroadTopChatRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
-                abroadTopChatRecyclerView.adapter = abroadTopChartAdapter
-                val listener = ItemOnClickListener(context)
-                listener.setOnExitListener(this)
-                abroadTopChartAdapter.setOnItemClickListener(listener)
-            }
-            .addOnFailureListener {
-                Toast.makeText(activity, "${it.message}", Toast.LENGTH_SHORT).show()
-            }
+    private fun initRecyclerView() {
+        ih.getCategoryBook("Abroad")
     }
 
     override fun onCatClick(name: String?) {
-        Toast.makeText(this.context, name, Toast.LENGTH_SHORT).show()
+        Toast.makeText(mContext, name, Toast.LENGTH_SHORT).show()
     }
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onExit() {
-        initRecyclerView(this.activity!!)
+        initRecyclerView()
+    }
+
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun getCategoryBookSuccess(bookArray: ArrayList<Book>) {
+        val abroadTopChartAdapter = GroupAdapter<GroupieViewHolder>()
+        bookArray.forEach {
+            abroadTopChartAdapter.add(BookAdapter(it))
+        }
+        abroadTopChatRecyclerView.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL ,false)
+        abroadTopChatRecyclerView.adapter = abroadTopChartAdapter
+        val listener = ItemOnClickListener(mContext)
+        listener.setOnExitListener(this)
+        abroadTopChartAdapter.setOnItemClickListener(listener)
+    }
+
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun getCategoryBookFailure() {
+        Toast.makeText(mContext, "Failed to get books", Toast.LENGTH_SHORT).show()
     }
 
 

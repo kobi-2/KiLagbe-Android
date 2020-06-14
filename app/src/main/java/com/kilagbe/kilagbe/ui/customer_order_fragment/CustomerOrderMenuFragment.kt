@@ -1,22 +1,15 @@
 package com.kilagbe.kilagbe.ui.customer_order_fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.kilagbe.kilagbe.R
-import kotlinx.android.synthetic.*
-import kotlinx.android.synthetic.main.activity_deliveryman_home.*
 
-class CustomerOrderMenuFragment() : Fragment() {
+class CustomerOrderMenuFragment : Fragment() {
 
     lateinit var sectionsPagerAdapter: SectionsPagerAdapter
     private lateinit var viewPager: ViewPager

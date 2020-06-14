@@ -9,12 +9,16 @@ class OrderHelper {
     private lateinit var mGetOrdersFailureListener: getOrdersFailureListener
     private lateinit var mConfirmOrderSuccessListener: confirmOrderSuccessListener
     private lateinit var mConfirmOrderFailureListener: confirmOrderFailureListener
+    private lateinit var mReceiveOrderSuccessListener: receiveOrderSuccessListener
+    private lateinit var mReceiveOrderFailureListener: receiveOrderFailureListener
+    private lateinit var mDeliverOrderSuccessListener: deliverOrderSuccessListener
+    private lateinit var mDeliverOrderFailureListener: deliverOrderFailureListener
 
     //order functionality
-    fun getAllOrders()
+    fun getDeliverymanAllOrders()
     {
         var orderArray = arrayListOf<CompleteOrder>()
-        FirebaseFirestore.getInstance().collection("orders").get()
+        FirebaseFirestore.getInstance().collection("orders").whereEqualTo("deliverymanstatus", "AWAITING PICK UP").get()
             .addOnSuccessListener {
                 if ( !it.isEmpty )
                 {
@@ -36,8 +40,8 @@ class OrderHelper {
 
     fun getDeliverymanPersonalOrders(uid: String)
     {
-        var orderArray = arrayListOf<CompleteOrder>()
-        FirebaseFirestore.getInstance().collection("orders").whereEqualTo("deliverymanuid", uid).get()
+        val orderArray = arrayListOf<CompleteOrder>()
+        FirebaseFirestore.getInstance().collection("orders").whereEqualTo("deliverymanuid", uid).whereEqualTo("deliverymanstatus", "PICKED UP").get()
             .addOnSuccessListener {
                 if ( !it.isEmpty )
                 {
@@ -58,7 +62,7 @@ class OrderHelper {
             }
     }
 
-    fun acceptOrder(orderid: String, deliverymanuid: String)
+    fun acceptDeliverymanOrder(orderid: String, deliverymanuid: String)
     {
         val dbref = FirebaseFirestore.getInstance().collection("orders").document(orderid)
         dbref.get()
@@ -87,10 +91,51 @@ class OrderHelper {
             }
     }
 
-    fun getCustomerPersonalOrders(uid: String)
+    fun deliverDeliverymanOrder(orderid: String)
     {
-        var orderArray = arrayListOf<CompleteOrder>()
-        FirebaseFirestore.getInstance().collection("orders").whereEqualTo("customeruid", uid).get()
+        val dbref = FirebaseFirestore.getInstance().collection("orders").document(orderid)
+        dbref.get()
+            .addOnSuccessListener {
+                val temp = it.toObject(CompleteOrder::class.java)
+                temp!!.deliverymanstatus = "DELIVERED"
+                dbref.set(temp)
+                    .addOnSuccessListener {
+                        mDeliverOrderSuccessListener.deliverOrderSuccess()
+                    }
+                    .addOnFailureListener {
+                        mDeliverOrderFailureListener.deliverOrderFailure()
+                    }
+            }
+            .addOnFailureListener {
+                mDeliverOrderFailureListener.deliverOrderFailure()
+            }
+
+    }
+
+    fun receiveCustomerOrder(orderid: String)
+    {
+        val dbref = FirebaseFirestore.getInstance().collection("orders").document(orderid)
+        dbref.get()
+            .addOnSuccessListener {
+                val temp = it.toObject(CompleteOrder::class.java)
+                temp!!.customerstatus = "RECEIVED"
+                dbref.set(temp)
+                    .addOnSuccessListener {
+                        mReceiveOrderSuccessListener.receiveOrderSuccess()
+                    }
+                    .addOnFailureListener {
+                        mReceiveOrderFailureListener.receiveOrderFailure()
+                    }
+            }
+            .addOnFailureListener {
+                mReceiveOrderFailureListener.receiveOrderFailure()
+            }
+    }
+
+    fun getCustomerPersonalPastOrders(uid: String)
+    {
+        val orderArray = arrayListOf<CompleteOrder>()
+        FirebaseFirestore.getInstance().collection("orders").whereEqualTo("customeruid", uid).whereEqualTo("customerstatus", "RECEIVED").get()
             .addOnSuccessListener {
                 if ( !it.isEmpty )
                 {
@@ -111,8 +156,28 @@ class OrderHelper {
             }
     }
 
-    fun viewOrder()
+    fun getCustomerPersonalCurrentOrders(uid: String)
     {
+        var orderArray = arrayListOf<CompleteOrder>()
+        FirebaseFirestore.getInstance().collection("orders").whereEqualTo("customeruid", uid).whereEqualTo("customerstatus", "AWAITING DELIVERY").get()
+            .addOnSuccessListener {
+                if ( !it.isEmpty )
+                {
+                    for ( doc in it!! )
+                    {
+                        val temp = doc.toObject(CompleteOrder::class.java)
+                        orderArray.add(temp)
+                    }
+                    mGetOrdersSuccessListener.getOrdersSuccess(orderArray)
+                }
+                else
+                {
+                    mGetOrdersFailureListener.getOrdersFailure()
+                }
+            }
+            .addOnFailureListener {
+                mGetOrdersFailureListener.getOrdersFailure()
+            }
     }
 
 
@@ -137,6 +202,26 @@ class OrderHelper {
         this.mConfirmOrderFailureListener = lol
     }
 
+    fun setReceiveOrderSuccessListener(lol: receiveOrderSuccessListener)
+    {
+        this.mReceiveOrderSuccessListener = lol
+    }
+
+    fun setReceiveOrderFailureListener(lol: receiveOrderFailureListener)
+    {
+        this.mReceiveOrderFailureListener = lol
+    }
+
+    fun setDeliverOrderSuccessListener(lol: deliverOrderSuccessListener)
+    {
+        this.mDeliverOrderSuccessListener = lol
+    }
+
+    fun setDeliverOrderFailureListener(lol: deliverOrderFailureListener)
+    {
+        this.mDeliverOrderFailureListener = lol
+    }
+
     //interfaces
     interface getOrdersSuccessListener{
         fun getOrdersSuccess(orderArray: ArrayList<CompleteOrder>)
@@ -154,5 +239,25 @@ class OrderHelper {
     interface confirmOrderFailureListener
     {
         fun confirmOrderFailure()
+    }
+
+    interface receiveOrderSuccessListener
+    {
+        fun receiveOrderSuccess()
+    }
+
+    interface receiveOrderFailureListener
+    {
+        fun receiveOrderFailure()
+    }
+
+    interface deliverOrderSuccessListener
+    {
+        fun deliverOrderSuccess()
+    }
+
+    interface deliverOrderFailureListener
+    {
+        fun deliverOrderFailure()
     }
 }

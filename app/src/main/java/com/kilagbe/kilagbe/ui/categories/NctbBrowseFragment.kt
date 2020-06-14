@@ -10,9 +10,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.FirebaseFirestore
 import com.kilagbe.kilagbe.R
 import com.kilagbe.kilagbe.data.Book
+import com.kilagbe.kilagbe.databasing.ItemHelper
 import com.kilagbe.kilagbe.tools.BookAdapter
 import com.kilagbe.kilagbe.tools.ItemOnClickListener
 import com.kilagbe.kilagbe.tools.RecycleViewAdapter
@@ -20,11 +20,13 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 
 
-class NctbBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener, ItemOnClickListener.onExitListener {
-
+class NctbBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener, ItemOnClickListener.onExitListener, ItemHelper.getCategoryBookSuccessListener, ItemHelper.getCategoryBookFailureListener {
 
     private lateinit var nctbTopChatRecyclerView: RecyclerView
-//    private lateinit var nctbTopChartAdapter: RecycleViewAdapter
+
+    private lateinit var ih: ItemHelper
+
+    lateinit var mContext: Context
 
     private var demoBookNames = arrayListOf<String>()
 
@@ -43,6 +45,11 @@ class NctbBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener, ItemOnC
         /*getting demo book names data from string resources*/
         demoBookNames = resources.getStringArray(R.array.demo_book_names).toCollection(ArrayList())
 
+        mContext = this.context!!
+
+        ih = ItemHelper()
+        ih.setGetCategoryBookSuccessListener(this)
+        ih.setGetCategoryBookFailureListener(this)
         return root
 
     }
@@ -50,43 +57,41 @@ class NctbBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener, ItemOnC
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onStart() {
-        initRecyclerView(this.activity!!)
+        initRecyclerView()
         super.onStart()
     }
 
 
-    private fun initRecyclerView(context : Context){
+    private fun initRecyclerView() {
 
-        val nctbTopChartAdapter = GroupAdapter<GroupieViewHolder>()
-
-        FirebaseFirestore.getInstance().collection("books").get()
-            .addOnSuccessListener {
-                for ( doc in it!! )
-                {
-                    val temp = doc.toObject(Book::class.java)
-                    nctbTopChartAdapter.add(BookAdapter(temp))
-                }
-                nctbTopChatRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL ,false)
-                nctbTopChatRecyclerView.adapter = nctbTopChartAdapter
-                val listener = ItemOnClickListener(context)
-                listener.setOnExitListener(this)
-                nctbTopChartAdapter.setOnItemClickListener(listener)
-            }
-            .addOnFailureListener {
-                Toast.makeText(activity, "${it.message}", Toast.LENGTH_SHORT).show()
-            }
-
+        ih.getCategoryBook("NCTB")
     }
 
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun getCategoryBookSuccess(bookArray: ArrayList<Book>) {
+        val nctbTopChartAdapter = GroupAdapter<GroupieViewHolder>()
+        bookArray.forEach {
+            nctbTopChartAdapter.add(BookAdapter(it))
+        }
+        nctbTopChatRecyclerView.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL ,false)
+        nctbTopChatRecyclerView.adapter = nctbTopChartAdapter
+        val listener = ItemOnClickListener(mContext)
+        listener.setOnExitListener(this)
+        nctbTopChartAdapter.setOnItemClickListener(listener)
+    }
 
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun getCategoryBookFailure() {
+        Toast.makeText(mContext, "Failed to get books", Toast.LENGTH_SHORT).show()
+    }
 
     override fun onCatClick(name: String?) {
-        Toast.makeText(this.context, name, Toast.LENGTH_SHORT).show()
+        Toast.makeText(mContext, name, Toast.LENGTH_SHORT).show()
     }
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onExit() {
-        initRecyclerView(this.activity!!)
+        initRecyclerView()
     }
 
 

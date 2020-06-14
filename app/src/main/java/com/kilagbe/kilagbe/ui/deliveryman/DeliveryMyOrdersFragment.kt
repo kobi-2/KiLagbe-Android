@@ -1,6 +1,7 @@
 package com.kilagbe.kilagbe.ui.deliveryman
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +14,7 @@ import com.kilagbe.kilagbe.R
 import com.kilagbe.kilagbe.data.CompleteOrder
 import com.kilagbe.kilagbe.databasing.OrderHelper
 import com.kilagbe.kilagbe.databasing.ProfileHelper
-import com.kilagbe.kilagbe.tools.DeliverymanOrderAdapter
+import com.kilagbe.kilagbe.tools.DeliverymanMyOrderAdapter
 import com.kilagbe.kilagbe.tools.DeliverymanOrderItemOnClickListener
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -23,11 +24,14 @@ import com.xwray.groupie.GroupieViewHolder
  */
 class DeliveryMyOrdersFragment : Fragment(), OrderHelper.getOrdersSuccessListener, OrderHelper.getOrdersFailureListener {
 
-    lateinit var oh: OrderHelper
-    lateinit var ph: ProfileHelper
+    private lateinit var oh: OrderHelper
+    private lateinit var ph: ProfileHelper
+
+    lateinit var mContext: Context
 
     private lateinit var myOrdersRecycler: RecyclerView
 
+    @SuppressLint("UseRequireInsteadOfGet")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,6 +42,8 @@ class DeliveryMyOrdersFragment : Fragment(), OrderHelper.getOrdersSuccessListene
 
         val root = inflater.inflate(R.layout.fragment_delivery_my_orders, container, false)
         myOrdersRecycler = root.findViewById(R.id.my_orders_recycler_view)
+
+        mContext = this.context!!
 
         return root
     }
@@ -55,20 +61,20 @@ class DeliveryMyOrdersFragment : Fragment(), OrderHelper.getOrdersSuccessListene
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun getOrdersSuccess(orderArray: ArrayList<CompleteOrder>) {
-        val context = this.activity!!
+        val context = mContext
         val adapter = GroupAdapter<GroupieViewHolder>()
 
         orderArray.forEach {
-            adapter.add(DeliverymanOrderAdapter(it, context))
+            adapter.add(DeliverymanMyOrderAdapter(it, mContext))
         }
-        val listener = DeliverymanOrderItemOnClickListener(context)
+        val listener = DeliverymanOrderItemOnClickListener(mContext)
         adapter.setOnItemClickListener(listener)
-        myOrdersRecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL ,false)
+        myOrdersRecycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL ,false)
         myOrdersRecycler.adapter = adapter
     }
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun getOrdersFailure() {
-        Toast.makeText(this.activity!!, "Failed to get orders", Toast.LENGTH_SHORT).show()
+        Toast.makeText(mContext, "Failed to get orders", Toast.LENGTH_SHORT).show()
     }
 }
