@@ -6,9 +6,10 @@
 
     <EditText
         android:id="@+id/edit_email"
-        android:inputType="textEmailAddress"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:hint="Please enter your current email"
+        android:inputType="textEmailAddress"
         app:layout_constraintBottom_toTopOf="@+id/edit_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -18,9 +19,10 @@
 
     <EditText
         android:id="@+id/edit_password"
-        android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:hint="Please enter your current password"
+        android:inputType="textPassword"
         app:layout_constraintBottom_toTopOf="@+id/edit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -32,6 +34,7 @@
         android:id="@+id/edit"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:hint="Enter the edited value"
         app:layout_constraintBottom_toTopOf="@+id/edit_confirm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -43,6 +46,7 @@
         android:id="@+id/edit_confirm"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:hint="Confirm by typing in the same value"
         app:layout_constraintBottom_toTopOf="@+id/cancel_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -54,20 +58,46 @@
         android:id="@+id/cancel_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
+        android:layout_marginEnd="124dp"
+        android:layout_marginRight="124dp"
         android:text="Cancel"
-        app:layout_constraintBottom_toTopOf="@+id/confirm_button"
+        app:layout_constraintBottom_toBottomOf="@+id/confirm_button"
         app:layout_constraintEnd_toStartOf="@+id/confirm_button"
-        app:layout_constraintTop_toBottomOf="@+id/edit_confirm" />
+        app:layout_constraintTop_toTopOf="@+id/confirm_button"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/confirm_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="112dp"
         android:text="Confirm"
         app:layout_constraintEnd_toEndOf="@+id/edit_confirm"
         app:layout_constraintTop_toBottomOf="@+id/edit_confirm" />
+
+    <RadioGroup
+        android:id="@+id/usertype_selector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/edit_confirm"
+        app:layout_constraintTop_toBottomOf="@+id/edit_confirm"
+        app:layout_constraintVertical_bias="0.18">
+
+        <RadioButton
+            android:id="@+id/customer_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Customer" />
+
+        <RadioButton
+            android:id="@+id/deliveryman_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Deliveryman" />
+
+    </RadioGroup>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
