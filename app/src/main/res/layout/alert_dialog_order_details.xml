@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -29,7 +30,7 @@
             android:id="@+id/phone_no_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:text="dummy phone no"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/order_no_textview"
@@ -39,8 +40,7 @@
             android:id="@+id/address_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="32dp"
             android:text="dummy address"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/phone_no_textview"
@@ -96,9 +96,62 @@
             android:text="Confirm order"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/grand_total_text_view"
-            app:layout_constraintVertical_bias="0.5" />
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Order No"
+            android:textSize="15dp"
+            app:layout_constraintBottom_toTopOf="@+id/order_no_textview"
+            app:layout_constraintEnd_toEndOf="@+id/order_no_textview"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/order_no_textview"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phone No"
+            android:textSize="15dp"
+            app:layout_constraintBottom_toTopOf="@+id/phone_no_textview"
+            app:layout_constraintEnd_toEndOf="@+id/phone_no_textview"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/phone_no_textview"
+            app:layout_constraintTop_toBottomOf="@+id/order_no_textview"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delivery Address"
+            android:textSize="15dp"
+            app:layout_constraintBottom_toTopOf="@+id/address_textview"
+            app:layout_constraintEnd_toEndOf="@+id/address_textview"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/address_textview"
+            app:layout_constraintTop_toBottomOf="@+id/phone_no_textview"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ordered Items"
+            android:textSize="15dp"
+            app:layout_constraintBottom_toTopOf="@+id/item_list_recycler_view"
+            app:layout_constraintEnd_toEndOf="@+id/item_list_recycler_view"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/item_list_recycler_view"
+            app:layout_constraintTop_toBottomOf="@+id/address_textview"
+            app:layout_constraintVertical_bias="1.0" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
