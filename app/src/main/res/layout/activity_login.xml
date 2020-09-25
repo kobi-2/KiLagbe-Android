@@ -90,15 +90,15 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
+        android:gravity="left"
         android:text="Email"
         android:textSize="25dp"
-        android:gravity="left"
         app:layout_constraintBottom_toTopOf="@+id/email_text"
         app:layout_constraintEnd_toEndOf="@+id/email_text"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/email_text"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.92" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/textView3"
@@ -112,7 +112,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/password_text"
         app:layout_constraintTop_toBottomOf="@+id/email_text"
-        app:layout_constraintVertical_bias="0.567" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/textView4"
@@ -126,6 +126,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/usertype_selector"
         app:layout_constraintTop_toBottomOf="@+id/password_text"
-        app:layout_constraintVertical_bias="0.567" />
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
