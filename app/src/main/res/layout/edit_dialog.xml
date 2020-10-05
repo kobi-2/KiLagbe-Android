@@ -5,82 +5,106 @@
     android:layout_width="300dp"
     android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/edit_email"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Please enter your current email"
-        android:textSize="@dimen/label_fullscreen"
-        android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/edit_password"
+    <TextView
+        android:id="@+id/email_text"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:text="Email"
+        android:textSize="@dimen/label_dialog"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.051" />
+        app:layout_constraintVertical_bias="0.038" />
+
+    <EditText
+        android:id="@+id/edit_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:textSize="@dimen/text_dialog"
+        app:layout_constraintEnd_toEndOf="@+id/email_text"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/email_text"
+        app:layout_constraintTop_toBottomOf="@+id/email_text" />
+
+    <TextView
+        android:id="@+id/password_text"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="12dp"
+        android:text="Password"
+        android:textSize="@dimen/label_dialog"
+        app:layout_constraintEnd_toEndOf="@+id/edit_email"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/edit_email"
+        app:layout_constraintTop_toBottomOf="@+id/edit_email" />
 
     <EditText
         android:id="@+id/edit_password"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Please enter your current password"
-        android:textSize="@dimen/label_fullscreen"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:ems="10"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/edit"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="@dimen/text_dialog"
+        app:layout_constraintEnd_toEndOf="@+id/password_text"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_email"
-        app:layout_constraintVertical_bias="0.051" />
+        app:layout_constraintStart_toStartOf="@+id/password_text"
+        app:layout_constraintTop_toBottomOf="@+id/password_text" />
+
+    <TextView
+        android:id="@+id/edit_text"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="12dp"
+        android:text="Enter new value"
+        android:textSize="@dimen/label_dialog"
+        app:layout_constraintEnd_toEndOf="@+id/edit_password"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/edit_password"
+        app:layout_constraintTop_toBottomOf="@+id/edit_password" />
 
     <EditText
         android:id="@+id/edit"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Enter the edited value"
-        android:textSize="@dimen/label_fullscreen"
-        app:layout_constraintBottom_toTopOf="@+id/edit_confirm"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_password"
-        app:layout_constraintVertical_bias="0.051" />
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:inputType="text"
+        android:textSize="@dimen/text_dialog"
+        app:layout_constraintEnd_toEndOf="@+id/edit_text"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/edit_text"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text" />
+
+    <TextView
+        android:id="@+id/confirm_text"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="12dp"
+        android:text="Confirm new value"
+        android:textSize="@dimen/label_dialog"
+        app:layout_constraintEnd_toEndOf="@+id/edit"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/edit"
+        app:layout_constraintTop_toBottomOf="@+id/edit" />
 
     <EditText
         android:id="@+id/edit_confirm"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Confirm by typing in the same value"
-        android:textSize="@dimen/label_fullscreen"
-        app:layout_constraintBottom_toTopOf="@+id/cancel_button"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:inputType="text"
+        android:textSize="@dimen/text_dialog"
+        app:layout_constraintEnd_toEndOf="@+id/confirm_text"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit"
-        app:layout_constraintVertical_bias="0.041" />
-
-    <Button
-        android:id="@+id/cancel_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="124dp"
-        android:layout_marginRight="124dp"
-        android:text="Cancel"
-        android:textSize="@dimen/text_button"
-        app:layout_constraintBottom_toBottomOf="@+id/confirm_button"
-        app:layout_constraintEnd_toStartOf="@+id/confirm_button"
-        app:layout_constraintTop_toTopOf="@+id/confirm_button"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/confirm_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="112dp"
-        android:text="Confirm"
-        android:textSize="@dimen/text_button"
-        app:layout_constraintEnd_toEndOf="@+id/edit_confirm"
-        app:layout_constraintTop_toBottomOf="@+id/edit_confirm" />
+        app:layout_constraintStart_toStartOf="@+id/confirm_text"
+        app:layout_constraintTop_toBottomOf="@+id/confirm_text" />
 
     <RadioGroup
         android:id="@+id/usertype_selector"
@@ -90,7 +114,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/edit_confirm"
         app:layout_constraintTop_toBottomOf="@+id/edit_confirm"
-        app:layout_constraintVertical_bias="0.18">
+        app:layout_constraintVertical_bias="0.12">
 
         <RadioButton
             android:id="@+id/customer_radio"
@@ -106,5 +130,29 @@
 
     </RadioGroup>
 
+    <Button
+        android:id="@+id/confirm_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirm"
+        android:textSize="@dimen/text_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/usertype_selector"
+        app:layout_constraintHorizontal_bias="0.216"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/usertype_selector"
+        app:layout_constraintVertical_bias="0.503" />
 
+    <Button
+        android:id="@+id/cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:textSize="@dimen/text_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.563"
+        app:layout_constraintStart_toEndOf="@+id/confirm_button"
+        app:layout_constraintTop_toBottomOf="@+id/usertype_selector"
+        app:layout_constraintVertical_bias="0.503" />
 </androidx.constraintlayout.widget.ConstraintLayout>
