@@ -15,5 +15,15 @@
     <dimen name="cardview_custom_corner_radius">20dp</dimen>
     <dimen name="cardview_custom_elevation">10dp</dimen>
 
+    <!--  Font sizes  -->
+    <dimen name="label_fullscreen"></dimen>
+    <dimen name="text_fullscreen"></dimen>
+    <dimen name="text_button"></dimen>
+    <dimen name="label_dialog"></dimen>
+    <dimen name="text_dialog"></dimen>
+    <dimen name="text_carditem_main"></dimen>
+    <dimen name="text_carditem_regular"></dimen>
+    <dimen name="text_recycleritem_regular"></dimen>
+
 
 </resources>
