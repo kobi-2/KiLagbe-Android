@@ -16,15 +16,15 @@
     <dimen name="cardview_custom_elevation">10dp</dimen>
 
     <!--  Font sizes  -->
-    <dimen name="label_fullscreen"></dimen>
-    <dimen name="text_fullscreen"></dimen>
-    <dimen name="text_button"></dimen>
-    <dimen name="label_dialog"></dimen>
-    <dimen name="text_dialog"></dimen>
-    <dimen name="text_carditem_main"></dimen>
-    <dimen name="text_carditem_regular"></dimen>
-    <dimen name="text_recycleritem_regular"></dimen>
-    <dimen name="text_recycleritem_large"></dimen>
+    <dimen name="label_fullscreen">24sp</dimen>
+    <dimen name="text_fullscreen">20sp</dimen>
+    <dimen name="text_button">16sp</dimen>
+    <dimen name="label_dialog">20sp</dimen>
+    <dimen name="text_dialog">18sp</dimen>
+    <dimen name="text_carditem_main">24sp</dimen>
+    <dimen name="text_carditem_regular">18sp</dimen>
+    <dimen name="text_recycleritem_regular">18sp</dimen>
+    <dimen name="text_recycleritem_large">20sp</dimen>
 
 
 </resources>
