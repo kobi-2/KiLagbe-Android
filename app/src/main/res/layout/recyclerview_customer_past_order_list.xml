@@ -25,7 +25,7 @@
             android:gravity="center"
             android:text="Loading Order No..."
             android:textColor="@color/colorPrimary"
-            android:textSize="20sp"
+            android:textSize="@dimen/text_recycleritem_large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.2"
             app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Loading Phone Number..."
-            android:textSize="20sp"
+            android:textSize="@dimen/text_recycleritem_large"
             app:layout_constraintStart_toStartOf="@+id/order_no_textview"
             app:layout_constraintTop_toBottomOf="@+id/order_no_textview" />
 
@@ -48,7 +48,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:text="Loading Total Price..."
-            android:textSize="20sp"
+            android:textSize="@dimen/text_recycleritem_large"
             app:layout_constraintStart_toStartOf="@+id/deliveryman_phone_no_textview"
             app:layout_constraintTop_toBottomOf="@+id/deliveryman_phone_no_textview" />
 

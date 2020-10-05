@@ -22,7 +22,7 @@
             android:gravity="start"
             android:text="@string/essentials"
             android:textAlignment="textStart"
-            android:textSize="20sp"
+            android:textSize="@dimen/label_fullscreen"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -50,7 +50,7 @@
             android:gravity="start"
             android:text="@string/book_categories"
             android:textAlignment="textStart"
-            android:textSize="20sp"
+            android:textSize="@dimen/label_fullscreen"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/essentials_topchart_recycler_view" />
@@ -75,7 +75,7 @@
             android:gravity="start"
             android:text="@string/books_top_chart"
             android:textAlignment="textStart"
-            android:textSize="20sp"
+            android:textSize="@dimen/label_fullscreen"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recycler_view" />
 

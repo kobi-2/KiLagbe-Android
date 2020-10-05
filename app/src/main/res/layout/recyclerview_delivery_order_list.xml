@@ -38,7 +38,7 @@
             android:gravity="center"
             android:text="Loading Order No..."
             android:textColor="@color/colorPrimary"
-            android:textSize="20sp" />
+            android:textSize="@dimen/text_recycleritem_large" />
 
         <TextView
             android:id="@+id/address_textview"
@@ -47,7 +47,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:text="Loading Address..."
-            android:textSize="20sp"/>
+            android:textSize="@dimen/text_recycleritem_large"/>
         </LinearLayout>
 
         <LinearLayout
@@ -68,7 +68,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:elevation="10dp"
-                android:text="Take Order" />
+                android:text="Take Order"
+                android:textSize="@dimen/text_button"/>
         </LinearLayout>
 
 

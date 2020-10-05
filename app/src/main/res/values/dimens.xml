@@ -24,6 +24,7 @@
     <dimen name="text_carditem_main"></dimen>
     <dimen name="text_carditem_regular"></dimen>
     <dimen name="text_recycleritem_regular"></dimen>
+    <dimen name="text_recycleritem_large"></dimen>
 
 
 </resources>
