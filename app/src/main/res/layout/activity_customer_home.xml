@@ -7,9 +7,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+            android:id="@+id/actv_customer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="50">
+
+            <requestFocus />
+        </androidx.appcompat.widget.AppCompatAutoCompleteTextView>
 
         <fragment
             android:id="@+id/nav_host_fragment"
@@ -20,7 +30,7 @@
             app:defaultNavHost="true"
             app:navGraph="@navigation/mobile_navigation" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:layout_width="wrap_content"
