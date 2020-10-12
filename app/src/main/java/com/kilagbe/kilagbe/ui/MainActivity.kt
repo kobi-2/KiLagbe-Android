@@ -12,7 +12,7 @@ import com.kilagbe.kilagbe.ui.auth.LoginActivity
 class MainActivity : AppCompatActivity(), ProfileHelper.getCustomerSuccessListener, ProfileHelper.getCustomerFailureListener, ProfileHelper.getDeliverymanSuccessListener, ProfileHelper.getDeliverymanFailureListener{
 
     lateinit var ph: ProfileHelper
-
+    private val SPLASH_TIME_OUT:Long = 3000
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
