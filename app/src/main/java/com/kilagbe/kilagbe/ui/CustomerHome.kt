@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
@@ -59,6 +60,6 @@ class CustomerHome : AppCompatActivity(), ItemHelper.getAllBooksSuccessListener,
     }
 
     override fun getAllBooksFailure() {
-        TODO("Not yet implemented")
+        Toast.makeText(this, "Could not fetch all books", Toast.LENGTH_SHORT).show()
     }
 }
