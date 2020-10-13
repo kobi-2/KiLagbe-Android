@@ -6,17 +6,26 @@
     android:layout_height="wrap_content"
     android:padding="10dp">
 
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="70dp"
+        android:src="@drawable/ki_lagbe"
+        app:layout_constrainedWidth="true"
+        />
+
+
     <TextView
         android:id="@+id/textView11"
         android:layout_width="189dp"
         android:layout_height="62dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="1dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="70dp"
         android:text="@string/app_name"
         android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,8 +15,16 @@
         <androidx.appcompat.widget.AppCompatAutoCompleteTextView
             android:id="@+id/actv_customer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="50">
+            android:layout_height="43dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/radius"
+            android:ems="50"
+            android:hint="Search for books"
+
+            android:shadowRadius="@integer/config_navAnimTime"
+
+
+            >
 
             <requestFocus />
         </androidx.appcompat.widget.AppCompatAutoCompleteTextView>
