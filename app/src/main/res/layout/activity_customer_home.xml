@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="43dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/radius"
+            android:background="@drawable/textbox_background"
             android:ems="50"
             android:hint="Search for books"
 
