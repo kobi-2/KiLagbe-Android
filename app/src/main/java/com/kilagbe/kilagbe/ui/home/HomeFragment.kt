@@ -71,6 +71,12 @@ class HomeFragment : Fragment(), OnCatListener, ItemOnClickListener.onExitListen
 
         mContext = this.context!!
 
+        // FAB
+        val fab: View = root.findViewById(R.id.fab)
+        fab.setOnClickListener { view ->
+            navController.navigate(R.id.navigation_cart)
+        }
+
         return root
     }
 

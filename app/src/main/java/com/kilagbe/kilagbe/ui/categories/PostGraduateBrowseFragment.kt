@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kilagbe.kilagbe.R
@@ -30,6 +32,7 @@ class PostGraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener,
     private lateinit var postgradEngineeringRecyclerView: RecyclerView
     private lateinit var postgradMbaRecyclerView: RecyclerView
 
+    private lateinit var navController : NavController
 
     private var demoBookNames = arrayListOf<String>()
 
@@ -57,6 +60,14 @@ class PostGraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener,
         ih.setGetDoubleCategoryBookSuccessListener(this)
         ih.setGetDoubleCategoryBookFailureListener(this)
 
+
+        // FAB
+        val fab: View = root.findViewById(R.id.fab)
+        fab.setOnClickListener { view ->
+            navController.navigate(R.id.navigation_cart)
+        }
+
+
         return root
 
     }
@@ -67,6 +78,12 @@ class PostGraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener,
         super.onStart()
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
+    }
+
+    
     private fun initRecyclerView() {
 
         ih.getDoubleCategoryBook("Postgraduate", "Medical")

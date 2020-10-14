@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kilagbe.kilagbe.R
@@ -25,6 +27,8 @@ class UndergraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener
     private lateinit var undergradMedicalRecyclerView: RecyclerView
     private lateinit var undergradEngineeringRecyclerView: RecyclerView
     private lateinit var undergradBbaRecyclerView: RecyclerView
+
+    private lateinit var navController : NavController
 
     lateinit var mContext: Context
     lateinit var ih: ItemHelper
@@ -55,6 +59,14 @@ class UndergraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener
         ih.setGetDoubleCategoryBookSuccessListener(this)
         ih.setGetDoubleCategoryBookFailureListener(this)
 
+
+        // FAB
+        val fab: View = root.findViewById(R.id.fab)
+        fab.setOnClickListener { view ->
+            navController.navigate(R.id.navigation_cart)
+        }
+
+
         return root
     }
 
@@ -64,6 +76,10 @@ class UndergraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener
         super.onStart()
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
+    }
 
     private fun initRecyclerView() {
 
@@ -111,4 +127,5 @@ class UndergraduateBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener
     override fun getDoubleCategoryBookFailure() {
         Toast.makeText(mContext, "Failed to get books", Toast.LENGTH_SHORT).show()
     }
+
 }

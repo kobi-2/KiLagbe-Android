@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kilagbe.kilagbe.R
@@ -24,6 +26,7 @@ class AbroadBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener, ItemO
 
 
     private lateinit var abroadTopChatRecyclerView: RecyclerView
+    private lateinit var navController : NavController
 
     lateinit var mContext: Context
 
@@ -49,8 +52,15 @@ class AbroadBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener, ItemO
         ih = ItemHelper()
         ih.setGetCategoryBookSuccessListener(this)
         ih.setGetCategoryBookFailureListener(this)
-        return root
 
+        // FAB
+        val fab: View = root.findViewById(R.id.fab)
+        fab.setOnClickListener { view ->
+            navController.navigate(R.id.navigation_cart)
+        }
+
+
+        return root
     }
 
     @SuppressLint("UseRequireInsteadOfGet")
@@ -59,6 +69,10 @@ class AbroadBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener, ItemO
         super.onStart()
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
+    }
 
     private fun initRecyclerView() {
         ih.getCategoryBook("Abroad")

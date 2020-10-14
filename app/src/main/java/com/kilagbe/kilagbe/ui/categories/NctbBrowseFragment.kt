@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kilagbe.kilagbe.R
@@ -23,6 +25,7 @@ import com.xwray.groupie.GroupieViewHolder
 class NctbBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener, ItemOnClickListener.onExitListener, ItemHelper.getCategoryBookSuccessListener, ItemHelper.getCategoryBookFailureListener {
 
     private lateinit var nctbTopChatRecyclerView: RecyclerView
+    private lateinit var navController : NavController
 
     private lateinit var ih: ItemHelper
 
@@ -50,8 +53,14 @@ class NctbBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener, ItemOnC
         ih = ItemHelper()
         ih.setGetCategoryBookSuccessListener(this)
         ih.setGetCategoryBookFailureListener(this)
-        return root
 
+        // FAB
+        val fab: View = root.findViewById(R.id.fab)
+        fab.setOnClickListener { view ->
+            navController.navigate(R.id.navigation_cart)
+        }
+
+        return root
     }
 
 
@@ -61,6 +70,10 @@ class NctbBrowseFragment : Fragment(), RecycleViewAdapter.OnCatListener, ItemOnC
         super.onStart()
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
+    }
 
     private fun initRecyclerView() {
 
